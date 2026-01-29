@@ -24,17 +24,17 @@ int	close_win(t_mlx_data *data)
 
 void	clamping(t_mlx_data *data)
 {
-	if (data->point.x >= WIN_W)
-		data->point.x = WIN_W - 1;
+	if ((data->point.x + data->cube_size) >= WIN_W)
+		data->point.x = WIN_W - data->cube_size - 1;
 	if (data->point.x < 0)
 		data->point.x = 0;
-	if (data->point.y >= WIN_H)
-		data->point.y = WIN_H - 1;
+	if ((data->point.y + data->cube_size) >= WIN_H)
+		data->point.y = WIN_H - data->cube_size - 1;
 	if (data->point.y < 0)
 		data->point.y = 0;
 }
 
-int	draw_pixel_group(t_mlx_data *data, int cube_size)
+int	draw_pixel_group(t_mlx_data *data)
 {
 	int	i;
 	int	j;
@@ -42,14 +42,12 @@ int	draw_pixel_group(t_mlx_data *data, int cube_size)
 	ft_bzero(data->img.img_data, WIN_H * data->img.size_line);
 	i = 0;
 	clamping(data);
-	while (i < cube_size)
+	while (i < data->cube_size)
 	{
 		j = 0;
-		while (j < cube_size)
+		while (j < data->cube_size)
 		{
 			put_pixel(&data->img, data->point.x + i, data->point.y + j, 0xFFFFFF);
-			/* if (!put_pixel(&data->img, data->point.x + i, data->point.y + j, 0xFFFFFF)) */
-			/* 	return (0); */
 			j++;
 		}
 		i++;
@@ -57,18 +55,18 @@ int	draw_pixel_group(t_mlx_data *data, int cube_size)
 	return (1);
 }
 
-void	youhou(t_mlx_data *data, int cube_size)
+void	youhou(t_mlx_data *data)
 {
 	float	speed;
 
-	speed = 0.5;
-	draw_pixel_group(data, cube_size);
-	if ((data->point.x + cube_size) > WIN_W || data->point.x == 0)
+	speed = 1.5;
+	draw_pixel_group(data);
+	if (data->point.x == (WIN_W - data->cube_size - 1) || data->point.x == 0)
 	{
 		data->point.x_flag*=-1;
 		data->point.x+=(data->point.x_flag * (speed + 1));
 	}
-	if ((data->point.y + cube_size) > WIN_H || data->point.y == 0)
+	if (data->point.y == (WIN_H - data->cube_size - 1) || data->point.y == 0)
 	{
 		data->point.y_flag*=-1;
 		data->point.y+=(data->point.y_flag * (speed + 1));
@@ -91,7 +89,7 @@ int	redraw(t_mlx_data *data)
 {
 	/* ft_bzero(data->img.img_data, WIN_H * data->img.size_line); */
 	if (data->youhou_flag > 0)
-		youhou(data, 90);
+		youhou(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 	return (0);
 }
@@ -128,6 +126,32 @@ int	handle_input(int keysym, t_mlx_data *data)
 	ft_printf("The %d key has been pressed\n\n", keysym);
 	if (keysym == XK_Return)
 		data->youhou_flag*=-1;
+	if (keysym == XK_Left)
+	{
+		data->point.x-=10;
+		data->youhou_flag = -1;
+		draw_pixel_group(data);
+	}
+	if (keysym == XK_Right)
+	{
+		data->point.x+=10;
+		clamping(data);
+		data->youhou_flag = -1;
+		draw_pixel_group(data);
+	}
+	if (keysym == XK_Up)
+	{
+		data->point.y-=10;
+		data->youhou_flag = -1;
+		draw_pixel_group(data);
+	}
+	if (keysym == XK_Down)
+	{
+		data->point.y+=10;
+		clamping(data);
+		data->youhou_flag = -1;
+		draw_pixel_group(data);
+	}
 	if (keysym == XK_Escape)
 		close_win(data);
 	return (0);
@@ -161,6 +185,7 @@ int	main(int ac, char **av)
 	data->point.y = 0;
 	data->point.y_flag = 1;
 	data->youhou_flag = -1;
+	data->cube_size = 90;
 	mlx_hook(data->win, 17, 0, close_win, data);
 	mlx_hook(data->win, 2, 1, handle_input, data);
 	mlx_loop_hook(data->mlx, redraw, data);

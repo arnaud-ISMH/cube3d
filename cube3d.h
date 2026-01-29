@@ -19,10 +19,10 @@
 # include <math.h>
 
 # ifndef WIN_W
-#  define WIN_W 1800
+#  define WIN_W 1800.0
 # endif
 # ifndef WIN_H
-#  define WIN_H 1000
+#  define WIN_H 1000.0
 # endif
 
 typedef struct s_image
@@ -49,6 +49,7 @@ typedef struct s_mlx_data
 	t_image		img;
 	t_point		point;
 	int			youhou_flag;
+	int			cube_size;
 }		t_mlx_data;
 
 int			close_win(t_mlx_data *data);
