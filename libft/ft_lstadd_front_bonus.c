@@ -12,10 +12,10 @@
 
 #include "libft.h"
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
+void	ft_lstadd_front(t_list **lst, t_list *new_elem)
 {
-	new->next = *lst;
-	*lst = new;
+	new_elem->next = *lst;
+	*lst = new_elem;
 }
 /*
 t_list	*ft_lstnew(void *content)

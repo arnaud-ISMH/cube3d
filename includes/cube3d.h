@@ -13,9 +13,11 @@
 #ifndef FDF_H
 # define FDF_H
 
-# include "libft/libft.h"
-# include "minilibx-linux/mlx.h"
-# include "minilibx-linux/mlx_int.h"
+# include "../libft/libft.h"
+# include "../minilibx-linux/mlx.h"
+# include "../minilibx-linux/mlx_int.h"
+# include "fun.h"
+# include "structs.h"
 # include <math.h>
 
 # ifndef WIN_W
@@ -24,33 +26,6 @@
 # ifndef WIN_H
 #  define WIN_H 1000.0
 # endif
-
-typedef struct s_image
-{
-	void	*img_ptr;
-	char	*img_data;
-	int		bpp;
-	int		size_line;
-	int		endian;
-}		t_image;
-
-typedef struct s_point 
-{
-	float	x;
-	int	x_flag;
-	float	y;
-	int	y_flag;
-}		t_point;
-
-typedef struct s_mlx_data
-{
-	void		*mlx;
-	void		*win;
-	t_image		img;
-	t_point		point;
-	int			youhou_flag;
-	int			cube_size;
-}		t_mlx_data;
 
 int			close_win(t_mlx_data *data);
 int			redraw(t_mlx_data *data);
