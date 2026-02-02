@@ -45,12 +45,14 @@ $(LIBFT):
 		make -C $(LIBFT_PATH) all
 
 $(MLX):
+		git clone  https://github.com/42paris/minilibx-linux.git $(MLX_PATH) || true
 		make -C $(MLX_PATH) all
 
 clean:
 		make -C $(LIBFT_PATH) clean
 		make -C $(MLX_PATH) clean
 		rm -rf $(OBJ_DIR)
+		rm -rf $(MLX_PATH)
 
 fclean:		clean
 		make -C $(LIBFT_PATH) fclean
