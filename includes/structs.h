@@ -13,27 +13,6 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-/********************* Fun ******************************/
-
-typedef struct s_point
-{
-	float	x;
-	int		x_flag;
-	float	y;
-	int		y_flag;
-}		t_point;
-
-typedef struct s_object
-{
-	t_point			origin;
-	float			speed;
-	int				youhou_flag;
-	int				size;
-	unsigned int	color;
-}		t_object;
-
-/********************* Fun ******************************/
-
 typedef struct s_image
 {
 	void	*img_ptr;
@@ -48,7 +27,6 @@ typedef struct s_mlx_data
 	void		*mlx;
 	void		*win;
 	t_image		img;
-	t_object	square; // fun
 }		t_mlx_data;
 
 #endif

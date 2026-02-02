@@ -17,7 +17,6 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRCS = main.c \
-	   fun.c \
 	   init.c \
 	   utils.c
 

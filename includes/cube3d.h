@@ -16,7 +16,6 @@
 # include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
 # include "../minilibx-linux/mlx_int.h"
-# include "fun.h"
 # include "structs.h"
 # include <math.h>
 

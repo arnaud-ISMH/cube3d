@@ -26,7 +26,6 @@ int	put_pixel(t_image *img, int x, int y, unsigned int color)
 int	handle_input(int keysym, t_mlx_data *data)
 {
 	ft_printf("The %d key has been pressed\n\n", keysym); // Debug
-	handle_input_fun(keysym, data); // fun
 	if (keysym == XK_Escape)
 		close_win(data);
 	return (0);
