@@ -22,6 +22,7 @@ int	main(int ac, char **av)
 	if (!data)
 		return (1);
 	*data = minilibx_process();
+	data->count_frame = 0;
 	init_square(data); // fun
 	draw_pixel_group(data); // fun
 	mlx_hook(data->win, 17, 0, close_win, data);

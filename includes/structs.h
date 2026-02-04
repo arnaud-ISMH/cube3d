@@ -49,6 +49,7 @@ typedef struct s_mlx_data
 	void		*win;
 	t_image		img;
 	t_object	square; // fun
+	int			count_frame;
 }		t_mlx_data;
 
 #endif
