@@ -24,13 +24,17 @@ int	close_win(t_mlx_data *data)
 
 int	redraw(t_mlx_data *data)
 {
-	data->count_frame++;
+	/* data->count_frame++; */
 	ft_bzero(data->img.img_data, WIN_H * data->img.size_line);
 	draw_pixel_group(data); // fun
+	// fun
 	if (data->square.youhou_flag > 0) 
-		youhou(data); // fun
+		youhou(data);
+	if (data->square.ray > 0) 
+		raycasting(data);
+	// fun
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
-	printf("frame : %d\n", data->count_frame);
+	/* printf("frame : %d\n", data->count_frame); */
 	return (0);
 }
 

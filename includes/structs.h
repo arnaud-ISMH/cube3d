@@ -28,6 +28,7 @@ typedef struct s_object
 	t_point			origin;
 	float			speed;
 	int				youhou_flag;
+	int				ray;
 	int				large;
 	int				haut;
 	unsigned int	color;

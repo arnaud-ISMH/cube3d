@@ -19,8 +19,8 @@ void	init_board(t_mlx_data *data)
 	data->bordures.origin.y = BORDURE_SIZE;
 	data->bordures.origin.y_flag = 1;
 	data->bordures.youhou_flag = -1;
-	data->bordures.large = WIN_W - (BORDURE_SIZE * 2);
-	data->bordures.haut = WIN_H - (BORDURE_SIZE * 2);
+	data->bordures.large = WIN_W - (BORDURE_SIZE * 2) - 1;
+	data->bordures.haut = WIN_H - (BORDURE_SIZE * 2) - 1;
 	data->bordures.color = COLOR;
 	data->bordures.speed = SPEED;
 }
@@ -107,6 +107,54 @@ void	youhou(t_mlx_data *data)
 		data->square.origin.y-=(data->square.speed / 10);
 }
 
+void	raycasting(t_mlx_data *data)
+{
+	int	i;
+	int	j;
+	
+	// le cube rebondit sur les bordures pareil au youhou mais avec des rayons qui partent du centre du carre et qui s'arretent quand ils touchent les bordures
+	if (data->square.origin.x == (data->bordures.origin.x + data->bordures.large - data->square.large - 1)
+			|| data->square.origin.x == data->bordures.origin.x)
+		data->square.origin.x_flag*=-1;
+	if (data->square.origin.y == (data->bordures.origin.y + data->bordures.haut - data->square.haut - 1)
+			|| data->square.origin.y == data->bordures.origin.y)
+		data->square.origin.y_flag*=-1;
+	if (data->square.origin.x_flag >= 0)
+		data->square.origin.x+=(data->square.speed / 10);
+	else 
+		data->square.origin.x-=(data->square.speed / 10);
+	if (data->square.origin.y_flag >= 0)
+		data->square.origin.y+=(data->square.speed / 10);
+	else
+		data->square.origin.y-=(data->square.speed / 10);
+
+	i = 0;
+	j = 0;
+	while (i < data->bordures.large - data->square.origin.x)
+	{
+		while (j < data->bordures.haut - data->square.origin.y - data->square.haut)
+		{
+			put_pixel(&data->img, data->square.origin.x + data->square.large + i,
+				data->square.origin.y + data->square.haut + j, ORANGE);
+			j++;
+		}
+
+		put_pixel(&data->img, data->square.origin.x + data->square.large - i,
+			data->square.origin.y + data->square.haut, ROUGE);
+
+
+		put_pixel(&data->img, data->square.origin.x + data->square.large + i,
+			data->square.origin.y, VERT);
+		put_pixel(&data->img, data->square.origin.x + data->square.large,
+			data->square.origin.y + data->square.haut + j, BLEU);
+		put_pixel(&data->img, data->square.origin.x + data->square.large + i,
+			data->square.origin.y + data->square.haut + j, JAUNE);
+		i++;
+		/* j++; */
+	}
+
+}
+
 void	handle_input_fun(int keysym, t_mlx_data *data)
 {
 	/* reinitialiser le carre */
@@ -121,7 +169,17 @@ void	handle_input_fun(int keysym, t_mlx_data *data)
 
 	/* youhou auto deplacement on/off */
 	if (keysym == XK_Return)
+	{
 		data->square.youhou_flag*=-1;
+		data->square.ray = -1;
+	}
+
+	/* raycast on/off */
+	if (keysym == 114) // r
+	{
+		data->square.ray*=-1;
+		data->square.youhou_flag = -1;
+	}
 
 	/* deplacement manuel */
 	if (keysym == XK_Left)
