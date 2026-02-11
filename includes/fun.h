@@ -20,15 +20,19 @@
 # endif
 
 # ifndef SIZE
-#  define SIZE 100
+#  define SIZE 20
 # endif
 
 # ifndef SPEED
 #  define SPEED 15
 # endif
 
+# ifndef BORDURE_SIZE
+#  define BORDURE_SIZE 200
+# endif
 
 void	init_square(t_mlx_data *data);
+void	init_board(t_mlx_data *data);
 void	clamping(t_mlx_data *data);
 int		draw_pixel_group(t_mlx_data *data);
 void	youhou(t_mlx_data *data);

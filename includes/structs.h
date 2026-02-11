@@ -28,7 +28,8 @@ typedef struct s_object
 	t_point			origin;
 	float			speed;
 	int				youhou_flag;
-	int				size;
+	int				large;
+	int				haut;
 	unsigned int	color;
 }		t_object;
 
@@ -49,6 +50,7 @@ typedef struct s_mlx_data
 	void		*win;
 	t_image		img;
 	t_object	square; // fun
+	t_object	bordures;
 	int			count_frame;
 }		t_mlx_data;
 

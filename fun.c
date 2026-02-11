@@ -12,6 +12,19 @@
 
 #include "includes/cube3d.h"
 
+void	init_board(t_mlx_data *data)
+{
+	data->bordures.origin.x = BORDURE_SIZE;
+	data->bordures.origin.x_flag = 1;
+	data->bordures.origin.y = BORDURE_SIZE;
+	data->bordures.origin.y_flag = 1;
+	data->bordures.youhou_flag = -1;
+	data->bordures.large = WIN_W - (BORDURE_SIZE * 2);
+	data->bordures.haut = WIN_H - (BORDURE_SIZE * 2);
+	data->bordures.color = COLOR;
+	data->bordures.speed = SPEED;
+}
+
 void	init_square(t_mlx_data *data)
 {
 	data->square.origin.x = (WIN_W - SIZE) / 2;
@@ -19,21 +32,22 @@ void	init_square(t_mlx_data *data)
 	data->square.origin.y = (WIN_H - SIZE) / 2;
 	data->square.origin.y_flag = 1;
 	data->square.youhou_flag = -1;
-	data->square.size = SIZE;
+	data->square.haut = SIZE;
+	data->square.large = SIZE;
 	data->square.color = COLOR;
 	data->square.speed = SPEED;
 }
 
 void	clamping(t_mlx_data *data)
 {
-	if ((data->square.origin.x + data->square.size) >= WIN_W)
-		data->square.origin.x = WIN_W - data->square.size - 1;
-	if (data->square.origin.x < 0)
-		data->square.origin.x = 0;
-	if ((data->square.origin.y + data->square.size) >= WIN_H)
-		data->square.origin.y = WIN_H - data->square.size - 1;
-	if (data->square.origin.y < 0)
-		data->square.origin.y = 0;
+	if ((data->square.origin.x + data->square.large) >= data->bordures.origin.x + data->bordures.large)
+		data->square.origin.x = data->bordures.origin.x + data->bordures.large - data->square.large - 1;
+	if (data->square.origin.x < data->bordures.origin.x)
+		data->square.origin.x = data->bordures.origin.x;
+	if ((data->square.origin.y + data->square.haut) >= data->bordures.origin.y + data->bordures.haut)
+		data->square.origin.y = data->bordures.origin.y + data->bordures.haut - data->square.haut - 1;
+	if (data->square.origin.y < data->bordures.origin.y)
+		data->square.origin.y = data->bordures.origin.y;
 }
 
 int	draw_pixel_group(t_mlx_data *data)
@@ -43,13 +57,31 @@ int	draw_pixel_group(t_mlx_data *data)
 
 	i = 0;
 	clamping(data);
-	while (i < data->square.size)
+	while (i < data->square.large)
 	{
 		j = 0;
-		while (j < data->square.size)
+		while (j < data->square.haut)
 		{
 			put_pixel(&data->img, data->square.origin.x + i,
 				data->square.origin.y + j, data->square.color);
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while (i < data->bordures.large)
+	{
+		put_pixel(&data->img, data->bordures.origin.x + i,
+			data->bordures.origin.y, data->bordures.color);
+		put_pixel(&data->img, data->bordures.origin.x + i,
+			data->bordures.origin.y + data->bordures.haut, data->bordures.color);
+		j = 0;
+		while (j < data->bordures.haut)
+		{
+			put_pixel(&data->img, data->bordures.origin.x,
+				data->bordures.origin.y + j, data->bordures.color);
+			put_pixel(&data->img, data->bordures.origin.x + data->bordures.large,
+				data->bordures.origin.y + j, data->bordures.color);
 			j++;
 		}
 		i++;
@@ -59,11 +91,11 @@ int	draw_pixel_group(t_mlx_data *data)
 
 void	youhou(t_mlx_data *data)
 {
-	if (data->square.origin.x == (WIN_W - data->square.size - 1)
-			|| data->square.origin.x == 0)
+	if (data->square.origin.x == (data->bordures.origin.x + data->bordures.large - data->square.large - 1)
+			|| data->square.origin.x == data->bordures.origin.x)
 		data->square.origin.x_flag*=-1;
-	if (data->square.origin.y == (WIN_H - data->square.size - 1)
-			|| data->square.origin.y == 0)
+	if (data->square.origin.y == (data->bordures.origin.y + data->bordures.haut - data->square.haut - 1)
+			|| data->square.origin.y == data->bordures.origin.y)
 		data->square.origin.y_flag*=-1;
 	if (data->square.origin.x_flag >= 0)
 		data->square.origin.x+=(data->square.speed / 10);
