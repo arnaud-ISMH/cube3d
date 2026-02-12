@@ -29,8 +29,8 @@ typedef struct s_object
 	float			speed;
 	int				youhou_flag;
 	int				ray;
-	int				large;
-	int				haut;
+	float				large;
+	float				haut;
 	unsigned int	color;
 }		t_object;
 
