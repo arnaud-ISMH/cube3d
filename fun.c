@@ -36,6 +36,7 @@ void	init_square(t_mlx_data *data)
 	data->square.large = SIZE;
 	data->square.color = COLOR;
 	data->square.speed = SPEED;
+	data->square.dir = 200;
 }
 
 void	clamping(t_mlx_data *data)
@@ -113,32 +114,31 @@ void raycasting(t_mlx_data *data)
 {
     int rays = 500; // nombre de rayons
     float fov = M_PI / 2; // 60°
-    float dir = 200; // direction joueur
 
-    float start = dir - fov / 2;
+    float start = data->square.dir - fov / 2;
     float step = fov / rays;
 
     for (int r = 0; r < rays; r++)
     {
        float angle = start + r * step;
-        float dx = cos(angle);
-        float dy = sin(angle);
+       float dx = cos(angle);
+       float dy = sin(angle);
 
-        float x = data->square.origin.x;
-        float y = data->square.origin.y;
+       float x = data->square.origin.x;
+       float y = data->square.origin.y;
 
-        // avance pixel par pixel
-        for (int i = 0; i < 300; i++)
-        {
-            x += dx;
-            y += dy;
+       // avance pixel par pixel
+       for (int i = 0; i < 500; i++)
+       {
+           x += dx;
+           y += dy;
 
-            if (x < data->bordures.origin.x || x > data->bordures.origin.x + data->bordures.large ||
-                y < data->bordures.origin.y || y > data->bordures.origin.y + data->bordures.haut)
-                break;
+           if (x < data->bordures.origin.x || x > data->bordures.origin.x + data->bordures.large ||
+               y < data->bordures.origin.y || y > data->bordures.origin.y + data->bordures.haut)
+               break;
 
-            put_pixel(&data->img, (int)x, (int)y, ORANGE);
-        }
+           put_pixel(&data->img, (int)x, (int)y, ORANGE);
+       }
     }
 }
 
@@ -200,6 +200,12 @@ void	handle_input_fun(int keysym, t_mlx_data *data)
 		data->square.ray*=-1;
 		/* data->square.youhou_flag = -1; */
 	}
+
+	/* change direction */
+	if (keysym == 101)
+		data->square.dir += 0.1;
+	if (keysym == 113)
+		data->square.dir -= 0.1;
 
 	/* deplacement manuel */
 	if (keysym == XK_Left)

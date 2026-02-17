@@ -52,7 +52,7 @@
 # endif
 
 # ifndef BORDURE_SIZE
-#  define BORDURE_SIZE 50
+#  define BORDURE_SIZE 100
 # endif
 
 void	init_square(t_mlx_data *data);
