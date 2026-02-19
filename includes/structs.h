@@ -52,6 +52,8 @@ typedef struct s_mlx_data
 	void		*win;
 	t_image		img;
 	t_object	square; // fun
+	t_object	obstacle1;
+	t_object	obstacle2;
 	t_object	bordures;
 	int			count_frame;
 }		t_mlx_data;

@@ -12,6 +12,36 @@
 
 #include "includes/cube3d.h"
 
+void	init_obstacle1(t_mlx_data *data)
+{
+	data->obstacle1.origin.x = (WIN_W - SIZE) / 4;
+	data->obstacle1.origin.x_flag = 1;
+	data->obstacle1.origin.y = (WIN_H - SIZE) / 4;
+	data->obstacle1.origin.y_flag = 1;
+	data->obstacle1.youhou_flag = -1;
+	data->obstacle1.haut = SIZE;
+	data->obstacle1.large = SIZE;
+	data->obstacle1.color = VERT;
+	data->obstacle1.speed = SPEED;
+	data->obstacle1.dir = 200;
+	data->obstacle1.ray = 1;
+}
+
+void	init_obstacle2(t_mlx_data *data)
+{
+	data->obstacle2.origin.x = (WIN_W - SIZE) / 3;
+	data->obstacle2.origin.x_flag = 1;
+	data->obstacle2.origin.y = (WIN_H - SIZE) / 2;
+	data->obstacle2.origin.y_flag = 1;
+	data->obstacle2.youhou_flag = -1;
+	data->obstacle2.haut = SIZE;
+	data->obstacle2.large = SIZE;
+	data->obstacle2.color = ROUGE;
+	data->obstacle2.speed = SPEED;
+	data->obstacle2.dir = 200;
+	data->obstacle2.ray = 1;
+}
+
 void	init_board(t_mlx_data *data)
 {
 	data->bordures.origin.x = BORDURE_SIZE;
@@ -37,10 +67,12 @@ void	init_square(t_mlx_data *data)
 	data->square.color = COLOR;
 	data->square.speed = SPEED;
 	data->square.dir = 200;
+	data->square.ray = 1;
 }
 
 void	clamping(t_mlx_data *data)
 {
+	// colisions avec les bordures
 	if ((data->square.origin.x + data->square.large) >= data->bordures.origin.x + data->bordures.large)
 		data->square.origin.x = data->bordures.origin.x + data->bordures.large - data->square.large - 1;
 	if (data->square.origin.x < data->bordures.origin.x)
@@ -56,6 +88,7 @@ int	draw_pixel_group(t_mlx_data *data)
 	int	i;
 	int	j;
 
+	// draw cube
 	i = 0;
 	clamping(data);
 	while (i < data->square.large)
@@ -69,6 +102,7 @@ int	draw_pixel_group(t_mlx_data *data)
 		}
 		i++;
 	}
+	// draw bordures
 	i = 0;
 	while (i < data->bordures.large)
 	{
@@ -87,11 +121,37 @@ int	draw_pixel_group(t_mlx_data *data)
 		}
 		i++;
 	}
-	return (1);
+	// draw obstacle 1
+	i = 0;
+	while (i < data->obstacle1.large)
+	{
+		j = 0;
+		while (j < data->obstacle1.haut)
+		{
+			put_pixel(&data->img, data->obstacle1.origin.x + i,
+				data->obstacle1.origin.y + j, data->obstacle1.color);
+			j++;
+		}
+		i++;
+	}
+	// draw obstacle 2
+	i = 0;
+	while (i < data->obstacle2.large)
+	{
+		j = 0;
+		while (j < data->obstacle2.haut)		{
+			put_pixel(&data->img, data->obstacle2.origin.x + i,
+				data->obstacle2.origin.y + j, data->obstacle2.color);
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }
 
 void	youhou(t_mlx_data *data)
 {
+	/* rebond du carre sur les bordures */
 	if (data->square.origin.x == (data->bordures.origin.x + data->bordures.large - data->square.large - 1)
 			|| data->square.origin.x == data->bordures.origin.x)
 		data->square.origin.x_flag*=-1;
@@ -106,74 +166,77 @@ void	youhou(t_mlx_data *data)
 		data->square.origin.y+=(data->square.speed / 10);
 	else
 		data->square.origin.y-=(data->square.speed / 10);
+
+	/* rebond du carre sur les obstacles */
+	if ((data->square.origin.x + data->square.large) >= data->obstacle1.origin.x
+			&& data->square.origin.x <= (data->obstacle1.origin.x + data->obstacle1.large)
+			&& (data->square.origin.y + data->square.haut) >= data->obstacle1.origin.y
+			&& data->square.origin.y <= (data->obstacle1.origin.y + data->obstacle1.haut))
+		data->square.origin.x_flag*=-1;
+	if ((data->square.origin.y + data->square.haut) >= data->obstacle1.origin.y
+			&& data->square.origin.y <= (data->obstacle1.origin.y + data->obstacle1.haut)
+			&& (data->square.origin.x + data->square.large) >= data->obstacle1.origin.x
+			&& data->square.origin.x <= (data->obstacle1.origin.x + data->obstacle1.large))
+		data->square.origin.y_flag*=-1;
+	if ((data->square.origin.x + data->square.large) >= data->obstacle2.origin.x
+			&& data->square.origin.x <= (data->obstacle2.origin.x + data->obstacle2.large)
+			&& (data->square.origin.y + data->square.haut) >= data->obstacle2.origin.y
+			&& data->square.origin.y <= (data->obstacle2.origin.y + data->obstacle2.haut))
+		data->square.origin.x_flag*=-1;
+	if ((data->square.origin.y + data->square.haut) >= data->obstacle2.origin.y
+			&& data->square.origin.y <= (data->obstacle2.origin.y + data->obstacle2.haut)
+			&& (data->square.origin.x + data->square.large) >= data->obstacle2.origin.x
+			&& data->square.origin.x <= (data->obstacle2.origin.x + data->obstacle2.large))
+		data->square.origin.y_flag*=-1;
+
 }
 
-#include <math.h>
-
-void raycasting(t_mlx_data *data)
+void	raycasting(t_mlx_data *data)
 {
-    int rays = 500; // nombre de rayons
-    float fov = M_PI / 2; // 60°
+	int		rays;
+	int		i;
+	float	fov;
+	float	start;
+	float	step;
 
-    float start = data->square.dir - fov / 2;
-    float step = fov / rays;
+	rays = 300;
+	fov = M_PI / 2;
+	start = data->square.dir - fov / 2;
+	step = fov / rays;
+	i = 0;
+	while (i < rays)
+	{
+		float angle = start + i * step;
+		float dx = cos(angle);
+		float dy = sin(angle);
+		float x = data->square.origin.x;
+		float y = data->square.origin.y;
 
-    for (int r = 0; r < rays; r++)
-    {
-       float angle = start + r * step;
-       float dx = cos(angle);
-       float dy = sin(angle);
-
-       float x = data->square.origin.x;
-       float y = data->square.origin.y;
-
-       // avance pixel par pixel
-       for (int i = 0; i < 500; i++)
-       {
-           x += dx;
-           y += dy;
-
-           if (x < data->bordures.origin.x || x > data->bordures.origin.x + data->bordures.large ||
-               y < data->bordures.origin.y || y > data->bordures.origin.y + data->bordures.haut)
-               break;
-
-           put_pixel(&data->img, (int)x, (int)y, ORANGE);
-       }
-    }
+		int j = 0;
+		while (j < WIN_W)
+		{
+			x+=dx;
+			y+=dy;
+			// colision des rayons avec les bordures
+			if (x < data->bordures.origin.x || 
+				x > data->bordures.origin.x + data->bordures.large ||
+				y < data->bordures.origin.y ||
+				y > data->bordures.origin.y + data->bordures.haut)
+				break;
+			// colision des rayons avec l'obstacle 1
+			if (x >= data->obstacle1.origin.x && x <= data->obstacle1.origin.x + data->obstacle1.large &&
+				y >= data->obstacle1.origin.y && y <= data->obstacle1.origin.y + data->obstacle1.haut)
+				break;
+			j++;
+			// colision des rayons avec l'obstacle 2
+			if (x >= data->obstacle2.origin.x && x <= data->obstacle2.origin.x + data->obstacle2.large &&
+				y >= data->obstacle2.origin.y && y <= data->obstacle2.origin.y + data->obstacle2.haut)
+				break;
+			put_pixel(&data->img, (int)x, (int)y, ORANGE);
+		}
+		i++;
+	}
 }
-
-/* void	raycasting(t_mlx_data *data) */
-/* { */
-/* 	int	i; */
-/**/
-/* 	i = 0; */
-/* 	while (i + data->square.origin.y < data->bordures.haut + data->bordures.origin.y) */
-/* 	{ */
-/* 		put_pixel(&data->img, data->square.origin.x, data->square.origin.y + i, ORANGE); */
-/* 		i++; */
-/* 	} */
-/**/
-/* 	i = 0; */
-/* 	while (i + data->square.origin.x < data->bordures.large + data->bordures.origin.x) */
-/* 	{ */
-/* 		put_pixel(&data->img, data->square.origin.x + i, data->square.origin.y, VERT); */
-/* 		i++; */
-/* 	} */
-/**/
-/* 	i = 0; */
-/* 	while (data->square.origin.y - i > data->bordures.origin.y) */
-/* 	{ */
-/* 		put_pixel(&data->img, data->square.origin.x, data->square.origin.y - i, BLEU); */
-/* 		i++; */
-/* 	} */
-/**/
-/* 	i = 0; */
-/* 	while (data->square.origin.x - i > data->bordures.origin.x) */
-/* 	{ */
-/* 		put_pixel(&data->img, data->square.origin.x - i, data->square.origin.y, ROUGE); */
-/* 		i++; */
-/* 	} */
-/* } */
 
 void	handle_input_fun(int keysym, t_mlx_data *data)
 {

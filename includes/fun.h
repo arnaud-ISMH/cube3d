@@ -57,6 +57,8 @@
 
 void	init_square(t_mlx_data *data);
 void	init_board(t_mlx_data *data);
+void	init_obstacle1(t_mlx_data *data);
+void	init_obstacle2(t_mlx_data *data);
 void	clamping(t_mlx_data *data);
 int		draw_pixel_group(t_mlx_data *data);
 void	youhou(t_mlx_data *data);
