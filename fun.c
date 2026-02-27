@@ -88,9 +88,25 @@ int	draw_pixel_group(t_mlx_data *data)
 	int	i;
 	int	j;
 
-	// draw cube
+	// draw floor and ceiling
 	i = 0;
+	while (i < WIN_W)
+	{
+		j = 0;
+		while (j < WIN_H)
+		{
+			if (j < WIN_H / 2)
+				put_pixel(&data->img, i, j, CYAN);
+			else
+				put_pixel(&data->img, i, j, GRIS);
+			j++;
+		}
+		i++;
+	}
+	// draw cube
 	clamping(data);
+
+	i = 0;
 	while (i < data->square.large)
 	{
 		j = 0;
@@ -199,7 +215,7 @@ void	raycasting(t_mlx_data *data)
 	float	start;
 	float	step;
 
-	rays = 300;
+	rays = 10000;
 	fov = M_PI / 2;
 	start = data->square.dir - fov / 2;
 	step = fov / rays;
@@ -212,7 +228,46 @@ void	raycasting(t_mlx_data *data)
 		float x = data->square.origin.x;
 		float y = data->square.origin.y;
 
+		int colision_obstacle1 = 0;
+		int colision_obstacle2 = 0;
+		int colision_bordure = 0;
+
+		unsigned int color;
+
 		int j = 0;
+		while (j < WIN_W)
+		{
+			x+=dx;
+			y+=dy;
+			// colision des rayons avec les bordures
+			if (x < data->bordures.origin.x || 
+				x > data->bordures.origin.x + data->bordures.large ||
+				y < data->bordures.origin.y ||
+				y > data->bordures.origin.y + data->bordures.haut)
+			{
+				colision_bordure = 1;
+				break;
+			}
+			// colision des rayons avec l'obstacle 1
+			if (x >= data->obstacle1.origin.x && x <= data->obstacle1.origin.x + data->obstacle1.large &&
+				y >= data->obstacle1.origin.y && y <= data->obstacle1.origin.y + data->obstacle1.haut)
+			{
+				colision_obstacle1 = 1;
+				break;
+			}
+			// colision des rayons avec l'obstacle 2
+			if (x >= data->obstacle2.origin.x && x <= data->obstacle2.origin.x + data->obstacle2.large &&
+				y >= data->obstacle2.origin.y && y <= data->obstacle2.origin.y + data->obstacle2.haut)
+			{
+				colision_obstacle2 = 1;
+				break;
+			}
+			j++;
+			/* put_pixel(&data->img, (int)x, (int)y, ORANGE); */
+		}
+		x = data->square.origin.x;
+		y = data->square.origin.y;
+		j = 0;
 		while (j < WIN_W)
 		{
 			x+=dx;
@@ -227,12 +282,28 @@ void	raycasting(t_mlx_data *data)
 			if (x >= data->obstacle1.origin.x && x <= data->obstacle1.origin.x + data->obstacle1.large &&
 				y >= data->obstacle1.origin.y && y <= data->obstacle1.origin.y + data->obstacle1.haut)
 				break;
-			j++;
 			// colision des rayons avec l'obstacle 2
 			if (x >= data->obstacle2.origin.x && x <= data->obstacle2.origin.x + data->obstacle2.large &&
 				y >= data->obstacle2.origin.y && y <= data->obstacle2.origin.y + data->obstacle2.haut)
 				break;
-			put_pixel(&data->img, (int)x, (int)y, ORANGE);
+			j++;
+			if (colision_obstacle1)
+				color = BLEU;
+			else if (colision_obstacle2)
+				color = MAGENTA;
+			else
+				color = ORANGE;
+			put_pixel(&data->img, (int)x, (int)y, color);
+		}
+		int length_ray = sqrt(pow(x - data->square.origin.x, 2) + pow(y - data->square.origin.y, 2));
+		int height_wall = (int)(WIN_H / (length_ray)) + 20;
+		int k = 0;
+		while (k < height_wall)
+		{
+			int y_wall = WIN_H - height_wall + k;
+			if (y_wall >= 0 && y_wall < WIN_H)
+				put_pixel(&data->img, (int)(i * (WIN_W / rays)), y_wall - WIN_H / 2, color);
+			k++;
 		}
 		i++;
 	}

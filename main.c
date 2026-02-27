@@ -27,7 +27,7 @@ int	main(int ac, char **av)
 	init_board(data); // fun
 	init_obstacle1(data); // fun
 	init_obstacle2(data); // fun
-	draw_pixel_group(data); // fun
+	/* draw_pixel_group(data); // fun */
 	mlx_hook(data->win, 17, 0, close_win, data);
 	mlx_hook(data->win, 2, 1, handle_input, data);
 	mlx_loop_hook(data->mlx, redraw, data);

@@ -43,6 +43,18 @@
 # define PINK 0xFFC0CB
 # endif
 
+#ifndef CYAN
+# define CYAN 0x00FFFF
+# endif
+
+#ifndef GRIS
+# define GRIS 0x808080
+# endif
+
+#ifndef MAGENTA
+# define MAGENTA 0xFF00FF
+# endif
+
 # ifndef SIZE
 #  define SIZE 20
 # endif
@@ -52,7 +64,7 @@
 # endif
 
 # ifndef BORDURE_SIZE
-#  define BORDURE_SIZE 100
+#  define BORDURE_SIZE 150
 # endif
 
 void	init_square(t_mlx_data *data);
