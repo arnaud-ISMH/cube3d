@@ -10,54 +10,66 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cube3D
+NAME        = cube3D
+CC          = cc
+CFLAGS      = -Wall -Wextra -Werror
 
-CC = cc
+# Dossiers et Fichiers
+SRC_DIR     = .
+OBJ_DIR     = obj
+INC_DIR     = includes
 
-CFLAGS = -Wall -Wextra -Werror
+SRCS        = main.c init.c utils.c
+OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
-SRCS = main.c \
-	   init.c \
-	   utils.c
+# Bibliothèques
+LIBFT_PATH  = ./libft
+LIBFT       = $(LIBFT_PATH)/libft.a
 
-OBJ_DIR = obj
+MLX_PATH    = ./minilibx-linux
+MLX         = $(MLX_PATH)/libmlx_Linux.a
 
-OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
+# Flags d'inclusion (compilation)
+INCLUDES    = -I$(INC_DIR) -I$(LIBFT_PATH) -I$(MLX_PATH)
 
-LIBFT_PATH = ./libft
-LIBFT = $(LIBFT_PATH)/libft.a
+# Flags de liaison (linker)
+LDFLAGS     = -L$(LIBFT_PATH) -lft -L$(MLX_PATH) -lmlx_Linux -lXext -lX11 -lm
 
-MLX_PATH = ./minilibx-linux
-MLX = $(MLX_PATH)/libmlx_Linux.a
+# --- RÈGLES ---
 
-INCLUDES = -I$(LIBFT_PATH) -I$(MLX_PATH)
+all: $(NAME)
 
-all: 		$(NAME)
+# Link final
+$(NAME): $(LIBFT) $(MLX) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)
 
-$(NAME):	$(LIBFT) $(MLX) $(OBJS)
-		$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(MLX) $(INCLUDES) -lXext -lX11 -lm
+# Compilation des objets + dépendance stricte au dossier 'includes'
+$(OBJ_DIR)/%.o: %.c $(INC_DIR)/cube3d.h
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(OBJ_DIR)/%.o: %.c
-			mkdir -p $(OBJ_DIR)
-			$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
+# Build Libft
 $(LIBFT):
-		make -C $(LIBFT_PATH) all
+	@make -C $(LIBFT_PATH) all
 
 $(MLX):
-		git clone  https://github.com/42paris/minilibx-linux.git $(MLX_PATH) || true
-		make -C $(MLX_PATH) all
-
+	@if [ ! -d "$(MLX_PATH)" ]; then \
+		echo "Clonage de la MinilibX..."; \
+		git clone https://github.com/42paris/minilibx-linux.git $(MLX_PATH); \
+		rm -rf $(MLX_PATH)/.git; \
+		echo "Dossier .git de la MLX supprimé avec succès."; \
+	fi
+	@make -C $(MLX_PATH) all
 clean:
-		make -C $(LIBFT_PATH) clean
-		make -C $(MLX_PATH) clean
-		rm -rf $(OBJ_DIR)
-		rm -rf $(MLX_PATH)
+	@make -C $(LIBFT_PATH) clean
+	@if [ -d "$(MLX_PATH)" ]; then make -C $(MLX_PATH) clean; fi
+	@rm -rf $(OBJ_DIR)
 
-fclean:		clean
-		make -C $(LIBFT_PATH) fclean
-		rm -rf $(NAME)
+fclean: clean
+	@make -C $(LIBFT_PATH) fclean
+	@rm -f $(NAME)
+	@# Évite de supprimer le dossier MLX s'il fait partie de ton repo, on nettoie juste le binaire si besoin
 
-re:		fclean all
+re: fclean all
 
-.PHONY:		all clean fclean re
+.PHONY: all clean fclean re

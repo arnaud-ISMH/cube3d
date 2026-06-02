@@ -22,9 +22,9 @@ int	main(int ac, char **av)
 	if (!data)
 		return (1);
 	*data = minilibx_process();
-	mlx_hook(data->win, 17, 0, close_win, data);
-	mlx_hook(data->win, 2, 1, handle_input, data);
-	mlx_loop_hook(data->mlx, redraw, data);
+	mlx_hook(data->win, 17, 0, (int (*)())(void *)close_win, data);
+	mlx_hook(data->win, 2, 1, (int (*)())(void *)handle_input, data);
+	mlx_loop_hook(data->mlx, (int (*)())(void *)redraw, data);
 	mlx_loop(data->mlx);
 	return (0);
 }

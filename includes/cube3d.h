@@ -15,8 +15,9 @@
 
 # include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
-# include "../minilibx-linux/mlx_int.h"
 # include "structs.h"
+# include <X11/keysym.h>
+# include <X11/X.h>
 # include <math.h>
 
 # ifndef WIN_W
