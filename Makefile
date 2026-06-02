@@ -19,7 +19,10 @@ SRC_DIR     = .
 OBJ_DIR     = obj
 INC_DIR     = includes
 
-SRCS        = main.c init.c utils.c
+SRCS        = srcs/main.c \
+			  srcs/init.c \
+			  srcs/utils.c
+
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # Bibliothèques
@@ -45,7 +48,7 @@ $(NAME): $(LIBFT) $(MLX) $(OBJS)
 
 # Compilation des objets + dépendance stricte au dossier 'includes'
 $(OBJ_DIR)/%.o: %.c $(INC_DIR)/cube3d.h
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 # Build Libft
