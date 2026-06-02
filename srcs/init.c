@@ -17,6 +17,8 @@ int	close_win(t_mlx_data *data)
 	mlx_destroy_image(data->mlx, data->img.img_ptr);
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_display(data->mlx);
+	if (data->map.grid)
+		free(data->map.grid);
 	free(data->mlx);
 	free(data);
 	exit (0);
@@ -25,6 +27,11 @@ int	close_win(t_mlx_data *data)
 int	redraw(t_mlx_data *data)
 {
 	ft_bzero(data->img.img_data, WIN_H * data->img.size_line);
+	/* map */
+	draw_map(data);
+	/* player */
+	update_player_position(data);
+	draw_player(data, 0xFFFF00);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 	return (0);
 }

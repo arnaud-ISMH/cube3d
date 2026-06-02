@@ -30,7 +30,13 @@
 int			close_win(t_mlx_data *data);
 int			redraw(t_mlx_data *data);
 t_mlx_data	minilibx_process(void);
-int			handle_input(int keysym, t_mlx_data *data);
 int			put_pixel(t_image *img, int x, int y, unsigned int color);
+void		draw_player(t_mlx_data *data, unsigned int color);
+void		init_player(t_mlx_data *data);
+int			key_press(int keysym, t_mlx_data *data);
+int			key_release(int keysym, t_mlx_data *data);
+void		update_player_position(t_mlx_data *data);
+void		draw_map(t_mlx_data *data);
+int			init_map(t_mlx_data *data);
 
 #endif
