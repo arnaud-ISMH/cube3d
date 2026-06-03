@@ -6,22 +6,23 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/02 17:16:30 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/03 18:06:50 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	check_texture(t_map *map, char *line)
+int	check_texture(t_parsing *parsing, char *line)
 {
 	if (!already_exist(line))
 		return (printerr("Duplicate texture\n"), 0);
 	if (access(line, R_OK) == -1)
 		return (printerr("Cannot access texture\n"), 0);
+	//check texture size doit etre carre?
 	return (1);
 }
 
-int	check_color(t_map *map, char *line)
+int	check_color(t_parsing *parsing, char *line)
 {
 	if (!already_exist(line))
 		return (printerr("Duplicate color\n"), 0);
@@ -30,11 +31,11 @@ int	check_color(t_map *map, char *line)
 	return (1);
 }
 
-int read_file(char *path)
+int read_file(char *arg)
 {
-	int fd = open(path, O_RDONLY);
+	int fd = open(arg, O_RDONLY);
 	int dup = 1;
-
+	
 	if (fd == -1)
 	{
 		printerr("Cannot open file\n");
@@ -45,7 +46,7 @@ int read_file(char *path)
 		if (line is empty)
 			continue;
 		else if (line starts with "NO " || "SO " || "WE " || "EA ")
-			dup = check_texture(line);
+			dup = check_texture(&parsing, line);
 		else if (ft_strcmp(line, "F ") == 0 || ft_strcmp(line, "C ") == 0)
 			dup = check_color(line);
 		if (dup == 0)
@@ -56,7 +57,7 @@ int read_file(char *path)
 		else
 			break;
 	}
-	check_map(map); //recuperer la map
+	check_map(&parsing, fd); //recuperer la map
 }
 
 void	check_args(int ac, char **av)
@@ -69,5 +70,5 @@ void	check_args(int ac, char **av)
 		printerr("Bad argument\n");
 		exit(1);
 	}
-	read_file(av[1]);
+	read_file(av[1]); //init parsing struct avant?
 }

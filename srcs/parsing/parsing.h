@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:01:21 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/02 18:12:56 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/03 17:26:50 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,22 @@
 
 typedef struct s_map
 {
+
+	char    **grid;
+    int     width;
+    int     height;
+}   t_map;
+
+typedef struct s_parsing
+{
 	char	*no;
 	char	*so;
 	char	*we;
 	char	*ea;
 	int		f;
 	int		c;
-	char    **grid;
-    int     width;
-    int     height;
-}   t_map;
-
-// typedef struct s_parsing
-// {
-//     t_map   map;
-//     char    **map_data;
-// }   t_parsing;
+    t_map   map;
+}   t_parsing;
 
 
 
