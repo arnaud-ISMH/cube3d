@@ -34,10 +34,15 @@ typedef struct s_keys
     bool right;
 }   t_keys;
 
+typedef struct s_coord
+{
+	int	x;
+	int	y;
+}		t_coord;
+
 typedef struct s_player
 {
-	int		x;
-	int		y;
+	t_coord	pos;
 	float	direction;
 	int		move_speed;
 	t_keys	keys;

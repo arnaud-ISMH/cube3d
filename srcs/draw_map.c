@@ -15,7 +15,7 @@
 int	init_map(t_mlx_data *data)
 {
 	data->map.width = 8;
-	data->map.height = 8;
+	data->map.height = 12;
 	data->map.grid = malloc(sizeof(char *) * data->map.height);
 	if (!data->map.grid)
 		return (1);
@@ -26,7 +26,11 @@ int	init_map(t_mlx_data *data)
 	data->map.grid[4] = "10101101";
 	data->map.grid[5] = "10001101";
 	data->map.grid[6] = "10000001";
-	data->map.grid[7] = "11111111";
+	data->map.grid[7] = "10000001";
+	data->map.grid[8] = "10000001";
+	data->map.grid[9] = "10000001";
+	data->map.grid[10] = "10000001";
+	data->map.grid[11] = "11111111";
 	return (0);
 }
 
@@ -52,7 +56,7 @@ void	draw_map(t_mlx_data *data)
 
 	cut_screen_in_half(data);
 
-	scale = WIN_W / 2 / data->map.width;
+	scale = (data->map.width > data->map.height) ? (WIN_W / 2 / data->map.width) : (WIN_H / data->map.height);
 	y = 0;
 	while (y < data->map.height)
 	{
@@ -78,3 +82,4 @@ void	draw_map(t_mlx_data *data)
 		y++;
 	}
 }
+

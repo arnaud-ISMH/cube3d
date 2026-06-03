@@ -31,7 +31,10 @@ int	redraw(t_mlx_data *data)
 	draw_map(data);
 	/* player */
 	update_player_position(data);
+	/* ft_printf("Player position: (x:%f, y:%f)\n", data->player.x, data->player.y); // Debug */
+	/* ft_printf("Player direction: %f radians\n", data->player.direction); // Debug */
 	draw_player(data, 0xFFFF00);
+	raycasting(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 	return (0);
 }
