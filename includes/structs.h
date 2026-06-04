@@ -36,15 +36,15 @@ typedef struct s_keys
 
 typedef struct s_coord
 {
-	int	x;
-	int	y;
+	double	x;
+	double	y;
 }		t_coord;
 
 typedef struct s_player
 {
 	t_coord	pos;
 	float	direction;
-	int		move_speed;
+	double	move_speed;
 	t_keys	keys;
 }		t_player;
 

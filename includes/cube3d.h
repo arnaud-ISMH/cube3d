@@ -38,7 +38,7 @@ int			key_release(int keysym, t_mlx_data *data);
 void		update_player_position(t_mlx_data *data);
 void		draw_map(t_mlx_data *data);
 int			init_map(t_mlx_data *data);
-int			is_wall(t_mlx_data *data, int x, int y);
+int			is_wall(t_mlx_data *data, double x, double y);
 void		raycasting(t_mlx_data *data);
 
 #endif
