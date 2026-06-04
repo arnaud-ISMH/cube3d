@@ -6,7 +6,7 @@
 #    By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/04 13:32:58 by lchapot           #+#    #+#              #
-#    Updated: 2026/06/04 13:40:23 by lchapot          ###   ########.fr        #
+#    Updated: 2026/06/04 15:07:00 by lchapot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ_FILES)
 	@$(CC) $(CFLAGS) $(OBJ_FILES) -o $@
-	@echo "⊹ ࣪ ﹏𓊝﹏𓂁﹏⊹ ࣪ ˖"
+	@echo "⊹ ࣪ ﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏ ࣪ ˖"
 	@echo "$(UBlack)$(On_Green)Executable created ✔$(RESET)"
 
 # Règle générique pour compiler .c → .o dans build/
