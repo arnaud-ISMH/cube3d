@@ -6,14 +6,14 @@
 #    By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/04 13:32:58 by lchapot           #+#    #+#              #
-#    Updated: 2026/06/04 15:07:00 by lchapot          ###   ########.fr        #
+#    Updated: 2026/06/04 16:28:36 by lchapot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME  = cub3d
 
-SRCS := parse.c grid.c init.c map.c utils.c
+SRCS := parse.c grid.c init.c map.c utils.c split.c
 
 OBJDIR   := .objs
 SRC_FILES := $(SRCS)

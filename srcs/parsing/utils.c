@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:05:47 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 15:06:16 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/04 15:54:11 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	max(int a, int b)
 
 void	printerr(char *msg)
 {
+	write(2, "Error\n", 6);
 	write(2, msg, ft_strlen(msg));
 }
 int	taille(char const *str)

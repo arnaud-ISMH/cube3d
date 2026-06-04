@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 15:25:28 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/04 17:11:33 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,29 @@ int is_identifier_free(t_parsing *parsing, char *line)
 
 int	check_texture(t_parsing *parsing, char *line, char texture)
 {
-	if (!is_identifier_free(parsing,line))
+	char	**split;
+	char	*path;
+	split = ft_split(line, ' ');
+	// if (!split || !split[0] || !split[1] || split[2])
+	// {
+	// 	free_split(split);
+	// 	return (printerr("Invalid texture line\n"), 0);
+	// }
+	path = ft_strchr(split[1], '\n');
+	if (path)
+		*path = '\0';
+	if (!is_identifier_free(parsing, line))
 		return (printerr("Duplicate texture\n"), 0);
-	if (access(line, R_OK) == -1)
+	if (access(split[1], R_OK) == -1)
 		return (printerr("Cannot access texture\n"), 0);
-	//parse texture, one or more spaces
 	if (texture == 'N')
-		parsing->no = line; //a remplacer par le path
+		parsing->no = split[1];
 	else if (texture == 'S')
-		parsing->so = line;
+		parsing->so = split[1];
 	else if (texture == 'W')
-		parsing->we = line;
+		parsing->we = split[1];
 	else if (texture == 'E')
-		parsing->ea = line;
+		parsing->ea = split[1];
 	//check texture size doit etre carre? gnl max width max height
 	return (1);
 }
@@ -87,9 +97,15 @@ void read_file(char *arg, t_parsing *parsing)
 		exit(1);
 	}
 	line = get_next_line(fd);
-	while (line) //ligne par ligne
+	if (!line)
 	{
-		if (line[0] == '\n') //ligne vide
+		close(fd);
+		printerr("Empty file\n");
+		exit(1);
+	}
+	while (line)
+	{
+		if (line[0] == '\n')
 			continue ;
 		if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0 || ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0)
 			dup = check_texture(parsing, line, line[0]);
@@ -105,11 +121,13 @@ void read_file(char *arg, t_parsing *parsing)
 		}
 		else //debut map car ni vide ni content
 			break;
+		free(line);
 		line = get_next_line(fd);
 	}
 	free(line); // ?
 	if (parsing->no == NULL || parsing->so == NULL || parsing->we == NULL || parsing->ea == NULL || parsing->f == -1 || parsing->c == -1)
 	{
+		printf("%p, %p, %p, %p, %i, %i\n", parsing->no, parsing->so, parsing->we, parsing->ea, parsing->f, parsing->c);
 		close(fd);
 		printerr("Missing texture or color\n");
 		exit(1);
@@ -121,7 +139,7 @@ void read_file(char *arg, t_parsing *parsing)
 void	check_args(int ac, char **av)
 {
 	int ext = 0;
-	t_parsing parsing;
+	t_parsing *parsing;
 
 	ext = ft_strlen(av[1]) - 4;
 	if (ac != 2 || ft_strncmp(av[1] + ext, ".cub", 4) != 0 || access(av[1], R_OK) == -1)
@@ -129,8 +147,8 @@ void	check_args(int ac, char **av)
 		printerr("Bad argument\n");
 		exit(1);
 	}
-	init_parsing(&parsing); //init parsing et commencer a recup data
-	read_file(av[1], &parsing); //init parsing struct avant?
+	parsing =init_parsing(); //init parsing et commencer a recup data
+	read_file(av[1], parsing); //init parsing struct avant?
 }
 
 

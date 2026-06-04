@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:01:21 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 15:25:26 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/04 16:16:47 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,24 @@ typedef struct	s_parsing
 // }	t_list;
 
 /*GRID*/
-void	fill_map(t_parsing *parsing, t_list *map_list);
+void		fill_map(t_parsing *parsing, t_list *map_list);
 /*MAP*/
-int		check_map(t_parsing *parsing, int fd);
-int		ft_forbidden(char c);
-int		flood_fill(t_map *map, int x, int y);
+int			check_map(t_parsing *parsing, int fd);
+int			ft_forbidden(char c);
+int			flood_fill(t_map *map, int x, int y);
 /*PARSING*/
-int		check_color(t_parsing *parsing, char *line, char color);
-int		check_texture(t_parsing *parsing, char *line, char texture);
-void	check_args(int ac, char **av);
-void	read_file(char *arg, t_parsing *parsing);
-int		is_identifier_free(t_parsing *parsing, char *line);
+int			check_color(t_parsing *parsing, char *line, char color);
+int			check_texture(t_parsing *parsing, char *line, char texture);
+void		check_args(int ac, char **av);
+void		read_file(char *arg, t_parsing *parsing);
+int			is_identifier_free(t_parsing *parsing, char *line);
 /*UTILS*/
-void	printerr(char *msg);
-int		max(int a, int b);
+void		printerr(char *msg);
+int			max(int a, int b);
 /*INIT*/
-t_parsing	*init_parsing(t_parsing *parsing);
-size_t	ft_strlen(const char *s);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*get_next_line(int fd);
+t_parsing	*init_parsing(void);
+size_t		ft_strlen(const char *s);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+char		*get_next_line(int fd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:14:05 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 15:27:02 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/04 15:40:03 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,13 @@ int	check_map(t_parsing *parsing, int fd)
 		}
 		if (isok == 2)
 			return (printerr("Forbidden character\n"), 0);
+		free(line);
 		line = get_next_line(fd);
 	}
 		// recup line dans lst //lst_add_back(&map_list, line);
 		// next_line;
 	}
+	//free(line);
 	if (!flood_fill(&parsing->map, parsing->player_x, parsing->player_y))
 		return (printerr("Map is not closed\n"), 0);
 	if (!player)
