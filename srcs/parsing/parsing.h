@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:01:21 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 17:32:59 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/04 18:06:52 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ typedef struct	s_parsing
 /*GRID*/
 void		fill_map(t_parsing *parsing, t_list *map_list);
 /*MAP*/
-int			check_map(t_parsing *parsing, int fd);
+int			check_map(t_parsing *parsing, int fd, char *line);
 int			ft_forbidden(char c);
-int			flood_fill(t_map *map, int x, int y);
+int			flood_fill(t_parsing *parsing);
 /*PARSING*/
 int			check_color(t_parsing *parsing, char *line, char color);
 int			check_texture(t_parsing *parsing, char *line, char texture);

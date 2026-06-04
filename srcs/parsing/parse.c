@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 17:35:39 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/04 17:57:54 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ void read_file(char *arg, t_parsing *parsing)
 		free(line);
 		line = get_next_line(fd);
 	}
-	free(line); // ?
 	printf("%p, %p, %p, %p, %i, %i\n", parsing->no, parsing->so, parsing->we, parsing->ea, parsing->f.r, parsing->c.r);
 	if (parsing->no == NULL || parsing->so == NULL || parsing->we == NULL || parsing->ea == NULL || parsing->f.r == -1 || parsing->c.r == -1)
 	{
@@ -138,7 +137,7 @@ void read_file(char *arg, t_parsing *parsing)
 		printerr("Missing texture or color\n");
 		exit(1);
 	}
-	check_map(parsing, fd); //recuperer la map
+	check_map(parsing, fd, line); //recuperer la map
 	close(fd);
 }
 
