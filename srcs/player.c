@@ -130,3 +130,38 @@ void	update_player_position(t_mlx_data *data)
 			data->player.direction -= 2 * M_PI;
 	}
 }
+
+int	mouse_move(int x, int y, t_mlx_data *data)
+{
+	int		center_x;
+	int		delta_x;
+	double	sensitivity;
+
+	(void)y; // On ignore l'axe Y pour l'instant (pas de regard haut/bas)
+	
+	center_x = WIN_W / 2;
+	// Si la souris est pile au centre, c'est qu'on vient de la recentrer, on ne fait rien
+	if (x == center_x)
+		return (0);
+
+	// Sensibilité de la souris (plus le chiffre est petit, plus la rotation est lente/précise)
+	sensitivity = 0.002;
+
+	// Calcul de la distance parcourue depuis le centre
+	delta_x = x - center_x;
+
+	// On applique la rotation à la direction du joueur
+	data->player.direction += delta_x * sensitivity;
+
+	// Gestion des limites de l'angle pour rester entre 0 et 2 * M_PI
+	if (data->player.direction < 0)
+		data->player.direction += 2 * M_PI;
+	else if (data->player.direction >= 2 * M_PI)
+		data->player.direction -= 2 * M_PI;
+
+	// L'ASTUCE : On renvoie immédiatement la souris au centre !
+	// Comme ça, elle ne bloque jamais sur les bords de ton écran physique.
+	mlx_mouse_move(data->mlx, data->win, WIN_W / 2, WIN_H / 2);
+
+	return (0);
+}

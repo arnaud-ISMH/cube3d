@@ -127,7 +127,6 @@ void	raycasting(t_mlx_data *data)
 		if (draw_end >= WIN_H)
 			draw_end = WIN_H - 1;
 
-		// Choix de la couleur : un peu plus sombre sur les faces Nord/Sud pour donner du relief (ombrage)
 		unsigned int color;
 		if (side == 0)
 		{

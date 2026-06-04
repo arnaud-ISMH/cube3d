@@ -83,3 +83,30 @@ void	draw_map(t_mlx_data *data)
 	}
 }
 
+void	draw_floor_ceiling(t_mlx_data *data, unsigned int f_color, unsigned int c_color)
+{
+	int x;
+	int y;
+
+	y = 0;
+	while (y < WIN_H / 2)
+	{
+		x = WIN_W / 2;
+		while (x < WIN_W)
+		{
+			put_pixel(&data->img, x, y, c_color);
+			x++;
+		}
+		y++;
+	}
+	while (y < WIN_H)
+	{
+		x = WIN_W / 2;
+		while (x < WIN_W)
+		{
+			put_pixel(&data->img, x, y, f_color);
+			x++;
+		}
+		y++;
+	}
+}

@@ -40,5 +40,7 @@ void		draw_map(t_mlx_data *data);
 int			init_map(t_mlx_data *data);
 int			is_wall(t_mlx_data *data, double x, double y);
 void		raycasting(t_mlx_data *data);
+void		draw_floor_ceiling(t_mlx_data *data, unsigned int f_color, unsigned int c_color);
+int			mouse_move(int x, int y, t_mlx_data *data);
 
 #endif

@@ -28,6 +28,7 @@ int	redraw(t_mlx_data *data)
 {
 	ft_bzero(data->img.img_data, WIN_H * data->img.size_line);
 	/* map */
+	draw_floor_ceiling(data, 0x333333, 0x666666);
 	draw_map(data);
 	/* player */
 	update_player_position(data);
