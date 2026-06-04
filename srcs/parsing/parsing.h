@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:01:21 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 16:16:47 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/04 17:32:59 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,21 @@ typedef struct	s_map
 	int		height;
 }	t_map;
 
+typedef struct	s_color
+{
+	int r;
+	int g;
+	int b;
+}	t_color;
+
 typedef struct	s_parsing
 {
 	char	*no;
 	char	*so;
 	char	*we;
 	char	*ea;
-	int		f;
-	int		c;
+	t_color	f;
+	t_color	c;
 	int player_x;
 	int player_y;
 	char player_orientation;

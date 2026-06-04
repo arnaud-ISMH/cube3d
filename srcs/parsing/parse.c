@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 17:11:33 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/04 17:35:39 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int is_identifier_free(t_parsing *parsing, char *line)
 	if (ft_strncmp(line, "EA ", 3) == 0)
 		return (parsing->ea == NULL);
 	if (ft_strncmp(line, "F ", 2) == 0)
-		return (parsing->f == -1);
+		return (parsing->f.r == -1 && parsing->f.g == -1 && parsing->f.b == -1);
 	if (ft_strncmp(line, "C ", 2) == 0)
-		return (parsing->c == -1);
+		return (parsing->c.r == -1 && parsing->c.g == -1 && parsing->c.b == -1);
 	return (0);
 }
 
@@ -72,15 +72,17 @@ int	good_color(char *line)
 
 int	check_color(t_parsing *parsing, char *line, char color)
 {
+	char **split;
+	split = ft_split(line, ' '); //if ! split et free etc bref
+	char **colors = ft_split(split[1], ',');
 	if (!is_identifier_free(parsing, line))
 		return (printerr("Duplicate color\n"), 0);
-	if (!good_color(line))
+	if (!good_color(colors[0]) || !good_color(colors[1]) || !good_color(colors[2]))
 		return (printerr("Invalid color\n"), 0);
-	//parse color
 	if (color == 'F')
-		parsing->f = 1; //a remplacer par la couleur
+		parsing->f = (t_color){atoi(colors[0]), atoi(colors[1]), atoi(colors[2])};
 	else if (color == 'C')
-		parsing->c = 1; //a remplacer par la couleur
+		parsing->c = (t_color){atoi(colors[0]), atoi(colors[1]), atoi(colors[2])};
 	return (1);
 }
 
@@ -106,11 +108,17 @@ void read_file(char *arg, t_parsing *parsing)
 	while (line)
 	{
 		if (line[0] == '\n')
+		{
+			free(line);
+			line = get_next_line(fd);
 			continue ;
-		if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0 || ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0)
+		}
+		else if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0 || ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0)
 			dup = check_texture(parsing, line, line[0]);
-		if (ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0)
-			dup = check_color(parsing, line, line[1]);
+		else if (ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0)
+			dup = check_color(parsing, line, line[0]);
+		else
+			break;
 		if (dup == 0)
 		{
 			close(fd);
@@ -119,15 +127,13 @@ void read_file(char *arg, t_parsing *parsing)
 			// free init parsing ?
 			exit(1);
 		}
-		else //debut map car ni vide ni content
-			break;
 		free(line);
 		line = get_next_line(fd);
 	}
 	free(line); // ?
-	if (parsing->no == NULL || parsing->so == NULL || parsing->we == NULL || parsing->ea == NULL || parsing->f == -1 || parsing->c == -1)
+	printf("%p, %p, %p, %p, %i, %i\n", parsing->no, parsing->so, parsing->we, parsing->ea, parsing->f.r, parsing->c.r);
+	if (parsing->no == NULL || parsing->so == NULL || parsing->we == NULL || parsing->ea == NULL || parsing->f.r == -1 || parsing->c.r == -1)
 	{
-		printf("%p, %p, %p, %p, %i, %i\n", parsing->no, parsing->so, parsing->we, parsing->ea, parsing->f, parsing->c);
 		close(fd);
 		printerr("Missing texture or color\n");
 		exit(1);

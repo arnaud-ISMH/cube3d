@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:14:05 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 15:40:03 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/04 17:49:50 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,42 +37,48 @@ int	check_map(t_parsing *parsing, int fd)
 {
 	int player = 0;
 	int isok = 0;
-	int i = 0;
+	int i;
 	char *line;
-	t_list *map_list = NULL;
-	line = get_next_line(fd);
+	// t_list *map_list = NULL;
+	line = get_next_line(fd); //a securiser
 	while (line) //idem recup premiere
 	{
-		while (line[i]) 
+		printf("line = '%s'", line);
+		parsing->map.width = max(parsing->map.width, (ft_strlen(line) - 1));
+		parsing->map.height++;
+		printf("width %i, height %i, isok %i\n", parsing->map.width, parsing->map.height, isok);
+		i = 0;
+		while (line[i] != '\n') 
 		{
-			parsing->map.width = max(parsing->map.width, ft_strlen(line));
-			parsing->map.height++;
+			printf("caractere = %c\n", line[i]);
 			isok = ft_forbidden(line[i]); //32 ok si hors map
+			printf("seg?\n");
 			if (isok == 1) //joueur
 			{
 				if (player)
-				return (printerr("Multiple player\n"), 0);
-			else
-			{
-				parsing->player_x = i;
-				parsing->player_y = parsing->map.height - 1;
-				parsing->player_orientation = line[i];
-				player = 1;
+					return (printerr("Multiple player\n"), 0);
+				else
+				{
+					parsing->player_x = i;
+					parsing->player_y = parsing->map.height - 1;
+					parsing->player_orientation = line[i];
+					player = 1;
+				}
+			i++;
 			}
+			if (isok == 2)
+				return (printerr("Forbidden character\n"), 0);
+			free(line);
+			line = get_next_line(fd);
 		}
-		if (isok == 2)
-			return (printerr("Forbidden character\n"), 0);
-		free(line);
-		line = get_next_line(fd);
-	}
 		// recup line dans lst //lst_add_back(&map_list, line);
 		// next_line;
 	}
 	//free(line);
-	if (!flood_fill(&parsing->map, parsing->player_x, parsing->player_y))
-		return (printerr("Map is not closed\n"), 0);
+	// if (!flood_fill(&parsing->map, parsing->player_x, parsing->player_y))
+	// 	return (printerr("Map is not closed\n"), 0);
 	if (!player)
 		return (printerr("No player\n"), 0);
-	fill_map(parsing, map_list); //remplir la map avec la lst
+	// fill_map(parsing, map_list); //remplir la map avec la lst
 	return (1);
 }
