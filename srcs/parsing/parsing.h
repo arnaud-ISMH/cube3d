@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:01:21 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 13:51:05 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/04 15:25:26 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 
 # include <unistd.h>
 # include "../../includes/cube3d.h"
-
-# include <stdio.h> // à supprimer
-
+# include <stdlib.h>
+# include <stdio.h>
 typedef struct	s_map
 {
 	char	**grid;
@@ -33,6 +32,9 @@ typedef struct	s_parsing
 	char	*ea;
 	int		f;
 	int		c;
+	int player_x;
+	int player_y;
+	char player_orientation;
 	t_map	map;
 }	t_parsing;
 
@@ -49,15 +51,18 @@ int		check_map(t_parsing *parsing, int fd);
 int		ft_forbidden(char c);
 int		flood_fill(t_map *map, int x, int y);
 /*PARSING*/
-int		check_color(t_parsing *parsing, char *line);
-int		check_texture(t_parsing *parsing, char *line);
+int		check_color(t_parsing *parsing, char *line, char color);
+int		check_texture(t_parsing *parsing, char *line, char texture);
 void	check_args(int ac, char **av);
-int		read_file(char *arg);
-int		is_identifier_free(char *line);
+void	read_file(char *arg, t_parsing *parsing);
+int		is_identifier_free(t_parsing *parsing, char *line);
 /*UTILS*/
 void	printerr(char *msg);
 int		max(int a, int b);
 /*INIT*/
-t_parsing	*init_parsing(void);
+t_parsing	*init_parsing(t_parsing *parsing);
+size_t	ft_strlen(const char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*get_next_line(int fd);
 
 #endif
