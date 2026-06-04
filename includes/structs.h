@@ -55,6 +55,17 @@ typedef struct s_map
 	char	**grid;
 }		t_map;
 
+typedef struct s_texture
+{
+	void	*img_ptr;
+	char	*img_data;
+	int		width;
+	int		height;
+	int		bpp;
+	int		size_line;
+	int		endian;
+}		t_texture;
+
 typedef struct s_mlx_data
 {
 	void		*mlx;
@@ -63,6 +74,10 @@ typedef struct s_mlx_data
 	t_keys		keys;
 	t_player	player;
 	t_map		map;
+	t_texture	texture_north;
+	t_texture	texture_south;
+	t_texture	texture_east;
+	t_texture	texture_west;
 }		t_mlx_data;
 
 #endif

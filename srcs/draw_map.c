@@ -34,29 +34,13 @@ int	init_map(t_mlx_data *data)
 	return (0);
 }
 
-void	cut_screen_in_half(t_mlx_data *data)
-{
-	int x;
-	int y;
-
-	x = WIN_W / 2;
-	y = 0;
-	while (y < WIN_H)
-	{
-		put_pixel(&data->img, x, y, 0xFFAAAA);
-		y++;
-	}
-}
-
 void	draw_map(t_mlx_data *data)
 {
 	int x;
 	int y;
 	int scale;
 
-	cut_screen_in_half(data);
-
-	scale = (data->map.width > data->map.height) ? (WIN_W / 2 / data->map.width) : (WIN_H / data->map.height);
+	scale = (data->map.width > data->map.height) ? (WIN_W / 4 / data->map.width) : (WIN_H / 4 / data->map.height);
 	y = 0;
 	while (y < data->map.height)
 	{
@@ -77,9 +61,42 @@ void	draw_map(t_mlx_data *data)
 					i++;
 				}
 			}
+			else
+			{
+				int i = 0;
+				while (i < scale)
+				{
+					int j = 0;
+					while (j < scale)
+					{
+						put_pixel(&data->img, (x * scale) + j, (y * scale) + i, 0x444444);
+						j++;
+					}
+					i++;
+				}
+			}
 			x++;
 		}
 		y++;
+	}
+}
+
+void	draw_minimap_borders(t_mlx_data *data)
+{
+	int x;
+	int y;
+
+	y = 0;
+	while (y <= WIN_H / 4)
+	{
+		put_pixel(&data->img, WIN_W / 4, y, 0xFFFFFF);
+		y++;
+	}
+	x = 0;
+	while (x <= WIN_W / 4)
+	{
+		put_pixel(&data->img, x, WIN_H / 4, 0xFFFFFF);
+		x++;
 	}
 }
 
@@ -91,7 +108,7 @@ void	draw_floor_ceiling(t_mlx_data *data, unsigned int f_color, unsigned int c_c
 	y = 0;
 	while (y < WIN_H / 2)
 	{
-		x = WIN_W / 2;
+		x = 0;
 		while (x < WIN_W)
 		{
 			put_pixel(&data->img, x, y, c_color);
@@ -101,7 +118,7 @@ void	draw_floor_ceiling(t_mlx_data *data, unsigned int f_color, unsigned int c_c
 	}
 	while (y < WIN_H)
 	{
-		x = WIN_W / 2;
+		x = 0;
 		while (x < WIN_W)
 		{
 			put_pixel(&data->img, x, y, f_color);

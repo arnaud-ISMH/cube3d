@@ -37,9 +37,9 @@ void	draw_player(t_mlx_data *data, unsigned int color)
 
 	// On recalcule le scale uniquement pour l'affichage 2D
 	if (data->map.width > data->map.height)
-		scale = (WIN_W / 2 / data->map.width);
+		scale = (WIN_W / 4 / data->map.width);
 	else
-		scale = (WIN_H / data->map.height);
+		scale = (WIN_H / 4 / data->map.height);
 
 	// Conversion coordonnées virtuelles -> pixels écran pour le dessin
 	int p_x = (int)(data->player.pos.x * scale);
@@ -140,7 +140,6 @@ int	mouse_move(int x, int y, t_mlx_data *data)
 	(void)y; // On ignore l'axe Y pour l'instant (pas de regard haut/bas)
 	
 	center_x = WIN_W / 2;
-	// Si la souris est pile au centre, c'est qu'on vient de la recentrer, on ne fait rien
 	if (x == center_x)
 		return (0);
 
@@ -159,7 +158,7 @@ int	mouse_move(int x, int y, t_mlx_data *data)
 	else if (data->player.direction >= 2 * M_PI)
 		data->player.direction -= 2 * M_PI;
 
-	// L'ASTUCE : On renvoie immédiatement la souris au centre !
+	// On renvoie immédiatement la souris au centre !
 	// Comme ça, elle ne bloque jamais sur les bords de ton écran physique.
 	mlx_mouse_move(data->mlx, data->win, WIN_W / 2, WIN_H / 2);
 

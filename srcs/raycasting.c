@@ -21,11 +21,11 @@ void	raycasting(t_mlx_data *data)
 	// Setup de la minimap 2D pour le dessin des rayons
 	
 	if (data->map.width > data->map.height)
-		scale = (WIN_W / 2 / data->map.width);
+		scale = (WIN_W / 4 / data->map.width);
 	else
-		scale = (WIN_H / data->map.height);
+		scale = (WIN_H / 4 / data->map.height);
 
-	rays = WIN_W / 2; // 1 rayon par colonne de pixels sur la moitié droite
+	rays = WIN_W; // 1 rayon par colonne de pixels sur la moitié droite
 	
 	i = 0;
 	while (i < rays)
@@ -127,30 +127,105 @@ void	raycasting(t_mlx_data *data)
 		if (draw_end >= WIN_H)
 			draw_end = WIN_H - 1;
 
-		unsigned int color;
-		if (side == 0)
-		{
-			if (ray_dir_x > 0)
-				color = 0xFFFF00; // Mur Est
-			else
-				color = 0xFF00FF; // Mur Ouest
-		}
-		else
-		{
-			if (ray_dir_y > 0)
-				color = 0x00FFFF; // Mur Sud
-			else
-				color = 0x0000FF; // Mur Nord
-		}
+		/* unsigned int color; */
+		/* if (side == 0) */
+		/* { */
+		/* 	if (ray_dir_x > 0) */
+		/* 		color = 0xFFFF00; // Mur Est */
+		/* 	else */
+		/* 		color = 0xFF00FF; // Mur Ouest */
+		/* } */
+		/* else */
+		/* { */
+		/* 	if (ray_dir_y > 0) */
+		/* 		color = 0x00FFFF; // Mur Sud */
+		/* 	else */
+		/* 		color = 0x0000FF; // Mur Nord */
+		/* } */
+		/**/
+		/* // On trace la colonne de mur à l'écran sans toucher la minimap (1/4 de l'écran) */
+		/* int screen_x = i; */
+		/* int y_pixel = draw_start; */
+		/* while (y_pixel < draw_end) */
+		/* { */
+		/* 	if (screen_x <= WIN_W / 4 && y_pixel <= WIN_H / 4) */
+		/* 	{ */
+		/* 		y_pixel++; */
+		/* 		continue ; */
+		/* 	} */
+		/* 	put_pixel(&data->img, screen_x, y_pixel, color); */
+		/* 	y_pixel++; */
+		/* } */
 
-		// On trace la colonne de mur sur la partie DROITE de l'écran
-		int screen_x = (WIN_W / 2) + i;
-		int y_pixel = draw_start;
-		while (y_pixel < draw_end)
-		{
-			put_pixel(&data->img, screen_x, y_pixel, color);
-			y_pixel++;
-		}
+		// --- 1. SÉLECTION DE LA TEXTURE SELON L'ORIENTATION ---
+        t_texture *tex;
+        double wall_x; // Position exacte de l'impact sur le mur (0.0 à 1.0)
+
+        if (side == 0)
+        {
+            if (ray_dir_x > 0)
+                tex = &data->texture_west; // Impact sur la face OUEST (le rayon va vers l'Est)
+            else
+                tex = &data->texture_east; // Impact sur la face EST (le rayon va vers l'Ouest)
+            wall_x = data->player.pos.y + perp_wall_dist * ray_dir_y;
+        }
+        else
+        {
+            if (ray_dir_y > 0)
+                tex = &data->texture_north; // Impact sur la face NORD (le rayon va vers le Sud)
+            else
+                tex = &data->texture_south; // Impact sur la face SUD (le rayon va vers le Nord)
+            wall_x = data->player.pos.x + perp_wall_dist * ray_dir_x;
+        }
+        wall_x -= floor(wall_x); // On ne garde que la partie décimale
+
+        // --- 2. CALCUL DE TEX_X (La colonne correspondante de la texture) ---
+        int tex_x = (int)(wall_x * (double)tex->width);
+
+        // Correction de l'effet miroir de la texture sur certaines faces
+        if (side == 0 && ray_dir_x > 0)
+            tex_x = tex->width - tex_x - 1;
+        if (side == 1 && ray_dir_y < 0)
+            tex_x = tex->width - tex_x - 1;
+
+        // --- 3. PRÉPARATION DE L'INTERPOLATION VERTICALE ---
+        // tex_step indique de combien de pixels de texture on avance pour 1 pixel écran
+        double tex_step = 1.0 * tex->height / wall_height;
+        
+        // Position de départ dans la texture (gère les cas où le mur dépasse en haut de l'écran)
+        double tex_pos = (draw_start - WIN_H / 2 + wall_height / 2) * tex_step;
+
+        // --- 4. TRACÉ DE LA COLONNE VERTICALE AVEC TEXTURE ---
+        int screen_x = i;
+        int y_pixel = draw_start;
+        while (y_pixel < draw_end)
+        {
+            // Calcul du tex_y actuel (on protège contre les débordements de taille)
+            int tex_y = (int)tex_pos % tex->height;
+            if (tex_y < 0)
+                tex_y = 0;
+            tex_pos += tex_step;
+
+            // Sécurité pour ne pas dessiner par-dessus ta minimap au quart supérieur gauche
+            if (screen_x <= WIN_W / 4 && y_pixel <= WIN_H / 4)
+            {
+                y_pixel++;
+                continue ;
+            }
+
+            // Calcul de l'offset mémoire pour piocher le pixel de la texture chargée
+            int tex_offset = (tex_y * tex->size_line) + (tex_x * (tex->bpp / 8));
+            unsigned int color = *(unsigned int *)(tex->img_data + tex_offset);
+
+            /* // OPTIONNEL : Ombrage pour donner du relief 3D */
+            /* // On assombrit légèrement les faces Est/Ouest en divisant les couleurs par 2 (Bitwise shift) */
+            /* if (side == 0) */
+            /*     color = (color >> 1) & 0x7F7F7F; */
+
+            // On pousse le pixel de texture sur ton image d'écran principale
+            put_pixel(&data->img, screen_x, y_pixel, color);
+            y_pixel++;
+        }
 
 		// On trace une ligne de points entre le joueur et le mur sur la minimap
 
