@@ -6,23 +6,21 @@
 #    By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/04 13:32:58 by lchapot           #+#    #+#              #
-#    Updated: 2026/06/04 13:35:59 by lchapot          ###   ########.fr        #
+#    Updated: 2026/06/04 13:40:23 by lchapot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME  = cub3d
 
-SRCS := parse grid init map utils
+SRCS := parse.c grid.c init.c map.c utils.c
 
-# SRCDIR   := src
 OBJDIR   := .objs
-SRC_FILES := $((addsuffix .c,$(SRCS)))
-# SRC_FILES := $(addprefix $(SRCDIR)/,$(addsuffix .c,$(SRCS)))
+SRC_FILES := $(SRCS)
 OBJ_FILES := $(addprefix $(OBJDIR)/,$(notdir $(SRC_FILES:.c=.o)))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -std=gnu99 -pthread 
+CFLAGS = -Wall -Wextra -Werror 
 
 HEADER := parsing.h
 
@@ -34,7 +32,6 @@ On_Green=\033[42m
 UBlack=\033[4;30m
 Yellow=\033[0;33m
 
-# Compilation de base
 all: $(NAME)
 
 $(NAME): $(OBJ_FILES)
@@ -43,8 +40,7 @@ $(NAME): $(OBJ_FILES)
 	@echo "$(UBlack)$(On_Green)Executable created ✔$(RESET)"
 
 # Règle générique pour compiler .c → .o dans build/
-$(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADER) Makefile| $(OBJDIR)
-	@mkdir -p $(dir $@)
+$(OBJDIR)/%.o: %.c $(HEADER) Makefile | $(OBJDIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$(BIG_GREEN)[OK] $(CYAN)Compilation $<$(RESET)"
 

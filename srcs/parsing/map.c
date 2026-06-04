@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:14:05 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 13:30:31 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/04 14:17:16 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	ft_forbidden(char c)
 		return (0);
 	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		return (1);
+	if (c == 32)
+		return (0)
 	return (2);
 }
 
@@ -40,14 +42,14 @@ int	check_map(t_parsing *parsing, int fd)
 	int i = 0;
 	char *line;
 
-	while (gnl(fd))
+	while (get_next_line(fd))
 	{
-		line = gnl(fd);
+		line = get_next_line(fd);
 		while (line[i]) 
 		{
 			parsing->map.width = max(parsing->map.width, ft_strlen(line));
 			parsing->map.height++;
-			isok = ft_forbidden(line[i]);
+			isok = ft_forbidden(line[i]); //32 ok si hors map
 			if (isok == 1) //joueur
 			{
 				if (player)
@@ -70,12 +72,4 @@ int	check_map(t_parsing *parsing, int fd)
 		return (printerr("Map is not closed\n"), 0);
 	fill_map(parsing, map_list); //remplir la map avec la lst
 	return (1);
-}
-
-int main(int ac, char **av)
-{
-	check_args(ac, av);
-	read_file(av[1]);
-	printmap(parsing->map);
-	return (0);
 }
