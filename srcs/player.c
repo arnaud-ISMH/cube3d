@@ -14,10 +14,8 @@
 
 void	init_player(t_mlx_data *data)
 {
-	// On fait spawner le joueur au milieu de la case (1, 1) par exemple
-	// (Vérifie que c'est bien un '0' dans ta map !)
 	data->player.pos.x = 1.5;
-	data->player.pos.y = 1.5;
+	data->player.pos.y = 5.5;
 	data->player.direction = 0.0f;
 	data->player.move_speed = 0.02; // Vitesse adaptée à la grille 1x1
 	data->player.keys.w = false;
@@ -32,18 +30,10 @@ void	draw_player(t_mlx_data *data, unsigned int color)
 {
 	int	i;
 	int	j;
-	int k;
-	int scale;
-
-	// On recalcule le scale uniquement pour l'affichage 2D
-	if (data->map.width > data->map.height)
-		scale = (WIN_W / 4 / data->map.width);
-	else
-		scale = (WIN_H / 4 / data->map.height);
 
 	// Conversion coordonnées virtuelles -> pixels écran pour le dessin
-	int p_x = (int)(data->player.pos.x * scale);
-	int p_y = (int)(data->player.pos.y * scale);
+	int p_x = (int)(data->player.pos.x * data->map.scale);
+	int p_y = (int)(data->player.pos.y * data->map.scale);
 
 	i = -3;
 	while (i <= 3)
@@ -55,13 +45,6 @@ void	draw_player(t_mlx_data *data, unsigned int color)
 			j++;
 		}
 		i++;
-	}
-	k = 0;
-	while (k <= 15)
-	{
-		put_pixel(&data->img, p_x + (int)(cos(data->player.direction) * k),
-			p_y + (int)(sin(data->player.direction) * k), 0xFF0000);
-		k++;
 	}
 }
 
@@ -109,11 +92,17 @@ void	update_player_position(t_mlx_data *data)
 	}
 
 	// Détection avec un petit buffer de recul (0.1 case) pour ne pas traverser les coins
-	buffer = (next_x > data->player.pos.x) ? 0.1 : -0.1;
+	if (next_x > data->player.pos.x)
+		buffer = 0.1;
+	else
+		buffer = - 0.1;
 	if (!is_wall(data, next_x + buffer, data->player.pos.y))
 		data->player.pos.x = next_x;
 	
-	buffer = (next_y > data->player.pos.y) ? 0.1 : -0.1;
+	if (next_y > data->player.pos.y)
+		buffer = 0.1;
+	else
+		buffer = - 0.1;
 	if (!is_wall(data, data->player.pos.x, next_y + buffer))
 		data->player.pos.y = next_y;
 
@@ -149,17 +138,13 @@ int	mouse_move(int x, int y, t_mlx_data *data)
 	// Calcul de la distance parcourue depuis le centre
 	delta_x = x - center_x;
 
-	// On applique la rotation à la direction du joueur
 	data->player.direction += delta_x * sensitivity;
 
-	// Gestion des limites de l'angle pour rester entre 0 et 2 * M_PI
 	if (data->player.direction < 0)
 		data->player.direction += 2 * M_PI;
 	else if (data->player.direction >= 2 * M_PI)
 		data->player.direction -= 2 * M_PI;
 
-	// On renvoie immédiatement la souris au centre !
-	// Comme ça, elle ne bloque jamais sur les bords de ton écran physique.
 	mlx_mouse_move(data->mlx, data->win, WIN_W / 2, WIN_H / 2);
 
 	return (0);

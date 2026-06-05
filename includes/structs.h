@@ -53,6 +53,7 @@ typedef struct s_map
 	int		width;
 	int		height;
 	char	**grid;
+	int		scale;
 }		t_map;
 
 typedef struct s_texture
@@ -65,6 +66,35 @@ typedef struct s_texture
 	int		size_line;
 	int		endian;
 }		t_texture;
+
+typedef struct s_raycast
+{
+	float			ray_dir_x;
+	float			ray_dir_y;
+	int				map_x;
+	int				map_y;
+	double			delta_dist_x;
+	double			delta_dist_y;
+	int				side;
+	double			side_dist_x;
+	double			side_dist_y;
+	int				step_x;
+	int				step_y;
+	double			perp_wall_dist; // Distance perpendiculaire pour éviter l'effet fish-eye
+	float			wall_height;
+	int				draw_start;
+	int				draw_end;
+	t_texture		*tex; // Pointeur vers la texture à utiliser pour ce mur
+	double			wall_x; // Position exacte de l'impact sur le mur (0.0 à 1.0)
+	int				tex_x; // Coordonnée X sur la texture
+	int				tex_y; // Coordonnée Y sur la texture
+	double			tex_step; // Combien de pixels de texture on avance pour 1 pixel écran
+	double			tex_pos; // Position de départ de la texture pour l'interpolation verticale
+	int				tex_offset; // offset memoire pour piocher la bonne couleur dans la texture
+	int				screen_x; // Coordonnée X à l'écran pour dessiner la colonne verticale
+	int				y_pixel; // Coordonnée Y actuelle à l'écran pour dessiner la colonne verticale
+	unsigned int	color; // Couleur du pixel à dessiner (après avoir pioché dans la texture)
+}		t_raycast;
 
 typedef struct s_mlx_data
 {

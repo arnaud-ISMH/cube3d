@@ -19,9 +19,13 @@ int	init_map(t_mlx_data *data)
 	data->map.grid = malloc(sizeof(char *) * data->map.height);
 	if (!data->map.grid)
 		return (1);
+	if (data->map.width >= data->map.height)
+		data->map.scale = (WIN_W / 4 / data->map.width);
+	else
+		data->map.scale = (WIN_H / 4 / data->map.height);
 	data->map.grid[0] = "11111111";
 	data->map.grid[1] = "10100001";
-	data->map.grid[2] = "10100001";
+	data->map.grid[2] = "10101001";
 	data->map.grid[3] = "10000001";
 	data->map.grid[4] = "10101101";
 	data->map.grid[5] = "10001101";
@@ -38,9 +42,7 @@ void	draw_map(t_mlx_data *data)
 {
 	int x;
 	int y;
-	int scale;
 
-	scale = (data->map.width > data->map.height) ? (WIN_W / 4 / data->map.width) : (WIN_H / 4 / data->map.height);
 	y = 0;
 	while (y < data->map.height)
 	{
@@ -50,12 +52,12 @@ void	draw_map(t_mlx_data *data)
 			if (data->map.grid[y][x] == '1')
 			{
 				int i = 0;
-				while (i < scale)
+				while (i < data->map.scale)
 				{
 					int j = 0;
-					while (j < scale)
+					while (j < data->map.scale)
 					{
-						put_pixel(&data->img, (x * scale) + j, (y * scale) + i, 0x0000FF);
+						put_pixel(&data->img, (x * data->map.scale) + j, (y * data->map.scale) + i, 0x0000FF);
 						j++;
 					}
 					i++;
@@ -64,12 +66,12 @@ void	draw_map(t_mlx_data *data)
 			else
 			{
 				int i = 0;
-				while (i < scale)
+				while (i < data->map.scale)
 				{
 					int j = 0;
-					while (j < scale)
+					while (j < data->map.scale)
 					{
-						put_pixel(&data->img, (x * scale) + j, (y * scale) + i, 0x444444);
+						put_pixel(&data->img, (x * data->map.scale) + j, (y * data->map.scale) + i, 0x444444);
 						j++;
 					}
 					i++;
