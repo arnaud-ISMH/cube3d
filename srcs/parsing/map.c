@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:14:05 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/05 16:57:45 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/05 17:47:22 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,14 @@ int	check_map(t_parsing *parsing, int fd, char *line)
 
 	while (line)
 	{
-		// printf("line = '%s\n'", line);
 		parsing->map.width = max(parsing->map.width, (ft_strlen(line) - 1));
 		parsing->map.height++;
 		// printf("width %i, height %i, isok %i\n", parsing->map.width, parsing->map.height, isok);
 		i = 0;
 		while (line[i] != '\n' && line[i] != '\0') 
 		{
-			isok = ft_forbidden(line[i]); //32 ok si hors map
-			if (isok == 1) //joueur
+			isok = ft_forbidden(line[i]); //32 pas ok si in map
+			if (isok == 1)
 			{
 				if (player)
 					return (free(line), printerr("Multiple player\n"), 0);
@@ -70,20 +69,11 @@ int	check_map(t_parsing *parsing, int fd, char *line)
 		ft_lstadd_back(&map_lst, ft_lstnew(line)); //free line pas poss sinon jperds mon content? securiser le lstnew?
 		line = get_next_line(fd);
 	}
-	//PRINT LST
-	// t_list *tmp;
-	// tmp = map_lst;
-	// free(line);
-	// while (tmp)
-	// {
-	// 	printf("%s", (char *)tmp->content);
-	// 	tmp = tmp->next;
-	// }
 	if (!player)
 		return (printerr("No player\n"), 0);
 	fill_map(parsing, map_lst);
 	//ft_lstclear(&map_lst, free); //free lst
 	if (!flood_fill(&parsing->map, parsing->player_x, parsing->player_y))
-		return (printerr("Map is not closed\n"), 0); //free sturct, map
+		return (printerr("Map is not closed\n"), 0); //free parsing, free map
 	return (1);
 }

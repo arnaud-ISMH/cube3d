@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:01:21 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/05 17:00:15 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/05 17:37:48 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,13 @@ size_t		ft_strlen(const char *s);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 char		*get_next_line(int fd);
 
+/*A TEJ de utils*/
 t_list		*ft_lstnew(void *content);
 void		ft_lstadd_back(t_list **lst, t_list *new);
 char		*ft_strdup(const char *s);
 int			ft_lstsize(t_list *lst);
+
+/*FREE*/
+void	free_parsing(t_parsing *parsing);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 17:57:54 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/05 18:09:09 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ int	check_texture(t_parsing *parsing, char *line, char texture)
 	char	*path;
 	split = ft_split(line, ' ');
 	// if (!split || !split[0] || !split[1] || split[2])
-	// {
-	// 	free_split(split);
-	// 	return (printerr("Invalid texture line\n"), 0);
-	// }
+	// 	return (printerr("Invalid texture line\n"), freesplit(split), 0);
 	path = ft_strchr(split[1], '\n');
+	int ext = ft_strlen(path) - 5;
+	if (ft_strncmp(path + ext, ".xpm", 4) != 0)
+		return (printerr("Invalid texture line\n"), 0); //free split
 	if (path)
 		*path = '\0';
 	if (!is_identifier_free(parsing, line))
-		return (printerr("Duplicate texture\n"), 0);
+		return (printerr("Duplicate texture\n"), 0); //freesplit
 	if (access(split[1], R_OK) == -1)
-		return (printerr("Cannot access texture\n"), 0);
+		return (printerr("Cannot access texture\n"), 0); //freesplit
 	if (texture == 'N')
 		parsing->no = split[1];
 	else if (texture == 'S')
@@ -54,18 +54,15 @@ int	check_texture(t_parsing *parsing, char *line, char texture)
 		parsing->we = split[1];
 	else if (texture == 'E')
 		parsing->ea = split[1];
-	//check texture size doit etre carre? gnl max width max height
-	return (1);
+	return (1); //freesplit
 }
 
 int	good_color(char *line)
 {
 	int a = 0;
-	int b = 0;
-	int c = 0;
-	a = line[0] - '0'; //a remplacer par la partie a de la ligne
-	// recup a b c
-	if ((a < 0 || a > 255) || (b < 0 || b > 255) || (c < 0 || c > 255)) // pas rgb
+
+	a = atoi(line); //ft_atoi
+	if ((a < 0 || a > 255)) // pas rgb
 		return (0);
 	return (1);
 }
@@ -76,35 +73,38 @@ int	check_color(t_parsing *parsing, char *line, char color)
 	split = ft_split(line, ' '); //if ! split et free etc bref
 	char **colors = ft_split(split[1], ',');
 	if (!is_identifier_free(parsing, line))
-		return (printerr("Duplicate color\n"), 0);
+		return (printerr("Duplicate color\n"), 0); //freepslit
 	if (!good_color(colors[0]) || !good_color(colors[1]) || !good_color(colors[2]))
-		return (printerr("Invalid color\n"), 0);
+		return (printerr("Invalid color\n"), 0); //freesplit
 	if (color == 'F')
-		parsing->f = (t_color){atoi(colors[0]), atoi(colors[1]), atoi(colors[2])};
+		parsing->f = (t_color){atoi(colors[0]), atoi(colors[1]), atoi(colors[2])}; //ft_atoi
 	else if (color == 'C')
 		parsing->c = (t_color){atoi(colors[0]), atoi(colors[1]), atoi(colors[2])};
-	return (1);
+	return (1); //freesplit
 }
 
-void read_file(char *arg, t_parsing *parsing)
+int	open_fd(char *arg)
 {
-	int fd = open(arg, O_RDONLY);
-	int dup = 1;
-	char *line;
-
+	open (arg, O_RDONLY);
 	if (fd == -1)
 	{
 		printerr("Cannot open file\n");
 		//free init parsing?
-		exit(1);
+		exit(1);		
 	}
+	return (fd);
+}
+
+void read_file(char *arg, t_parsing *parsing)
+{
+	int fd; open(arg, O_RDONLY);
+	int dup = 1;
+	char *line;
+
+	fd = open_fd(arg);
 	line = get_next_line(fd);
 	if (!line)
-	{
-		close(fd);
-		printerr("Empty file\n");
-		exit(1);
-	}
+		return (close(fd), printerr("Empty file\n"), 0);
 	while (line)
 	{
 		if (line[0] == '\n')
@@ -120,25 +120,16 @@ void read_file(char *arg, t_parsing *parsing)
 		else
 			break;
 		if (dup == 0)
-		{
-			close(fd);
-			free(line);
-			printerr("Error in texture or color\n");
-			// free init parsing ?
-			exit(1);
-		}
+			return (close(fd), free(line), printerr("Error in texture or color\n"), 0);// free init parsing ?
 		free(line);
 		line = get_next_line(fd);
 	}
 	printf("%p, %p, %p, %p, %i, %i\n", parsing->no, parsing->so, parsing->we, parsing->ea, parsing->f.r, parsing->c.r);
 	if (parsing->no == NULL || parsing->so == NULL || parsing->we == NULL || parsing->ea == NULL || parsing->f.r == -1 || parsing->c.r == -1)
-	{
-		close(fd);
-		printerr("Missing texture or color\n");
-		exit(1);
-	}
-	check_map(parsing, fd, line); //recuperer la map
-	close(fd);
+		return (close(fd), printerr("Missing texture or color\n"), 0);
+	if (!check_map(parsing, fd, line))
+		return(close(fd), 0); //recuperer la map
+	return (close(fd), 1);
 }
 
 void	check_args(int ac, char **av)
@@ -152,15 +143,14 @@ void	check_args(int ac, char **av)
 		printerr("Bad argument\n");
 		exit(1);
 	}
-	parsing =init_parsing(); //init parsing et commencer a recup data
-	read_file(av[1], parsing); //init parsing struct avant?
+	parsing = init_parsing();
+	if (!read_file(av[1], parsing))
+		exit(1);
 }
-
 
 int main(int ac, char **av)
 {
 	check_args(ac, av);
-	// printmap(parsing->map);
 	//launch exec
 	return (0);
 }
