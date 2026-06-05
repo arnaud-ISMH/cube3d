@@ -6,17 +6,32 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:04:29 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 14:47:30 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/05 16:54:32 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "parsing.h"
 
-void fill_map(t_parsing *parsing, t_list *map_list)
+void fill_map(t_parsing *parsing, t_list *map_lst)
 {
-	(void)map_list;
-	printf("FILL MAP %i\n", parsing->map.width);
-	//convertir lst en grid
-	//free lst
+	t_list	*tmp;
+	int		i;
+
+	parsing->map.grid = malloc(sizeof(char *) * (ft_lstsize(map_lst) + 1));
+	tmp = map_lst;
+	i = 0;
+	while (tmp)
+	{
+		parsing->map.grid[i] = ft_strdup((char *)tmp->content);
+		tmp = tmp->next;
+		i++;
+	}
+	parsing->map.grid[i] = NULL;
+	i = 0;
+	while (parsing->map.grid[i])
+	{
+		printf("%s", parsing->map.grid[i]);
+		i++;
+	}
 }

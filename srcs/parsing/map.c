@@ -6,24 +6,24 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:14:05 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 18:07:11 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/05 16:57:45 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-// int	flood_fill(t_parsing *parsing)
-// {
-// 	//tout modifier en parsing->
-// 	if (x < 0 || x >= map->width || y < 0 || y >= map->height)
-// 		return (0);
-// 	if (map->grid[y][x] == '1' || map->grid[y][x] == 'X')
-// 		return (1); // Mur ou déjà visité
-// 	map->grid[y][x] = 'X'; //  visité
-// 	// Vérifier les quatre directions
-// 	return (flood_fill(map, x + 1, y) && flood_fill(map, x - 1, y) &&
-// 			flood_fill(map, x, y + 1) && flood_fill(map, x, y - 1)); //renvoie 1 si tout renvoie 1
-// }
+int	flood_fill(t_map *map, int x, int y)
+{
+	//tout modifier en parsing->
+	if (x < 0 || x >= map->width || y < 0 || y >= map->height)
+		return (0);
+	if (map->grid[y][x] == '1' || map->grid[y][x] == 'X')
+		return (1); // Mur ou déjà visité
+	map->grid[y][x] = 'X'; //  visité
+	// Vérifier les quatre directions
+	return (flood_fill(map, x + 1, y) && flood_fill(map, x - 1, y) &&
+			flood_fill(map, x, y + 1) && flood_fill(map, x, y - 1)); //renvoie 1 si tout renvoie 1
+}
 
 int	ft_forbidden(char c)
 {
@@ -39,7 +39,8 @@ int	check_map(t_parsing *parsing, int fd, char *line)
 	int player = 0;
 	int isok = 0;
 	int i;
-	// t_list *map_list = NULL;
+	t_list *map_lst = NULL;
+
 	while (line)
 	{
 		// printf("line = '%s\n'", line);
@@ -66,16 +67,23 @@ int	check_map(t_parsing *parsing, int fd, char *line)
 				return (free(line), printerr("Forbidden character\n"), 0);
 			i++;
 		}
-		// recup line dans lst //lst_add_back(&map_list, line);
-		// next_line;
-		free(line);
+		ft_lstadd_back(&map_lst, ft_lstnew(line)); //free line pas poss sinon jperds mon content? securiser le lstnew?
 		line = get_next_line(fd);
 	}
-	free(line);
-	// if (!flood_fill(parsing))
-	// 	return (printerr("Map is not closed\n"), 0);
+	//PRINT LST
+	// t_list *tmp;
+	// tmp = map_lst;
+	// free(line);
+	// while (tmp)
+	// {
+	// 	printf("%s", (char *)tmp->content);
+	// 	tmp = tmp->next;
+	// }
 	if (!player)
 		return (printerr("No player\n"), 0);
-	// fill_map(parsing, map_list); //remplir la map avec la lst
+	fill_map(parsing, map_lst);
+	//ft_lstclear(&map_lst, free); //free lst
+	if (!flood_fill(&parsing->map, parsing->player_x, parsing->player_y))
+		return (printerr("Map is not closed\n"), 0); //free sturct, map
 	return (1);
 }

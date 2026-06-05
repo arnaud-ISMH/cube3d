@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:05:47 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 15:54:11 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/05 16:48:52 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,79 @@
 char	*stock_buff(int fd, char *start_c, char *buff);
 char	*next_line(char *line);
 char	*ft_gen0(void);
+
+
+t_list	*ft_lstlast(t_list *lst)
+{
+	t_list	*temp;
+
+	if (!lst)
+		return (NULL);
+	temp = lst;
+	while (temp->next)
+		temp = temp->next;
+	return (temp);
+}
+char	*ft_strdup(const char *s)
+{
+	char	*dup;
+	int		i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	dup = malloc(i + 1);
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+int	ft_lstsize(t_list *lst)
+{
+	int		count;
+	t_list	*temp;
+
+	count = 0;
+	temp = lst;
+	while (temp)
+	{
+		temp = temp->next;
+		count++;
+	}
+	return (count);
+} 
+void	ft_lstadd_back(t_list **lst, t_list *new_elem)
+{
+	t_list	*last;
+
+	if (lst)
+	{
+		if (*lst)
+		{
+			last = ft_lstlast(*lst);
+			last->next = new_elem;
+		}
+		else
+			*lst = new_elem;
+	}
+}
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*new_lst;
+
+	new_lst = malloc(sizeof(t_list));
+	if (!new_lst)
+		return (NULL);
+	new_lst->content = content;
+	new_lst->next = NULL;
+	return (new_lst);
+}
 
 int	max(int a, int b)
 {
