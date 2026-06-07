@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:01:21 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/05 17:37:48 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/07 16:24:42 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int			flood_fill(t_map *map, int x, int y);
 int			check_color(t_parsing *parsing, char *line, char color);
 int			check_texture(t_parsing *parsing, char *line, char texture);
 void		check_args(int ac, char **av);
-void		read_file(char *arg, t_parsing *parsing);
+int			read_file(char *arg, t_parsing *parsing);
 int			is_identifier_free(t_parsing *parsing, char *line);
 /*UTILS*/
 void		printerr(char *msg);
