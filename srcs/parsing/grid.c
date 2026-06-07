@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:04:29 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/05 16:54:32 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/07 15:26:48 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void fill_map(t_parsing *parsing, t_list *map_lst)
 	i = 0;
 	while (tmp)
 	{
-		parsing->map.grid[i] = ft_strdup((char *)tmp->content);
+		parsing->map.grid[i] = ft_strdup((char *)tmp->content); // enlever le \n?
 		tmp = tmp->next;
 		i++;
 	}

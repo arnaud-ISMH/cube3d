@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/05 18:09:09 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/07 16:42:10 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,27 @@ int is_identifier_free(t_parsing *parsing, char *line)
 	return (0);
 }
 
+void	strip(char *s)
+{
+	char *res;
+
+	res = ft_strchr(s, '\n');
+	if (res)
+		*res = '\0';
+}
+
 int	check_texture(t_parsing *parsing, char *line, char texture)
 {
 	char	**split;
-	char	*path;
+	int		ext;
+
 	split = ft_split(line, ' ');
 	// if (!split || !split[0] || !split[1] || split[2])
 	// 	return (printerr("Invalid texture line\n"), freesplit(split), 0);
-	path = ft_strchr(split[1], '\n');
-	int ext = ft_strlen(path) - 5;
-	if (ft_strncmp(path + ext, ".xpm", 4) != 0)
+	strip(split[1])//si trouve pas de \n?
+	ext = ft_strlen(split[1]) - 4;
+	if (ext < 0 && ft_strncmp(split[1] + ext, ".xpm", 4) != 0)
 		return (printerr("Invalid texture line\n"), 0); //free split
-	if (path)
-		*path = '\0';
 	if (!is_identifier_free(parsing, line))
 		return (printerr("Duplicate texture\n"), 0); //freesplit
 	if (access(split[1], R_OK) == -1)
@@ -54,14 +62,14 @@ int	check_texture(t_parsing *parsing, char *line, char texture)
 		parsing->we = split[1];
 	else if (texture == 'E')
 		parsing->ea = split[1];
-	return (1); //freesplit
+	return (free(split[0]), free(split), 1); //freesplit[1] en fin;
 }
 
 int	good_color(char *line)
 {
 	int a = 0;
 
-	a = atoi(line); //ft_atoi
+	a = atoi(line); //ft_atoi retourne 0 si pas number? donc verifier dabord si number?
 	if ((a < 0 || a > 255)) // pas rgb
 		return (0);
 	return (1);
@@ -72,6 +80,8 @@ int	check_color(t_parsing *parsing, char *line, char color)
 	char **split;
 	split = ft_split(line, ' '); //if ! split et free etc bref
 	char **colors = ft_split(split[1], ',');
+	if (!colors || !colors[0] || !colors[1] || !colors[2] || colors[3])
+		return (printerr("Color issue\n"), 0); //free split;
 	if (!is_identifier_free(parsing, line))
 		return (printerr("Duplicate color\n"), 0); //freepslit
 	if (!good_color(colors[0]) || !good_color(colors[1]) || !good_color(colors[2]))
@@ -85,7 +95,9 @@ int	check_color(t_parsing *parsing, char *line, char color)
 
 int	open_fd(char *arg)
 {
-	open (arg, O_RDONLY);
+	int	fd;
+
+	fd = open(arg, O_RDONLY);
 	if (fd == -1)
 	{
 		printerr("Cannot open file\n");
@@ -95,9 +107,9 @@ int	open_fd(char *arg)
 	return (fd);
 }
 
-void read_file(char *arg, t_parsing *parsing)
+intread_file(char *arg, t_parsing *parsing)
 {
-	int fd; open(arg, O_RDONLY);
+	int fd;
 	int dup = 1;
 	char *line;
 
@@ -150,8 +162,10 @@ void	check_args(int ac, char **av)
 
 int main(int ac, char **av)
 {
+	if (ac != 2)
+		return (0);
 	check_args(ac, av);
 	//launch exec
-	return (0);
+	return (1);
 }
 
