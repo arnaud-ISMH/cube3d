@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adeflers <adeflers@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 09:35:11 by adeflers          #+#    #+#             */
-/*   Updated: 2026/01/29 10:03:48 by adeflers         ###   ########.fr       */
+/*   Updated: 2026/06/08 15:01:22 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <X11/keysym.h>
 # include <X11/X.h>
 # include <math.h>
+# include "../srcs/parsing/parsing.h"
 
 # ifndef WIN_W
 #  define WIN_W 1800.0

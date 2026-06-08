@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:01:21 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/07 16:24:42 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 15:01:43 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-typedef struct	s_map
-{
-	char	**grid;
-	int		width;
-	int		height;
-}	t_map;
+// typedef struct	s_map
+// {
+// 	char	**grid;
+// 	int		width;
+// 	int		height;
+// }	t_map;
 
 typedef struct	s_color
 {
