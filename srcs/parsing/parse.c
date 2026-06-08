@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/08 12:26:58 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 14:47:55 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ int	check_texture(t_parsing *parsing, char *line, char texture)
 	int		ext;
 
 	split = ft_split(line, ' ');
-	// if (!split || !split[0] || !split[1] || split[2])
-	// 	return (printerr("Invalid texture line\n"), freesplit(split), 0);
-	strip(split[1]);//si trouve pas de \n?
+	if (!split || !split[0] || !split[1] || split[2])
+		return (printerr("Invalid texture line\n"), 0); //freesplit(split), 
+	strip(split[1]);//et si trouve pas de \n?
 	ext = ft_strlen(split[1]) - 4;
 	if (ext < 0 && ft_strncmp(split[1] + ext, ".xpm", 4) != 0)
 		return (printerr("Invalid texture line\n"), 0); //free split
@@ -65,12 +65,23 @@ int	check_texture(t_parsing *parsing, char *line, char texture)
 	return (free(split[0]), free(split), 1); //freesplit[1] en fin;
 }
 
+int ft_isnumber(char *line)
+{
+	int i;
+
+	i = 0;
+	while (line[i] && line[i] != '\n')
+	{
+		if (line[i] < 48 || line[i] > 57)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	good_color(char *line)
 {
-	int a = 0;
-
-	a = atoi(line); //ft_atoi retourne 0 si pas number? donc verifier dabord si number?
-	if ((a < 0 || a > 255)) // pas rgb
+	if (!ft_isnumber(line) || (atoi(line) < 0 || atoi(line) > 255)) //ft_atoi
 		return (0);
 	return (1);
 }
@@ -160,12 +171,12 @@ void	check_args(int ac, char **av)
 		exit(1);
 }
 
-// int main(int ac, char **av)
-// {
-// 	if (ac != 2)
-// 		return (0);
-// 	check_args(ac, av);
-// 	//launch exec
-// 	return (1);
-// }
+int main(int ac, char **av)
+{
+	if (ac != 2)
+		return (0);
+	check_args(ac, av);
+	//launch exec
+	return (1);
+}
 

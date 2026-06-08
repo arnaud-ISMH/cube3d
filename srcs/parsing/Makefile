@@ -6,7 +6,7 @@
 #    By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/04 13:32:58 by lchapot           #+#    #+#              #
-#    Updated: 2026/06/08 14:03:30 by lchapot          ###   ########.fr        #
+#    Updated: 2026/06/08 14:34:29 by lchapot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,23 +37,23 @@ all: $(NAME)
 $(NAME): $(OBJ_FILES)
 	@$(CC) $(CFLAGS) $(OBJ_FILES) -o $@
 	@echo "⊹ ࣪ ﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏ ࣪ ˖"
-	@echo "$(UBlack)$(On_Green)Executable created ✔$(RESET)"
+	@echo -e "$(UBlack)$(On_Green)Executable created ✔$(RESET)"
 
 # Règle générique pour compiler .c → .o dans build/
 $(OBJDIR)/%.o: %.c $(HEADER) Makefile | $(OBJDIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
-	@echo "$(BIG_GREEN)[OK] $(CYAN)Compilation $<$(RESET)"
+	@echo -e "$(BIG_GREEN)[OK] $(CYAN)Compilation $<$(RESET)"
 
 $(OBJDIR):
 	@mkdir -p $@
 
 clean:
 	@rm -rf $(OBJDIR) 
-	@echo "$(CYAN)Objects cleaned ✔$(RESET)"
+	@echo -e "$(CYAN)Objects cleaned ✔$(RESET)"
 
 fclean: clean
 	@$(RM) $(NAME)
-	@echo "$(CYAN)Full clean done ✔$(RESET)"
+	@echo -e "$(CYAN)Full clean done ✔$(RESET)"
 
 re: fclean all
 
@@ -96,7 +96,7 @@ re: fclean all
 # # Flags de liaison (linker)
 # LDFLAGS     = -L$(LIBFT_PATH) -lft -L$(MLX_PATH) -lmlx_Linux -lXext -lX11 -lm
 
-# GREEN := \033[0;32m
+# GREEN := \033[0-;32m
 # CYAN := \033[0;36m
 # RESET := \033[0m
 # BIG_GREEN :=\033[1;32m
