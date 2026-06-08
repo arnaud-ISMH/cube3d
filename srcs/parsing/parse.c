@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/07 16:42:10 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 12:26:58 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	check_texture(t_parsing *parsing, char *line, char texture)
 	split = ft_split(line, ' ');
 	// if (!split || !split[0] || !split[1] || split[2])
 	// 	return (printerr("Invalid texture line\n"), freesplit(split), 0);
-	strip(split[1])//si trouve pas de \n?
+	strip(split[1]);//si trouve pas de \n?
 	ext = ft_strlen(split[1]) - 4;
 	if (ext < 0 && ft_strncmp(split[1] + ext, ".xpm", 4) != 0)
 		return (printerr("Invalid texture line\n"), 0); //free split
@@ -107,7 +107,7 @@ int	open_fd(char *arg)
 	return (fd);
 }
 
-intread_file(char *arg, t_parsing *parsing)
+int	read_file(char *arg, t_parsing *parsing)
 {
 	int fd;
 	int dup = 1;
@@ -160,12 +160,12 @@ void	check_args(int ac, char **av)
 		exit(1);
 }
 
-int main(int ac, char **av)
-{
-	if (ac != 2)
-		return (0);
-	check_args(ac, av);
-	//launch exec
-	return (1);
-}
+// int main(int ac, char **av)
+// {
+// 	if (ac != 2)
+// 		return (0);
+// 	check_args(ac, av);
+// 	//launch exec
+// 	return (1);
+// }
 
