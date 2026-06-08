@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cube3d.h"
+#include "../../includes/cube3d.h"
 
 void	get_ray_vect(t_mlx_data *data, t_raycast *ray, int i)
 {

@@ -20,11 +20,11 @@ OBJ_DIR     = obj
 INC_DIR     = includes
 
 SRCS        = srcs/main.c \
-			  srcs/init.c \
-			  srcs/utils.c \
-			  srcs/draw_map.c \
-			  srcs/raycasting.c \
-			  srcs/player.c \
+			  srcs/exec/init.c \
+			  srcs/exec/utils.c \
+			  srcs/exec/draw_map.c \
+			  srcs/exec/raycasting.c \
+			  srcs/exec/player.c \
 			  srcs/parsing/parse.c\
 			  srcs/parsing/grid.c \
 			  srcs/parsing/init.c \
