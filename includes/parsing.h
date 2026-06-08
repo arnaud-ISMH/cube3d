@@ -6,12 +6,13 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:01:21 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/08 17:33:57 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 17:45:15 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
+# include "structs.h"
 
 /*GRID*/
 void		fill_map(t_parsing *parsing, t_list *map_list);

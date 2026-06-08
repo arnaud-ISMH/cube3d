@@ -6,11 +6,11 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:05:47 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/05 16:48:52 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 17:04:47 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../includes/cube3d.h"
 
 char	*stock_buff(int fd, char *start_c, char *buff);
 char	*next_line(char *line);

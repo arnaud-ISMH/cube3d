@@ -6,12 +6,11 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:04:29 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/07 15:26:48 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 17:06:15 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "parsing.h"
+#include "../../includes/cube3d.h"
 
 void fill_map(t_parsing *parsing, t_list *map_lst)
 {

@@ -6,11 +6,11 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 16:28:20 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/04 16:28:27 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 17:29:22 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../includes/cube3d.h"
 
 static int	taille(char const *str, char const charset)
 {

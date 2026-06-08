@@ -6,15 +6,14 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:14:05 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/08 15:55:03 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 17:06:45 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../includes/cube3d.h"
 
 int	flood_fill(t_map *map, int x, int y) //si ligne trop courte = hors bound bizarre ?
 {
-	//tout modifier en parsing->
 	if (x < 0 || x >= map->width || y < 0 || y >= map->height)
 		return (0);
 	if (map->grid[y][x] == '1' || map->grid[y][x] == 'X')

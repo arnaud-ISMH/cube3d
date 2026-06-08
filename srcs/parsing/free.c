@@ -6,11 +6,11 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 17:36:44 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/05 17:40:11 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 17:06:08 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../includes/cube3d.h"
 
 void	free_parsing(t_parsing *parsing)
 {
