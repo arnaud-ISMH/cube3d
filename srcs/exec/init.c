@@ -62,11 +62,12 @@ int	redraw(t_mlx_data *data)
 	ft_bzero(data->img.img_data, WIN_H * data->img.size_line);
 	draw_floor_ceiling(data, 0x333333, 0x666666);
 	update_player_position(data);
+	update_monster_position(data);
 	draw_map(data);
 	draw_player(data, 0xFFFF00);
-	draw_monster(data, 0xFF0000);
 	draw_minimap_borders(data);
 	raycasting(data);
+	draw_monster(data, 0xFF0000);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 	return (0);
 }

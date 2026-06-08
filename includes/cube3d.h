@@ -39,6 +39,7 @@ void		draw_monster(t_mlx_data *data, unsigned int color);
 void		draw_monster_stripe(t_mlx_data *data, t_monster *monster, int stripe, int tex_x, double transform_y, int sprite_dim, int draw_start_y, int draw_end_y);
 void		render_single_monster(t_mlx_data *data, t_monster *monster);
 int			init_monster_tex(t_mlx_data *data);
+void		update_monster_position(t_mlx_data *data);
 
 void		draw_map(t_mlx_data *data);
 int			init_map(t_mlx_data *data);

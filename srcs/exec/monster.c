@@ -141,3 +141,63 @@ void    render_single_monster(t_mlx_data *data, t_monster *monster)
         stripe++;
     }
 }
+
+void	update_monster_position(t_mlx_data *data)
+{
+	double	next_x;
+	double	next_y;
+	double	buffer;
+
+	next_x = data->monster.pos.x;
+	next_y = data->monster.pos.y;
+	if (data->monster.keys.w)
+	{
+		next_x += cos(data->monster.direction) * data->monster.move_speed;
+		next_y += sin(data->monster.direction) * data->monster.move_speed;
+	}
+	if (data->monster.keys.s)
+	{
+		next_x -= cos(data->monster.direction) * data->monster.move_speed;
+		next_y -= sin(data->monster.direction) * data->monster.move_speed;
+	}
+	if (data->monster.keys.a)
+	{
+		next_x += cos(data->monster.direction - M_PI_2) * data->monster.move_speed;
+		next_y += sin(data->monster.direction - M_PI_2) * data->monster.move_speed;
+	}
+	if (data->monster.keys.d)
+	{
+		next_x += cos(data->monster.direction + M_PI_2) * data->monster.move_speed;
+		next_y += sin(data->monster.direction + M_PI_2) * data->monster.move_speed;
+	}
+
+	// Détection avec un petit buffer de recul (0.1 case) pour ne pas traverser les coins
+	if (next_x > data->monster.pos.x)
+		buffer = 0.1;
+	else
+		buffer = - 0.1;
+	if (!is_wall(data, next_x + buffer, data->monster.pos.y))
+		data->monster.pos.x = next_x;
+	
+	if (next_y > data->monster.pos.y)
+		buffer = 0.1;
+	else
+		buffer = - 0.1;
+	if (!is_wall(data, data->monster.pos.x, next_y + buffer))
+		data->monster.pos.y = next_y;
+
+	if (data->monster.keys.left)
+	{
+		data->monster.direction -= 0.04f;
+		if (data->monster.direction < 0)
+			data->monster.direction += 2 * M_PI;
+	}
+	if (data->monster.keys.right)
+	{
+		data->monster.direction += 0.04f;
+		if (data->monster.direction >= 2 * M_PI)
+			data->monster.direction -= 2 * M_PI;
+	}
+}
+
+

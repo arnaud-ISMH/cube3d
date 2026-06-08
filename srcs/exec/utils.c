@@ -23,6 +23,15 @@ int	put_pixel(t_image *img, int x, int y, unsigned int color)
 	return (1);
 }
 
+void	moove_monster(t_mlx_data *data)
+{
+	if (data->monster.keys.w || data->monster.keys.a || data->monster.keys.s || data->monster.keys.d)
+		return ;
+	data->monster.keys.w = true;
+	update_monster_position(data);
+	data->monster.keys.w = false;
+}
+
 int	key_press(int keysym, t_mlx_data *data)
 {
 	ft_printf("The %d key has been pressed\n\n", keysym); // Debug
@@ -40,6 +49,8 @@ int	key_press(int keysym, t_mlx_data *data)
 		data->player.keys.left = true;
 	if (keysym == XK_Right)
 		data->player.keys.right = true;
+	if (keysym == XK_space)
+		moove_monster(data);
 	return (0);
 }
 
