@@ -15,6 +15,14 @@
 int	close_win(t_mlx_data *data)
 {
 	mlx_destroy_image(data->mlx, data->img.img_ptr);
+	if (data->texture_north.img_ptr)
+		mlx_destroy_image(data->mlx, data->texture_north.img_ptr);
+	if (data->texture_south.img_ptr)
+		mlx_destroy_image(data->mlx, data->texture_south.img_ptr);
+	if (data->texture_east.img_ptr)
+		mlx_destroy_image(data->mlx, data->texture_east.img_ptr);
+	if (data->texture_west.img_ptr)
+		mlx_destroy_image(data->mlx, data->texture_west.img_ptr);
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_display(data->mlx);
 	if (data->map.grid)
@@ -24,14 +32,38 @@ int	close_win(t_mlx_data *data)
 	exit (0);
 }
 
+int	load_texture(t_mlx_data *data, t_texture *texture, char *path)
+{
+	texture->img_ptr = mlx_xpm_file_to_image(data->mlx, path, &texture->width, &texture->height);
+	if (!texture->img_ptr || texture->width <= 0 || texture->height <= 0)
+		return (1);
+	texture->img_data = mlx_get_data_addr(texture->img_ptr, &texture->bpp,
+			&texture->size_line, &texture->endian);
+	return (0);
+}
+
+int	init_textures(t_mlx_data *data)
+{
+	if (load_texture(data, &data->texture_north, "textures/feu.xpm"))
+		return (1);
+	if (load_texture(data, &data->texture_south, "textures/eau.xpm"))
+		return (1);
+	if (load_texture(data, &data->texture_east, "textures/plante.xpm"))
+		return (1);
+	if (load_texture(data, &data->texture_west, "textures/electrik.xpm"))
+		return (1);
+	return (0);
+}
+
 int	redraw(t_mlx_data *data)
 {
 	ft_bzero(data->img.img_data, WIN_H * data->img.size_line);
-	/* map */
-	draw_map(data);
-	/* player */
+	draw_floor_ceiling(data, 0x333333, 0x666666);
 	update_player_position(data);
+	draw_map(data);
 	draw_player(data, 0xFFFF00);
+	draw_minimap_borders(data);
+	raycasting(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 	return (0);
 }

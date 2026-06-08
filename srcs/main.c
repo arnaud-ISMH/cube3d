@@ -27,9 +27,14 @@ int	main(int ac, char **av)
 	init_player(data);
 	if (init_map(data))
 		return (close_win(data), 1);
+	if (init_textures(data))
+		return (close_win(data), 1);
 	mlx_hook(data->win, 17, 0, (int (*)())(void *)close_win, data);
 	mlx_hook(data->win, 2, 1L<<0, (int (*)())(void *)key_press, data);
 	mlx_hook(data->win, 3, 1L<<1, (int (*)())(void *)key_release, data);
+	/* mlx_hook(data->win, 6, 1L<<6, (int (*)())(void *)mouse_move, data); */
+	/* mlx_mouse_hide(data->mlx, data->win); */
+	/* mlx_mouse_move(data->mlx, data->win, WIN_W / 2, WIN_H / 2); */
 	mlx_loop_hook(data->mlx, (int (*)())(void *)redraw, data);
 	mlx_loop(data->mlx);
 	return (0);

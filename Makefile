@@ -12,7 +12,7 @@
 
 NAME        = cube3D
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror
+CFLAGS      = -Wall -Wextra -Werror -g3
 
 # Dossiers et Fichiers
 SRC_DIR     = .
@@ -23,6 +23,7 @@ SRCS        = srcs/main.c \
 			  srcs/init.c \
 			  srcs/utils.c \
 			  srcs/draw_map.c \
+			  srcs/raycasting.c \
 			  srcs/player.c
 
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
