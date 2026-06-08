@@ -44,13 +44,13 @@ int	load_texture(t_mlx_data *data, t_texture *texture, char *path)
 
 int	init_textures(t_mlx_data *data)
 {
-	if (load_texture(data, &data->texture_north, "textures/feu.xpm"))
+	if (load_texture(data, &data->texture_north, "textures/north.xpm"))
 		return (1);
-	if (load_texture(data, &data->texture_south, "textures/eau.xpm"))
+	if (load_texture(data, &data->texture_south, "textures/south.xpm"))
 		return (1);
-	if (load_texture(data, &data->texture_east, "textures/plante.xpm"))
+	if (load_texture(data, &data->texture_east, "textures/east.xpm"))
 		return (1);
-	if (load_texture(data, &data->texture_west, "textures/electrik.xpm"))
+	if (load_texture(data, &data->texture_west, "textures/west.xpm"))
 		return (1);
 	return (0);
 }
