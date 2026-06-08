@@ -6,20 +6,23 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 09:35:11 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/08 15:01:22 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 17:35:50 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#ifndef CUBE3D_H
+# define CUBE3D_H
 
 # include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
+# include "parsing.h"
 # include "structs.h"
 # include <X11/keysym.h>
 # include <X11/X.h>
 # include <math.h>
-# include "../srcs/parsing/parsing.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
 
 # ifndef WIN_W
 #  define WIN_W 1800.0

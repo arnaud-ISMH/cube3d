@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adeflers <adeflers@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 00:14:54 by adeflers          #+#    #+#             */
-/*   Updated: 2026/02/01 00:14:54 by adeflers         ###   ########.fr       */
+/*   Updated: 2026/06/08 16:45:32 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ int	load_texture(t_mlx_data *data, t_texture *texture, char *path)
 
 int	init_textures(t_mlx_data *data)
 {
-	if (load_texture(data, &data->texture_north, "textures/north.xpm"))
+	if (load_texture(data, &data->texture_north, "textures/north.xpm")) //changer en data->parsing->no;
 		return (1);
-	if (load_texture(data, &data->texture_south, "textures/south.xpm"))
+	if (load_texture(data, &data->texture_south, "textures/south.xpm"))//changer en data->parsing->so;
 		return (1);
-	if (load_texture(data, &data->texture_east, "textures/east.xpm"))
+	if (load_texture(data, &data->texture_east, "textures/east.xpm"))//changer en data->parsing->ea;
 		return (1);
-	if (load_texture(data, &data->texture_west, "textures/west.xpm"))
+	if (load_texture(data, &data->texture_west, "textures/west.xpm"))//changer en data->parsing->we;
 		return (1);
 	return (0);
 }

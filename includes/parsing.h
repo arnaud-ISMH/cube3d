@@ -6,46 +6,12 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:01:21 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/08 15:01:43 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 17:33:57 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
-
-# include <unistd.h>
-# include "../../includes/cube3d.h"
-# include <stdlib.h>
-# include <stdio.h>
-
-// typedef struct	s_map
-// {
-// 	char	**grid;
-// 	int		width;
-// 	int		height;
-// }	t_map;
-
-typedef struct	s_color
-{
-	int r;
-	int g;
-	int b;
-}	t_color;
-
-typedef struct	s_parsing
-{
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
-	t_color	f;
-	t_color	c;
-	int 	player_x;
-	int 	player_y;
-	char 	player_orientation;
-	t_map	map;
-}	t_parsing;
-
 
 /*GRID*/
 void		fill_map(t_parsing *parsing, t_list *map_list);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_player.c                                      :+:      :+:    :+:   */
+/*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adeflers <adeflers@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:44:44 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/02 14:44:44 by adeflers         ###   ########.fr       */
+/*   Updated: 2026/06/08 16:51:56 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	init_player(t_mlx_data *data)
 {
-	data->player.pos.x = 1.5;
-	data->player.pos.y = 5.5;
-	data->player.direction = 0.0f;
+	data->player.pos.x = 1.5; // = data->parsing->player_x;
+	data->player.pos.y = 5.5;// = data->parsing->player_y;
+	data->player.direction = 0.0f; // = data->parsing->player_orientation;
 	data->player.move_speed = 0.02; // Vitesse adaptée à la grille 1x1
 	data->player.keys.w = false;
 	data->player.keys.a = false;
@@ -30,7 +30,6 @@ void	draw_player(t_mlx_data *data, unsigned int color)
 {
 	int	i;
 	int	j;
-
 	// Conversion coordonnées virtuelles -> pixels écran pour le dessin
 	int p_x = (int)(data->player.pos.x * data->map.scale);
 	int p_y = (int)(data->player.pos.y * data->map.scale);
@@ -90,7 +89,6 @@ void	update_player_position(t_mlx_data *data)
 		next_x += cos(data->player.direction + M_PI_2) * data->player.move_speed;
 		next_y += sin(data->player.direction + M_PI_2) * data->player.move_speed;
 	}
-
 	// Détection avec un petit buffer de recul (0.1 case) pour ne pas traverser les coins
 	if (next_x > data->player.pos.x)
 		buffer = 0.1;

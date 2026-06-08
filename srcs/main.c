@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 09:34:10 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/08 15:55:35 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 16:54:08 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	main(int ac, char **av)
 		return (1);
 	*data = minilibx_process();
 	init_player(data);
-	if (init_map(data))
-		return (close_win(data), 1);
+	// if (init_map(data)) //fait dans 
+	// 	return (close_win(data), 1);
 	if (init_textures(data))
 		return (close_win(data), 1);
 	mlx_hook(data->win, 17, 0, (int (*)())(void *)close_win, data);
