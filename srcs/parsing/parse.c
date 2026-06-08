@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/08 14:47:55 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 15:01:03 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,12 +171,12 @@ void	check_args(int ac, char **av)
 		exit(1);
 }
 
-int main(int ac, char **av)
-{
-	if (ac != 2)
-		return (0);
-	check_args(ac, av);
-	//launch exec
-	return (1);
-}
+// int main(int ac, char **av)
+// {
+// 	if (ac != 2)
+// 		return (0);
+// 	check_args(ac, av);
+// 	//launch exec
+// 	return (1);
+// }
 
