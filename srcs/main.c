@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 09:34:10 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/08 12:27:24 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 15:55:35 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int ac, char **av)
 {
 	t_mlx_data	*data;
-
 
 	if (ac != 2)
 		return (1);

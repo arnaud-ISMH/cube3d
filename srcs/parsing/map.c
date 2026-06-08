@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:14:05 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/07 16:24:43 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/08 15:55:03 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ int	flood_fill(t_map *map, int x, int y) //si ligne trop courte = hors bound biz
 	if (x < 0 || x >= map->width || y < 0 || y >= map->height)
 		return (0);
 	if (map->grid[y][x] == '1' || map->grid[y][x] == 'X')
-		return (1); // Mur ou déjà visité
-	map->grid[y][x] = 'X'; //  visité
-	// Vérifier les quatre directions
+		return (1);
+	map->grid[y][x] = 'X'; 
 	return (flood_fill(map, x + 1, y) && flood_fill(map, x - 1, y) &&
 			flood_fill(map, x, y + 1) && flood_fill(map, x, y - 1)); //renvoie 1 si tout renvoie 1
 }
