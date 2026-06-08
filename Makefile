@@ -25,13 +25,14 @@ SRCS        = srcs/main.c \
 			  srcs/exec/draw_map.c \
 			  srcs/exec/raycasting.c \
 			  srcs/exec/player.c \
+			  srcs/exec/monster.c \
 			  srcs/parsing/parse.c\
 			  srcs/parsing/grid.c \
 			  srcs/parsing/init.c \
 			  srcs/parsing/map.c \
 			  srcs/parsing/utils.c \
 			  srcs/parsing/split.c \
-			  srcs/parsing/free.c \
+			  srcs/parsing/free.c
 
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 

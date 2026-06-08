@@ -21,13 +21,6 @@
 # include <math.h>
 # include "../srcs/parsing/parsing.h"
 
-# ifndef WIN_W
-#  define WIN_W 1800.0
-# endif
-# ifndef WIN_H
-#  define WIN_H 1000.0
-# endif
-
 int			close_win(t_mlx_data *data);
 int			redraw(t_mlx_data *data);
 t_mlx_data	minilibx_process(void);
@@ -40,6 +33,12 @@ void		draw_player(t_mlx_data *data, unsigned int color);
 void		init_player(t_mlx_data *data);
 void		update_player_position(t_mlx_data *data);
 int			mouse_move(int x, int y, t_mlx_data *data);
+
+void		init_monster(t_mlx_data *data);
+void		draw_monster(t_mlx_data *data, unsigned int color);
+void		draw_monster_stripe(t_mlx_data *data, t_monster *monster, int stripe, int tex_x, double transform_y, int sprite_dim, int draw_start_y, int draw_end_y);
+void		render_single_monster(t_mlx_data *data, t_monster *monster);
+int			init_monster_tex(t_mlx_data *data);
 
 void		draw_map(t_mlx_data *data);
 int			init_map(t_mlx_data *data);

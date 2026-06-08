@@ -218,8 +218,10 @@ void	raycasting(t_mlx_data *data)
 		init_dda(data, &ray); // Calcul des variables de départ du DDA
 		dda_loop(data, &ray);
 		fish_eye_correction(&ray); // --- CALCUL DE LA DISTANCE PERPENDICULAIRE (Anti Fish-eye) ---
+		data->z_buffer[i] = ray.perp_wall_dist;
 		render_3D(data, &ray, i); // --- DESSIN RENDU 3D ---
 		draw_rays_minimap(data, ray); // On trace une ligne de points entre le joueur et le mur sur la minimap
 		i++;
 	}
+	render_single_monster(data, &data->monster);
 }

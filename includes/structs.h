@@ -15,6 +15,14 @@
 
 #include <stdbool.h>
 
+# ifndef WIN_W
+#  define WIN_W 1800.0
+# endif
+# ifndef WIN_H
+#  define WIN_H 1000.0
+# endif
+
+
 typedef struct s_image
 {
 	void	*img_ptr;
@@ -40,22 +48,6 @@ typedef struct s_coord
 	double	y;
 }		t_coord;
 
-typedef struct s_player
-{
-	t_coord	pos;
-	float	direction;
-	double	move_speed;
-	t_keys	keys;
-}		t_player;
-
-typedef struct s_map
-{
-	int		width;
-	int		height;
-	char	**grid;
-	int		scale;
-}		t_map;
-
 typedef struct s_texture
 {
 	void	*img_ptr;
@@ -66,6 +58,33 @@ typedef struct s_texture
 	int		size_line;
 	int		endian;
 }		t_texture;
+
+
+typedef struct s_player
+{
+	t_coord	pos;
+	float	direction;
+	double	move_speed;
+	t_keys	keys;
+}		t_player;
+
+typedef struct s_monster
+{
+	t_coord		pos;
+	float		direction;
+	double		move_speed;
+	t_keys		keys;
+	t_texture	*texture;
+}		t_monster;
+
+
+typedef struct s_map
+{
+	int		width;
+	int		height;
+	char	**grid;
+	int		scale;
+}		t_map;
 
 typedef struct s_raycast
 {
@@ -103,11 +122,14 @@ typedef struct s_mlx_data
 	t_image		img;
 	t_keys		keys;
 	t_player	player;
+	t_monster	monster;
 	t_map		map;
+	double		z_buffer[1800];
 	t_texture	texture_north;
 	t_texture	texture_south;
 	t_texture	texture_east;
 	t_texture	texture_west;
+	t_texture	texture_monster;
 }		t_mlx_data;
 
 #endif

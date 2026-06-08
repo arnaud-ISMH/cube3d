@@ -44,13 +44,15 @@ int	load_texture(t_mlx_data *data, t_texture *texture, char *path)
 
 int	init_textures(t_mlx_data *data)
 {
-	if (load_texture(data, &data->texture_north, "textures/north.xpm"))
+	if (load_texture(data, &data->texture_north, "textures/eau.xpm"))
 		return (1);
-	if (load_texture(data, &data->texture_south, "textures/south.xpm"))
+	if (load_texture(data, &data->texture_south, "textures/feu.xpm"))
 		return (1);
-	if (load_texture(data, &data->texture_east, "textures/east.xpm"))
+	if (load_texture(data, &data->texture_east, "textures/plante.xpm"))
 		return (1);
-	if (load_texture(data, &data->texture_west, "textures/west.xpm"))
+	if (load_texture(data, &data->texture_west, "textures/electrik.xpm"))
+		return (1);
+	if (load_texture(data, &data->monster.texture[0], "textures/north.xpm"))
 		return (1);
 	return (0);
 }
@@ -62,6 +64,7 @@ int	redraw(t_mlx_data *data)
 	update_player_position(data);
 	draw_map(data);
 	draw_player(data, 0xFFFF00);
+	draw_monster(data, 0xFF0000);
 	draw_minimap_borders(data);
 	raycasting(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
