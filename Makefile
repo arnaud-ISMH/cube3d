@@ -21,7 +21,9 @@ INC_DIR     = includes
 
 SRCS        = srcs/main.c \
 			  srcs/init.c \
-			  srcs/utils.c
+			  srcs/utils.c \
+			  srcs/draw_map.c \
+			  srcs/player.c
 
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
