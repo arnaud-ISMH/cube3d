@@ -6,15 +6,15 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:05:47 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/08 17:04:47 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/09 15:56:17 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cube3d.h"
 
-char	*stock_buff(int fd, char *start_c, char *buff);
-char	*next_line(char *line);
-char	*ft_gen0(void);
+// char	*stock_buff(int fd, char *start_c, char *buff);
+// char	*next_line(char *line);
+// char	*ft_gen0(void);
 
 
 t_list	*ft_lstlast(t_list *lst)
@@ -28,26 +28,7 @@ t_list	*ft_lstlast(t_list *lst)
 		temp = temp->next;
 	return (temp);
 }
-char	*ft_strdup(const char *s)
-{
-	char	*dup;
-	int		i;
 
-	i = 0;
-	while (s[i])
-		i++;
-	dup = malloc(i + 1);
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
 int	ft_lstsize(t_list *lst)
 {
 	int		count;
@@ -110,74 +91,6 @@ int	taille(char const *str)
 		i++;
 	return (i);
 }
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s)
-	{
-		if (*s == (char)(c))
-			return ((char *)s);
-		s++;
-	}
-	if ((char)(c) == '\0')
-		return ((char *)s);
-	return (NULL);
-}
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*sub;
-	size_t	i;
-
-	if (start >= ft_strlen(s))
-		len = 0;
-	else if (len > ft_strlen(s + start))
-		len = ft_strlen(s + start);
-	sub = malloc(sizeof(char) * (len + 1));
-	if (!sub)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		sub[i] = s[start + i];
-		i++;
-	}
-	sub[i] = '\0';
-	return (sub);
-}
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	int		i;
-	int		j;
-	char	*result;
-
-	i = 0;
-	j = 0;
-	result = malloc(sizeof(char) * (taille(s1) + taille(s2) + 1));
-	if (!result)
-		return (NULL);
-	while (s1[i])
-	{
-		result[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-	{
-		result[i + j] = s2[j];
-		j++;
-	}
-	result[i + j] = '\0';
-	return (result);
-}
-
-
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -192,89 +105,177 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
-
-char	*get_next_line(int fd)
+size_t	ft_strlen(const char *str)
 {
-	static char	*start_c;
-	char		*line;
-	char		*buff;
-
-	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-	{
-		free(start_c);
-		free(buff);
-		start_c = NULL;
-		buff = NULL;
-		return (NULL);
-	}
-	if (!buff)
-		return (NULL);
-	line = stock_buff(fd, start_c, buff);
-	free(buff);
-	buff = NULL;
-	if (!line)
-		return (NULL);
-	start_c = next_line(line);
-	return (line);
-}
-
-char	*stock_buff(int fd, char *start_c, char *buff)
-{
-	int		diams;
-	char	*tmp;
-
-	diams = 1;
-	while (diams > 0)
-	{
-		diams = read(fd, buff, BUFFER_SIZE);
-		if (diams == -1)
-		{
-			free(start_c);
-			return (NULL);
-		}
-		else if (diams == 0)
-			break ;
-		buff[diams] = '\0';
-		if (!start_c)
-			start_c = ft_gen0();
-		tmp = start_c;
-		start_c = ft_strjoin(tmp, buff);
-		free(tmp);
-		tmp = NULL;
-		if (ft_strchr(buff, '\n'))
-			break ;
-	}
-	return (start_c);
-}
-
-char	*next_line(char *line)
-{
-	char	*start_c;
-	int		i;
+	size_t	i;
 
 	i = 0;
-	while (line[i] != '\n' && line[i] != '\0')
-		i++;
-	if (line[i] == '\0')
-		return (NULL);
-	start_c = ft_substr(line, i + 1, ft_strlen(line) - i - 1);
-	if (*start_c == '\0')
+	if (str)
 	{
-		free(start_c);
-		start_c = NULL;
+		while (str[i])
+			i++;
 	}
-	line[i + 1] = '\0';
-	return (start_c);
+	return (i);
 }
 
-char	*ft_gen0(void)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
+	int		i;
+	int		j;
 	char	*new;
 
-	new = malloc(1);
+	i = 0;
+	j = 0;
+	new = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!new)
 		return (NULL);
-	*new = '\0';
+	while (s1 && s1[i])
+	{
+		new[i] = s1[i];
+		i++;
+	}
+	while (s2 && s2[j])
+	{
+		new[i + j] = s2[j];
+		j++;
+	}
+	new[i + j] = '\0';
 	return (new);
 }
+
+char	*ft_strdup(const char *s)
+{
+	size_t	i;
+	char	*new;
+
+	if (!s)
+		return (NULL);
+	i = ft_strlen(s);
+	if (!i)
+		return (NULL);
+	new = (char *)malloc(sizeof(char) * (i + 1));
+	if (!new)
+		return (NULL);
+	new[i] = '\0';
+	while (s[i])
+	{
+		i--;
+		new[i] = s[i];
+	}
+	return (new);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] && s[i] != (char)c)
+		i++;
+	if (s[i] == (char)c)
+		return ((char *)s + i);
+	return (NULL);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char			*new;
+	unsigned int	count;
+
+	if (ft_strlen(s) <= start)
+		count = 0;
+	else if (ft_strlen(s + start) < len)
+		count = ft_strlen(s + start);
+	else
+		count = len;
+	new = (char *)malloc(sizeof(char) * (count + 1));
+	if (!new)
+		return (NULL);
+	len = 0;
+	while (count > 0)
+	{
+		new[len] = s[start + len];
+		len++;
+		count--;
+	}
+	new[len] = '\0';
+	return (new);
+}
+
+static char	*nextline(char *res)
+{
+	size_t	i;
+	char	*afternl;
+
+	i = 0;
+	while (res[i] != '\n' && res[i] != '\0')
+		i++;
+	if (res[i] == 0 || res[1] == 0)
+		return (NULL);
+	afternl = ft_substr(res, i + 1, ft_strlen(res) - 1);
+	if (!afternl)
+		return (NULL);
+	if (*afternl == 0)
+	{
+		free(afternl);
+		afternl = NULL;
+	}
+	res[i + 1] = 0;
+	return (afternl);
+}
+
+static char	*find_line(int fd, char *new, char *afternl)
+{
+	int			b_read;
+	char		*tmp;
+
+	b_read = 1;
+	while (b_read > 0)
+	{
+		b_read = read(fd, new, BUFFER_SIZE);
+		if (b_read < 0)
+			return (free(afternl), NULL);
+		else if (b_read == 0)
+			break ;
+		new[b_read] = 0;
+		if (!afternl)
+			afternl = ft_strdup("");
+		tmp = afternl;
+		afternl = ft_strjoin(tmp, new);
+		if (!afternl)
+			return (free(tmp), NULL);
+		free(tmp);
+		tmp = NULL;
+		if (ft_strchr(new, '\n'))
+			break ;
+	}
+	return (afternl);
+}
+
+char	*get_next_line(int fd, int need_free)
+{
+	static char	*afternl = NULL;
+	char		*res;
+	char		*new;
+
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || need_free)
+	{
+		if (afternl)
+		{
+			free(afternl);
+			afternl = NULL;
+		}
+		return (NULL);
+	}	
+	new = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!new)
+		return (NULL);
+	res = find_line(fd, new, afternl);
+	free(new);
+	new = NULL;
+	if (!res)
+		return (free(afternl), NULL);
+	afternl = nextline(res);
+	return (res);
+}
+

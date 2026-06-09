@@ -6,14 +6,13 @@
 #    By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/04 13:32:58 by lchapot           #+#    #+#              #
-#    Updated: 2026/06/08 14:34:29 by lchapot          ###   ########.fr        #
+#    Updated: 2026/06/09 16:26:36 by lchapot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-
 NAME  = cub3d
 
-SRCS := parse.c grid.c init.c map.c utils.c split.c free.c
+SRCS := parse.c grid.c init.c map.c utils.c split.c free.c bonus.c
 
 OBJDIR   := .objs
 SRC_FILES := $(SRCS)
@@ -22,7 +21,7 @@ OBJ_FILES := $(addprefix $(OBJDIR)/,$(notdir $(SRC_FILES:.c=.o)))
 CC = cc
 CFLAGS = -Wall -Wextra -Werror 
 
-HEADER := parsing.h
+HEADER := ../../includes/cube3d.h
 
 GREEN := \033[0;32m
 CYAN := \033[0;36m
@@ -39,7 +38,6 @@ $(NAME): $(OBJ_FILES)
 	@echo "⊹ ࣪ ﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏ ࣪ ˖"
 	@echo -e "$(UBlack)$(On_Green)Executable created ✔$(RESET)"
 
-# Règle générique pour compiler .c → .o dans build/
 $(OBJDIR)/%.o: %.c $(HEADER) Makefile | $(OBJDIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo -e "$(BIG_GREEN)[OK] $(CYAN)Compilation $<$(RESET)"
