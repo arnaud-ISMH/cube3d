@@ -27,8 +27,8 @@ int	init_map(t_mlx_data *data)
 	data->map.grid[1] = "10100001";
 	data->map.grid[2] = "10101001";
 	data->map.grid[3] = "10000001";
-	data->map.grid[4] = "10101101";
-	data->map.grid[5] = "10001101";
+	data->map.grid[4] = "10101011";
+	data->map.grid[5] = "10001011";
 	data->map.grid[6] = "10000001";
 	data->map.grid[7] = "10000001";
 	data->map.grid[8] = "10000001";

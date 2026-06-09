@@ -23,15 +23,6 @@ int	put_pixel(t_image *img, int x, int y, unsigned int color)
 	return (1);
 }
 
-void	moove_monster(t_mlx_data *data)
-{
-	if (data->monster.keys.w || data->monster.keys.a || data->monster.keys.s || data->monster.keys.d)
-		return ;
-	data->monster.keys.w = true;
-	update_monster_position(data);
-	data->monster.keys.w = false;
-}
-
 int	key_press(int keysym, t_mlx_data *data)
 {
 	ft_printf("The %d key has been pressed\n\n", keysym); // Debug
@@ -49,8 +40,22 @@ int	key_press(int keysym, t_mlx_data *data)
 		data->player.keys.left = true;
 	if (keysym == XK_Right)
 		data->player.keys.right = true;
-	if (keysym == XK_space)
-		moove_monster(data);
+	if ((int)data->player.pos.x % 10 < 5)
+		data->monster.keys.w = true;
+	else
+		data->monster.keys.w = false;
+	if ((int)data->player.pos.x % 10 >= 5)
+		data->monster.keys.s = true;
+	else
+		data->monster.keys.s = false;
+	if ((int)data->player.pos.y % 10 < 5)
+		data->monster.keys.a = true;
+	else
+		data->monster.keys.a = false;
+	if ((int)data->player.pos.y % 10 >= 5)
+		data->monster.keys.d = true;
+	else
+		data->monster.keys.d = false;
 	return (0);
 }
 
@@ -70,4 +75,13 @@ int	key_release(int keysym, t_mlx_data *data)
 	if (keysym == XK_Right)
 		data->player.keys.right = false;
 	return (0);
+}
+
+long long	get_time_in_ms(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	// (secondes * 1000) + (microsecondes / 1000)
+	return (((long long)tv.tv_sec * 1000) + ((long long)tv.tv_usec / 1000));
 }

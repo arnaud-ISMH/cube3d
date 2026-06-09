@@ -223,5 +223,7 @@ void	raycasting(t_mlx_data *data)
 		draw_rays_minimap(data, ray); // On trace une ligne de points entre le joueur et le mur sur la minimap
 		i++;
 	}
-	render_single_monster(data, &data->monster);
+	/* render_single_monster(data, &data->monster); */
+	animate_and_render_monsters(data);
+	
 }

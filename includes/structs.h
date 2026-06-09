@@ -75,6 +75,7 @@ typedef struct s_monster
 	double		move_speed;
 	t_keys		keys;
 	t_texture	*texture;
+	t_texture	*current_tex;
 }		t_monster;
 
 

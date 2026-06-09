@@ -17,7 +17,7 @@ void	init_monster(t_mlx_data *data)
 	data->monster.pos.x = 5.5;
 	data->monster.pos.y = 9.5;
 	data->monster.direction = 0.0f;
-	data->monster.move_speed = 0.02; // Vitesse adaptée à la grille 1x1
+	data->monster.move_speed = 0.01; // Vitesse adaptée à la grille 1x1
 	data->monster.keys.w = false;
 	data->monster.keys.a = false;
 	data->monster.keys.s = false;
@@ -69,12 +69,12 @@ void    draw_monster_stripe(t_mlx_data *data, t_monster *monster, int stripe, in
 
         // Règle de trois pour trouver le pixel Y sur la texture du monstre
         d = (y) * 256 - WIN_H * 128 + sprite_dim * 128;
-        tex_y = ((d * monster->texture->height) / sprite_dim) / 256;
+        tex_y = ((d * monster->current_tex->height) / sprite_dim) / 256;
         if (tex_y < 0) tex_y = 0;
 
         // On pioche le pixel dans la texture du monstre
-        tex_offset = (tex_y * monster->texture->size_line) + (tex_x * (monster->texture->bpp / 8));
-        color = *(unsigned int *)(monster->texture->img_data + tex_offset);
+        tex_offset = (tex_y * monster->current_tex->size_line) + (tex_x * (monster->current_tex->bpp / 8));
+        color = *(unsigned int *)(monster->current_tex->img_data + tex_offset);
 
         // TRÈS IMPORTANT : On ne dessine pas si la couleur est invisible (ex: noir 0x000000 ou une couleur transparente)
         // Et on vérifie le Z-BUFFER pour voir si le monstre n'est pas caché derrière un mur !
@@ -86,6 +86,34 @@ void    draw_monster_stripe(t_mlx_data *data, t_monster *monster, int stripe, in
     }
 }
 
+void	animate_and_render_monsters(t_mlx_data *data)
+{
+	long long	current_time;
+	t_texture	*current_tex;
+
+	// 1. On prend "l'heure" actuelle en millisecondes
+	current_time = get_time_in_ms();
+
+	// 2. On divise le temps par 300 (la vitesse de l'anim) 
+	// et on fait "% 2" pour obtenir soit 0, soit 1.
+	if ((current_time / 300) % 2 == 0)
+		current_tex = &data->monster.texture[0];
+	else
+		current_tex = &data->monster.texture[1];
+
+	// 3. On applique cette texture à nos monstres avant de les dessiner
+	/* int			i; */
+	/* i = 0; */
+	/* while (i < data->nb_monsters) */
+	/* { */
+	/* 	data->monster[i].texture = current_tex; */
+	/* 	render_single_monster(data, &data->monster[i]); */
+	/* 	i++; */
+	/* } */
+	data->monster.current_tex = current_tex;
+	render_single_monster(data, &data->monster);
+
+}
 void    render_single_monster(t_mlx_data *data, t_monster *monster)
 {
     // 1. Calcul de la position relative du monstre par rapport au joueur
@@ -130,7 +158,7 @@ void    render_single_monster(t_mlx_data *data, t_monster *monster)
     while (stripe < draw_end_x)
     {
         // Règle de trois pour trouver la colonne X correspondante sur la texture
-        int tex_x = (int)(256 * (stripe - (-sprite_dim / 2 + sprite_screen_x)) * monster->texture->width / sprite_dim) / 256;
+        int tex_x = (int)(256 * (stripe - (-sprite_dim / 2 + sprite_screen_x)) * monster->current_tex->width / sprite_dim) / 256;
         if (tex_x < 0) tex_x = 0;
 
         // On dessine la ligne verticale si le monstre est devant le mur
@@ -171,18 +199,18 @@ void	update_monster_position(t_mlx_data *data)
 		next_y += sin(data->monster.direction + M_PI_2) * data->monster.move_speed;
 	}
 
-	// Détection avec un petit buffer de recul (0.1 case) pour ne pas traverser les coins
+	// Détection avec un petit buffer de recul (0.5 case) pour ne pas traverser les coins
 	if (next_x > data->monster.pos.x)
-		buffer = 0.1;
+		buffer = 0.5;
 	else
-		buffer = - 0.1;
+		buffer = - 0.5;
 	if (!is_wall(data, next_x + buffer, data->monster.pos.y))
 		data->monster.pos.x = next_x;
 	
 	if (next_y > data->monster.pos.y)
-		buffer = 0.1;
+		buffer = 0.5;
 	else
-		buffer = - 0.1;
+		buffer = - 0.5;
 	if (!is_wall(data, data->monster.pos.x, next_y + buffer))
 		data->monster.pos.y = next_y;
 
@@ -199,5 +227,3 @@ void	update_monster_position(t_mlx_data *data)
 			data->monster.direction -= 2 * M_PI;
 	}
 }
-
-

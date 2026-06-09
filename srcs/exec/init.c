@@ -52,7 +52,9 @@ int	init_textures(t_mlx_data *data)
 		return (1);
 	if (load_texture(data, &data->texture_west, "textures/electrik.xpm"))
 		return (1);
-	if (load_texture(data, &data->monster.texture[0], "textures/north.xpm"))
+	if (load_texture(data, &data->monster.texture[0], "textures/broly.xpm"))
+		return (1);
+	if (load_texture(data, &data->monster.texture[1], "textures/north.xpm"))
 		return (1);
 	return (0);
 }

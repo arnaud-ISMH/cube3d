@@ -19,11 +19,13 @@
 # include <X11/keysym.h>
 # include <X11/X.h>
 # include <math.h>
+#include <sys/time.h>
 # include "../srcs/parsing/parsing.h"
 
 int			close_win(t_mlx_data *data);
 int			redraw(t_mlx_data *data);
 t_mlx_data	minilibx_process(void);
+long long	get_time_in_ms(void);
 
 int			put_pixel(t_image *img, int x, int y, unsigned int color);
 int			key_press(int keysym, t_mlx_data *data);
@@ -40,6 +42,7 @@ void		draw_monster_stripe(t_mlx_data *data, t_monster *monster, int stripe, int 
 void		render_single_monster(t_mlx_data *data, t_monster *monster);
 int			init_monster_tex(t_mlx_data *data);
 void		update_monster_position(t_mlx_data *data);
+void		animate_and_render_monsters(t_mlx_data *data);
 
 void		draw_map(t_mlx_data *data);
 int			init_map(t_mlx_data *data);
