@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:04:29 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/10 13:55:34 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/10 14:10:17 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	*ft_memset(void *s, int c, size_t n)
 	return (s);
 }
 
-void fill_map(t_parsing *parsing, t_list *map_lst) //remplacer les 32 exterieur par des 0, et suppr le \n
+void fill_map(t_parsing *parsing, t_list *map_lst)
 {
 	t_list	*tmp;
 	int		i;
@@ -70,7 +70,7 @@ void fill_map(t_parsing *parsing, t_list *map_lst) //remplacer les 32 exterieur 
 		i++;
 	}
 	parsing->map.grid[i] = NULL;
-	i = 0; //reprint map
+	i = 0; //reprint map a del
 	while (parsing->map.grid[i])
 	{
 		printf("[%s]\n", parsing->map.grid[i]);

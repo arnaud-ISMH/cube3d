@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:14:05 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/10 13:48:11 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/10 14:18:03 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	flood_fill(t_map *map, int x, int y) //D = mur, X= traversable?
 		return (1);
 	map->grid[y][x] = 'X'; 
 	return (flood_fill(map, x + 1, y) && flood_fill(map, x - 1, y) &&
-			flood_fill(map, x, y + 1) && flood_fill(map, x, y - 1)); //renvoie 1 si tout renvoie 1
+			flood_fill(map, x, y + 1) && flood_fill(map, x, y - 1));
 }
 
 int	ft_forbidden(char c)
@@ -59,7 +59,7 @@ int	check_map(t_parsing *parsing, int fd, char *line)
 	{
 		parsing->map.width = max(parsing->map.width, (ft_strlen(line) - 1));
 		parsing->map.height++;
-		ft_lstadd_back(&map_lst, ft_lstnew(line)); //free line pas poss sinon jperds mon content? securiser le lstnew?
+		ft_lstadd_back(&map_lst, ft_lstnew(line));
 		line = get_next_line(fd, 0);
 	}
 	fill_map(parsing, map_lst);
@@ -67,7 +67,7 @@ int	check_map(t_parsing *parsing, int fd, char *line)
 	if (!parse_map(parsing))
 		return (get_next_line(fd, 1), printerr("Map error\n"), 0);
 	if (!flood_fill(&parsing->map, parsing->player_x, parsing->player_y))
-		return (get_next_line(fd, 1), printerr("Map is not closed\n"), 0); //free parsing plus tard
+		return (get_next_line(fd, 1), printerr("Map is not closed\n"), 0);
 	return (1);
 }
 
