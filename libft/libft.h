@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adeflers <adeflers@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:12:43 by adeflers          #+#    #+#             */
-/*   Updated: 2025/05/06 19:20:25 by adeflers         ###   ########.fr       */
+/*   Updated: 2026/06/09 15:58:18 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,6 @@ int				ft_print_percent(void);
 #  define BUFFER_SIZE 10
 # endif
 
-char			*get_next_line(int fd);
+// char			*get_next_line(int fd);
 
 #endif

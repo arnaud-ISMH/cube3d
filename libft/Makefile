@@ -6,7 +6,7 @@
 #    By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/06 05:10:22 by adeflers          #+#    #+#              #
-#    Updated: 2026/06/08 14:56:21 by lchapot          ###   ########.fr        #
+#    Updated: 2026/06/09 13:59:30 by lchapot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,10 +41,10 @@ $(NAME) : $(OBJS)
 	@ar -rcs $(NAME) $(OBJS)
 
 clean :
-	rm -f $(OBJS) 
+	@rm -f $(OBJS) 
 
 fclean : clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re :	fclean all
 
