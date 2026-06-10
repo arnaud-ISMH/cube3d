@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:44:44 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/08 16:51:56 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/09 13:40:27 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,27 +123,20 @@ int	mouse_move(int x, int y, t_mlx_data *data)
 	int		center_x;
 	int		delta_x;
 	double	sensitivity;
-
 	(void)y; // On ignore l'axe Y pour l'instant (pas de regard haut/bas)
 	
 	center_x = WIN_W / 2;
 	if (x == center_x)
 		return (0);
-
 	// Sensibilité de la souris (plus le chiffre est petit, plus la rotation est lente/précise)
 	sensitivity = 0.002;
-
 	// Calcul de la distance parcourue depuis le centre
 	delta_x = x - center_x;
-
 	data->player.direction += delta_x * sensitivity;
-
 	if (data->player.direction < 0)
 		data->player.direction += 2 * M_PI;
 	else if (data->player.direction >= 2 * M_PI)
 		data->player.direction -= 2 * M_PI;
-
 	mlx_mouse_move(data->mlx, data->win, WIN_W / 2, WIN_H / 2);
-
 	return (0);
 }

@@ -6,37 +6,37 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:56:18 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/08 16:53:00 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/10 14:19:19 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube3d.h"
 
-// int	init_map(t_mlx_data *data)
-// {
-// 	data->map.width = 8;
-// 	data->map.height = 12;
-// 	data->map.grid = malloc(sizeof(char *) * data->map.height);
-// 	if (!data->map.grid)
-// 		return (1);
-// 	if (data->map.width >= data->map.height)
-// 		data->map.scale = (WIN_W / 4 / data->map.width);
-// 	else
-// 		data->map.scale = (WIN_H / 4 / data->map.height);
-// 	data->map.grid[0] = "11111111";
-// 	data->map.grid[1] = "10100001";
-// 	data->map.grid[2] = "10101001";
-// 	data->map.grid[3] = "10000001";
-// 	data->map.grid[4] = "10101101";
-// 	data->map.grid[5] = "10001101";
-// 	data->map.grid[6] = "10000001";
-// 	data->map.grid[7] = "10000001";
-// 	data->map.grid[8] = "10000001";
-// 	data->map.grid[9] = "10000001";
-// 	data->map.grid[10] = "10000001";
-// 	data->map.grid[11] = "11111111";
-// 	return (0);
-// }
+int	init_map(t_mlx_data *data)
+{
+	data->map.width = 8; //data->parsing->map.width;
+	data->map.height = 12; //data->parsing->map.height;
+	// data->map.grid = malloc(sizeof(char *) * data->map.height);
+	// if (!data->map.grid)
+	// 	return (1);
+	if (data->map.width >= data->map.height)
+		data->map.scale = (WIN_W / 4 / data->map.width);
+	else
+		data->map.scale = (WIN_H / 4 / data->map.height);
+	// data->map.grid[0] = "11111111";
+	// data->map.grid[1] = "10100001";
+	// data->map.grid[2] = "10101001";
+	// data->map.grid[3] = "10000001";
+	// data->map.grid[4] = "10101101";
+	// data->map.grid[5] = "10001101";
+	// data->map.grid[6] = "10000001";
+	// data->map.grid[7] = "10000001";
+	// data->map.grid[8] = "10000001";
+	// data->map.grid[9] = "10000001";
+	// data->map.grid[10] = "10000001";
+	// data->map.grid[11] = "11111111";
+	return (0);
+}
 
 void	draw_map(t_mlx_data *data)
 {
