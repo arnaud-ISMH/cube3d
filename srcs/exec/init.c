@@ -44,27 +44,50 @@ int	load_texture(t_mlx_data *data, t_texture *texture, char *path)
 
 int	init_textures(t_mlx_data *data)
 {
-	if (load_texture(data, &data->texture_north, "textures/north.xpm")) //changer en data->parsing->no;
+	if (load_texture(data, &data->texture_north, "textures/eau.xpm"))
 		return (1);
-	if (load_texture(data, &data->texture_south, "textures/south.xpm"))//changer en data->parsing->so;
+	if (load_texture(data, &data->texture_south, "textures/feu.xpm"))
 		return (1);
-	if (load_texture(data, &data->texture_east, "textures/east.xpm"))//changer en data->parsing->ea;
+	if (load_texture(data, &data->texture_east, "textures/plante.xpm"))
 		return (1);
-	if (load_texture(data, &data->texture_west, "textures/west.xpm"))//changer en data->parsing->we;
+	if (load_texture(data, &data->texture_west, "textures/electrik.xpm"))
 		return (1);
-	/* if (load_texture(data, &data->texture_north, "textures/eau.xpm")) */
-	/* 	return (1); */
-	/* if (load_texture(data, &data->texture_south, "textures/feu.xpm")) */
-	/* 	return (1); */
-	/* if (load_texture(data, &data->texture_east, "textures/plante.xpm")) */
-	/* 	return (1); */
-	/* if (load_texture(data, &data->texture_west, "textures/electrik.xpm")) */
-	/* 	return (1); */
 	if (load_texture(data, &data->monster.texture[0], "textures/broly.xpm"))
 		return (1);
 	if (load_texture(data, &data->monster.texture[1], "textures/north.xpm"))
 		return (1);
-	return (0);
+
+	/* if (load_texture(data, &data->texture_north, "textures/north.xpm")) //changer en data->parsing->no; */
+	/* 	return (1); */
+	/* if (load_texture(data, &data->texture_south, "textures/south.xpm"))//changer en data->parsing->so; */
+	/* 	return (1); */
+	/* if (load_texture(data, &data->texture_east, "textures/east.xpm"))//changer en data->parsing->ea; */
+	/* 	return (1); */
+	/* if (load_texture(data, &data->texture_west, "textures/west.xpm"))//changer en data->parsing->we; */
+	/* 	return (1); */
+
+	// 1. Chargement des murs avec les chemins récupérés par le parsing
+	/* if (load_texture(data, &data->texture_north, data->parsing->no)) */
+	/* 	return (1); */
+	/* if (load_texture(data, &data->texture_south, data->parsing->so)) */
+	/* 	return (1); */
+	/* if (load_texture(data, &data->texture_west, data->parsing->we)) */
+	/* 	return (1); */
+	/* if (load_texture(data, &data->texture_east, data->parsing->ea)) */
+	/* 	return (1); */
+
+	// 2. Chargement de la texture du monstre (chemin en dur pour le moment ou data->parsing->t1)
+	/* if (data->parsing->t1) */
+	/* { */
+	/* 	if (load_texture(data, &data->texture_monster, data->parsing->t1)) */
+	/* 		return (1); */
+	/* } */
+    
+    // ON UTILISE LES TEXTURES GLOBALEMENT DÉCLARÉES DANS DATA
+    /* if (load_texture(data, &data->texture_monster, "textures/broly.xpm")) */
+    /*     return (1); */
+
+    return (0);
 }
 
 int	redraw(t_mlx_data *data)

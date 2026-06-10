@@ -47,12 +47,6 @@ typedef struct s_keys
 	bool right;
 }   t_keys;
 
-// typedef struct s_pos
-// {
-// 	int x;
-// 	int y;
-// }
-
 typedef struct s_coord
 {
 	double	x;
@@ -77,7 +71,7 @@ typedef struct s_monster
 	float		direction;
 	double		move_speed;
 	t_keys		keys;
-	t_texture	*texture;
+	t_texture	texture[2];
 	t_texture	*current_tex;
 }		t_monster;
 

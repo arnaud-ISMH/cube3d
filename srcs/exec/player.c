@@ -14,16 +14,33 @@
 
 void	init_player(t_mlx_data *data)
 {
-	data->player.pos.x = 1.5; // = data->parsing->player_x;
-	data->player.pos.y = 5.5;// = data->parsing->player_y;
-	data->player.direction = 0.0f; // = data->parsing->player_orientation;
-	data->player.move_speed = 0.02; // Vitesse adaptée à la grille 1x1
-	data->player.keys.w = false;
-	data->player.keys.a = false;
-	data->player.keys.s = false;
-	data->player.keys.d = false;
-	data->player.keys.left = false;
-	data->player.keys.right = false;
+	/* data->player.pos.x = 1.5; // = data->parsing->player_x; */
+	/* data->player.pos.y = 5.5;// = data->parsing->player_y; */
+	/* data->player.direction = 0.0f; // = data->parsing->player_orientation; */
+	/* data->player.move_speed = 0.02; // Vitesse adaptée à la grille 1x1 */
+	/* data->player.keys.w = false; */
+	/* data->player.keys.a = false; */
+	/* data->player.keys.s = false; */
+	/* data->player.keys.d = false; */
+	/* data->player.keys.left = false; */
+	/* data->player.keys.right = false; */
+	
+	data->player.pos.x = data->parsing->player_x + 0.5;
+	data->player.pos.y = data->parsing->player_y + 0.5;
+	/* printf("Player starting position: (%.2f, %.2f)\n", data->player.pos.x, data->player.pos.y); // Debug */
+	data->player.move_speed = 0.05;
+	
+	// Conversion de la lettre de départ en radians pour le raycasting
+	if (data->parsing->player_orientation == 'N')
+		data->player.direction = 3.0 * M_PI / 2.0; // 270°
+	else if (data->parsing->player_orientation == 'S')
+		data->player.direction = M_PI / 2.0;       // 90°
+	else if (data->parsing->player_orientation == 'E')
+		data->player.direction = 0.0;              // 0°
+	else if (data->parsing->player_orientation == 'W')
+		data->player.direction = M_PI;             // 180°
+	
+	ft_bzero(&data->player.keys, sizeof(t_keys));
 }
 
 void	draw_player(t_mlx_data *data, unsigned int color)

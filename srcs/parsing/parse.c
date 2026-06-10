@@ -176,16 +176,16 @@ t_parsing *check_args(int ac, char **av)
 	return (parsing);
 }
 
-int main(int ac, char **av)
-{
-	t_parsing *parsing;
-
-	if (ac != 2)
-		return (0);
-	parsing = check_args(ac, av);
-	//launch exec
-	// printf("monster nbr door nbr %i %i\n", parsing->monster_count, parsing->door_count);
-	free_parsing(parsing); //a suppr
-	return (1);
-}
+/* int main(int ac, char **av) */
+/* { */
+/* 	t_parsing *parsing; */
+/**/
+/* 	if (ac != 2) */
+/* 		return (0); */
+/* 	parsing = check_args(ac, av); */
+/* 	//launch exec */
+/* 	// printf("monster nbr door nbr %i %i\n", parsing->monster_count, parsing->door_count); */
+/* 	free_parsing(parsing); //a suppr */
+/* 	return (1); */
+/* } */
 

@@ -18,11 +18,11 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 		return (1);
-	check_args(ac, av);
 	data = malloc(sizeof(t_mlx_data));
 	if (!data)
 		return (1);
 	*data = minilibx_process();
+	data->parsing = check_args(ac, av);
 	init_player(data);
 	init_monster(data);
 	if (init_map(data))

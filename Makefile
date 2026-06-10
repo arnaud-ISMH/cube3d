@@ -12,7 +12,7 @@
 
 NAME        = cube3D
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror -g3
+CFLAGS      = -Wall -Wextra -Werror -g3 #-fsanitize=address
 
 # Dossiers et Fichiers
 SRC_DIR     = .
@@ -32,7 +32,8 @@ SRCS        = srcs/main.c \
 			  srcs/parsing/map.c \
 			  srcs/parsing/utils.c \
 			  srcs/parsing/split.c \
-			  srcs/parsing/free.c
+			  srcs/parsing/free.c \
+			  srcs/parsing/bonus.c
 
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 

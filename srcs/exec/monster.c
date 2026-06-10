@@ -14,7 +14,7 @@
 
 void	init_monster(t_mlx_data *data)
 {
-	data->monster.pos.x = 5.5;
+	data->monster.pos.x = 25.5;
 	data->monster.pos.y = 9.5;
 	data->monster.direction = 0.0f;
 	data->monster.move_speed = 0.01; // Vitesse adaptée à la grille 1x1
@@ -24,7 +24,7 @@ void	init_monster(t_mlx_data *data)
 	data->monster.keys.d = false;
 	data->monster.keys.left = false;
 	data->monster.keys.right = false;
-	data->monster.texture = &data->texture_monster;
+	/* data->monster.texture = data->texture_monster; */
 }
 
 void	draw_monster(t_mlx_data *data, unsigned int color)

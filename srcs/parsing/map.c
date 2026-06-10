@@ -92,7 +92,10 @@ int	parse_chara(t_parsing *parsing, int x, int y)
 	if (isok == 3 && !check_door(parsing, x, y))
 		return (0);
 	if (isok == 4)
-		parsing->monster[parsing->monster_count++] = (t_monster){x, y};
+	{
+		parsing->monster->pos.x = x;
+		parsing->monster->pos.y = y;
+	}
 	return (1);	
 }
 
