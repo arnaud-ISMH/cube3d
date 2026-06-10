@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:04:29 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/10 12:12:06 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/10 13:55:34 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void fill_map(t_parsing *parsing, t_list *map_lst) //remplacer les 32 exterieur 
 	i = 0; //reprint map
 	while (parsing->map.grid[i])
 	{
-		printf("[%s]", parsing->map.grid[i]);
+		printf("[%s]\n", parsing->map.grid[i]);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:14:05 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/10 13:30:41 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/10 13:48:11 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_forbidden(char c)
 	return (2);
 }
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+void	ft_lstclear(t_list **lst, void (*del)(void *)) //a suppr libft
 {
 	t_list	*temp;
 
@@ -71,7 +71,7 @@ int	check_map(t_parsing *parsing, int fd, char *line)
 	return (1);
 }
 
-static int	set_player(t_parsing *parsing, int x, int y, char c)
+int	set_player(t_parsing *parsing, int x, int y, char c)
 {
 	if (parsing->player_x != -1)
 		return (printerr("Multiple player\n"), 0);
@@ -92,7 +92,7 @@ int	parse_chara(t_parsing *parsing, int x, int y)
 	if (isok == 3 && !check_door(parsing, x, y))
 		return (0);
 	if (isok == 4)
-		new_monster(parsing, x, y, parsing->monster_count++);
+		parsing->monster[parsing->monster_count++] = (t_monster){x, y};
 	return (1);	
 }
 
@@ -109,7 +109,7 @@ int	parse_map(t_parsing *parsing)
 		parsing->door = malloc(sizeof(t_door) * ndoors);
 	if (nmonsters)
 		parsing->monster = malloc(sizeof(t_monster) * nmonsters);
-	if (!parsing->door || !parsing->monster)
+	if ((ndoors && !parsing->door) || (nmonsters && !parsing->monster))
 		return (printerr("Malloc error\n"), 0);
 	ndoors = -1;
 	while (parsing->map.grid[++ndoors])

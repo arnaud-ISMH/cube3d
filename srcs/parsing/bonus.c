@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 16:22:40 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/10 13:17:53 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/10 13:42:31 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,3 @@ int check_door(t_parsing *parsing, int x, int y)
 	return (printerr("Invalid door placement\n"), 0);
 }
 
-int new_monster(t_parsing *parsing, char *line, int i, int monster) //a allouer
-{
-    printf("nbr monster = %i, pos x = %i pos y = %i\n", monster, line[i], parsing->map.height - 1);
-    parsing->monster[monster].x = line[i];
-    parsing->monster[monster].y = parsing->map.height - 1;
-    return (1);
-}

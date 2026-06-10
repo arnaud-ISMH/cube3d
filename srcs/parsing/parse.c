@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/09 17:57:23 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/10 13:56:36 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,11 +156,10 @@ int	read_file(char *arg, t_parsing *parsing)
 		return (close(fd), free(line), printerr("Missing texture or color\n"), 0);
 	if (!check_map(parsing, fd, line))
 		return(close(fd), free_parsing(parsing), 0); //free(line) deja fait dans check map normalement
-	free_parsing(parsing);//a retirer apres c pr simuler une fin
 	return (close(fd), 1);
 }
 
-void	check_args(int ac, char **av)
+t_parsing *check_args(int ac, char **av)
 {
 	int ext = 0;
 	t_parsing *parsing;
@@ -174,14 +173,19 @@ void	check_args(int ac, char **av)
 	parsing = init_parsing();
 	if (!read_file(av[1], parsing))
 		exit(1);
+	return (parsing);
 }
 
 int main(int ac, char **av)
 {
+	t_parsing *parsing;
+
 	if (ac != 2)
 		return (0);
-	check_args(ac, av);
+	parsing = check_args(ac, av);
 	//launch exec
+	printf("monster nbr door nbr %i %i\n", parsing->monster_count, parsing->door_count);
+	free_parsing(parsing); //a suppr
 	return (1);
 }
 
