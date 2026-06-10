@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 23:32:17 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/08 17:49:27 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/10 13:14:52 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ typedef struct s_map
 	int		width;
 	int		height;
 	char	**grid;
+	int scale;
 }		t_map;
-
 
 typedef struct	s_color
 {
@@ -31,20 +31,36 @@ typedef struct	s_color
 	int b;
 }	t_color;
 
+typedef struct s_door
+{
+    int     x;
+    int     y;
+    int     open;  // 0 fermée, 1 ouverte
+}   t_door;
+
+typedef struct s_monster
+{
+	int	x;
+	int	y;
+}	t_monster;
+
 typedef struct	s_parsing
 {
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
-	t_color	f;
-	t_color	c;
-	int 	player_x;
-	int 	player_y;
-	char 	player_orientation;
-	t_map	map;
+	char		*no;
+	char		*so;
+	char		*we;
+	char		*ea;
+	t_color		f;
+	t_color		c;
+	int 		player_x;
+	int 		player_y;
+	char 		player_orientation;
+	t_map		map;
+	t_door		*door;
+	int			door_count;
+	t_monster	*monster;
+	int			monster_count;
 }	t_parsing;
-
 
 typedef struct s_image
 {
@@ -65,10 +81,17 @@ typedef struct s_keys
 	bool right;
 }   t_keys;
 
+// typedef struct s_pos
+// {
+// 	int x;
+// 	int y;
+// }
+
 typedef struct s_player
 {
 	int		x;
 	int		y;
+	int 	pos;
 	float	direction;
 	int		move_speed;
 	t_keys	keys;
@@ -123,6 +146,11 @@ typedef struct s_mlx_data
 	t_player	player;
 	t_map		map;
 	t_parsing	*parsing;
+	t_raycast	*raycast;
+	t_texture	texture_south;
+	t_texture	texture_north;
+	t_texture	texture_west;
+	t_texture	texture_east;
 }		t_mlx_data;
 
 #endif
