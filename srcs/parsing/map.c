@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:14:05 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/09 18:21:17 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/10 13:30:41 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,48 +53,73 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 
 int	check_map(t_parsing *parsing, int fd, char *line)
 {
-	int player = 0;
-	int isok;
-	int i;
 	t_list *map_lst = NULL;
 
 	while (line)
 	{
 		parsing->map.width = max(parsing->map.width, (ft_strlen(line) - 1));
 		parsing->map.height++;
-		// printf("width %i, height %i, isok %i\n", parsing->map.width, parsing->map.height, isok);
-		i = 0;
-		while (line[i] != '\n' && line[i] != '\0') 
-		{
-			isok = ft_forbidden(line[i]);
-			if (isok == 1)
-			{
-				if (player)
-					return (free(line), get_next_line(fd, 1), ft_lstclear(&map_lst, free), printerr("Multiple player\n"), 0);
-				else
-				{
-					parsing->player_x = i;
-					parsing->player_y = parsing->map.height - 1;
-					parsing->player_orientation = line[i];
-					player = 1;
-				}
-			}
-			if (isok == 2)
-				return (free(line), get_next_line(fd, 1), ft_lstclear(&map_lst, free), printerr("Forbidden character\n"), 0);
-			if (isok == 3)
-				check_door(parsing, line, i); //creer map dabord?
-			if (isok == 4)
-				new_monster(parsing, line, i); //ca ok chill
-			i++;
-		}
 		ft_lstadd_back(&map_lst, ft_lstnew(line)); //free line pas poss sinon jperds mon content? securiser le lstnew?
 		line = get_next_line(fd, 0);
 	}
-	if (!player)
-		return (free(line), get_next_line(fd, 1), ft_lstclear(&map_lst, free), printerr("No player\n"), 0);
 	fill_map(parsing, map_lst);
 	ft_lstclear(&map_lst, free);
+	if (!parse_map(parsing))
+		return (get_next_line(fd, 1), printerr("Map error\n"), 0);
 	if (!flood_fill(&parsing->map, parsing->player_x, parsing->player_y))
-		return (get_next_line(fd, 1), printerr("Map is not closed\n"), 0); //free parsing ?
+		return (get_next_line(fd, 1), printerr("Map is not closed\n"), 0); //free parsing plus tard
+	return (1);
+}
+
+static int	set_player(t_parsing *parsing, int x, int y, char c)
+{
+	if (parsing->player_x != -1)
+		return (printerr("Multiple player\n"), 0);
+	parsing->player_x = x;
+	parsing->player_y = y;
+	parsing->player_orientation = c;
+	return (1);
+}
+int	parse_chara(t_parsing *parsing, int x, int y)
+{
+	int	isok;
+
+	isok = ft_forbidden(parsing->map.grid[y][x]);
+	if (isok == 1 && !set_player(parsing, x, y, parsing->map.grid[y][x]))
+		return (0);
+	if (isok == 2)
+		return (printerr("Forbidden character\n"), 0);
+	if (isok == 3 && !check_door(parsing, x, y))
+		return (0);
+	if (isok == 4)
+		new_monster(parsing, x, y, parsing->monster_count++);
+	return (1);	
+}
+
+int	parse_map(t_parsing *parsing)
+{
+	int	ndoors;
+	int	nmonsters;
+
+	ndoors = 0;
+	nmonsters = 0;
+	parsing->player_x = -1;
+	count_entities(parsing, &ndoors, &nmonsters);
+	if (ndoors)
+		parsing->door = malloc(sizeof(t_door) * ndoors);
+	if (nmonsters)
+		parsing->monster = malloc(sizeof(t_monster) * nmonsters);
+	if (!parsing->door || !parsing->monster)
+		return (printerr("Malloc error\n"), 0);
+	ndoors = -1;
+	while (parsing->map.grid[++ndoors])
+	{
+		nmonsters = -1;
+		while (parsing->map.grid[ndoors][++nmonsters])
+			if (!parse_chara(parsing, nmonsters, ndoors))
+				return (0);
+	}
+	if (parsing->player_x == -1)
+		return (printerr("No player\n"), 0);
 	return (1);
 }
