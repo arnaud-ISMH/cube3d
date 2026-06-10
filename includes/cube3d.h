@@ -15,7 +15,6 @@
 
 # include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
-# include "parsing.h"
 # include "structs.h"
 # include <X11/keysym.h>
 # include <X11/X.h>
@@ -23,17 +22,12 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-
-# ifndef WIN_W
-#  define WIN_W 1800.0
-# endif
-# ifndef WIN_H
-#  define WIN_H 1000.0
-# endif
+#include <sys/time.h>
 
 int			close_win(t_mlx_data *data);
 int			redraw(t_mlx_data *data);
 t_mlx_data	minilibx_process(void);
+long long	get_time_in_ms(void);
 
 int			put_pixel(t_image *img, int x, int y, unsigned int color);
 int			key_press(int keysym, t_mlx_data *data);
@@ -43,6 +37,14 @@ void		draw_player(t_mlx_data *data, unsigned int color);
 void		init_player(t_mlx_data *data);
 void		update_player_position(t_mlx_data *data);
 int			mouse_move(int x, int y, t_mlx_data *data);
+
+void		init_monster(t_mlx_data *data);
+void		draw_monster(t_mlx_data *data, unsigned int color);
+void		draw_monster_stripe(t_mlx_data *data, t_monster *monster, int stripe, int tex_x, double transform_y, int sprite_dim, int draw_start_y, int draw_end_y);
+void		render_single_monster(t_mlx_data *data, t_monster *monster);
+int			init_monster_tex(t_mlx_data *data);
+void		update_monster_position(t_mlx_data *data);
+void		animate_and_render_monsters(t_mlx_data *data);
 
 void		draw_map(t_mlx_data *data);
 int			init_map(t_mlx_data *data);
@@ -62,5 +64,43 @@ void		draw_tex_on_wall(t_mlx_data *data, t_raycast *ray, int i);
 
 int			init_textures(t_mlx_data *data);
 int			load_texture(t_mlx_data *data, t_texture *texture, char *path);
+
+/*GRID*/
+void		fill_map(t_parsing *parsing, t_list *map_list);
+/*MAP*/
+int			check_map(t_parsing *parsing, int fd, char *line);
+int			ft_forbidden(char c);
+int			flood_fill(t_map *map, int x, int y);
+int         parse_map(t_parsing *parsing);
+/*PARSING*/
+int			check_color(t_parsing *parsing, char *line, char color);
+int			check_texture(t_parsing *parsing, char *line, char texture);
+t_parsing   *check_args(int ac, char **av);
+int			read_file(char *arg, t_parsing *parsing);
+int			is_identifier_free(t_parsing *parsing, char *line);
+/*UTILS*/
+void		printerr(char *msg);
+int			max(int a, int b);
+/*INIT*/
+t_parsing	*init_parsing(void);
+size_t		ft_strlen(const char *s);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+char	    *get_next_line(int fd, int need_free);
+// char		*get_next_line(int fd);
+
+/*A TEJ*/
+t_list		*ft_lstnew(void *content);
+void		ft_lstadd_back(t_list **lst, t_list *nw);
+char		*ft_strdup(const char *s);
+int			ft_lstsize(t_list *lst);
+
+/*FREE*/
+void	free_parsing(t_parsing *parsing);
+char	**freefree(char **split);
+
+/*BONUS*/
+int     check_door(t_parsing *parsing, int x, int y);
+void	count_entities(t_parsing *parsing, int *ndoors, int *nmonsters);
+
 
 #endif

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cube3d.h"
+#include "../../includes/cube3d.h"
 
 int	close_win(t_mlx_data *data)
 {
@@ -52,6 +52,18 @@ int	init_textures(t_mlx_data *data)
 		return (1);
 	if (load_texture(data, &data->texture_west, "textures/west.xpm"))//changer en data->parsing->we;
 		return (1);
+	/* if (load_texture(data, &data->texture_north, "textures/eau.xpm")) */
+	/* 	return (1); */
+	/* if (load_texture(data, &data->texture_south, "textures/feu.xpm")) */
+	/* 	return (1); */
+	/* if (load_texture(data, &data->texture_east, "textures/plante.xpm")) */
+	/* 	return (1); */
+	/* if (load_texture(data, &data->texture_west, "textures/electrik.xpm")) */
+	/* 	return (1); */
+	if (load_texture(data, &data->monster.texture[0], "textures/broly.xpm"))
+		return (1);
+	if (load_texture(data, &data->monster.texture[1], "textures/north.xpm"))
+		return (1);
 	return (0);
 }
 
@@ -60,10 +72,12 @@ int	redraw(t_mlx_data *data)
 	ft_bzero(data->img.img_data, WIN_H * data->img.size_line);
 	draw_floor_ceiling(data, 0x333333, 0x666666);
 	update_player_position(data);
+	update_monster_position(data);
 	draw_map(data);
 	draw_player(data, 0xFFFF00);
 	draw_minimap_borders(data);
 	raycasting(data);
+	draw_monster(data, 0xFF0000);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 	return (0);
 }

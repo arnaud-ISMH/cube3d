@@ -14,7 +14,6 @@
 # define STRUCTS_H
 
 # include <stdbool.h>
-# include "parsing.h"
 
 typedef struct s_map
 {
@@ -38,39 +37,6 @@ typedef struct s_door
     int     open;  // 0 fermée, 1 ouverte
 }   t_door;
 
-typedef struct s_monster
-{
-	int	x;
-	int	y;
-}	t_monster;
-
-typedef struct	s_parsing
-{
-	char		*no;
-	char		*so;
-	char		*we;
-	char		*ea;
-	t_color		f;
-	t_color		c;
-	int 		player_x;
-	int 		player_y;
-	char 		player_orientation;
-	t_map		map;
-	t_door		*door;
-	int			door_count;
-	t_monster	*monster;
-	int			monster_count;
-}	t_parsing;
-
-typedef struct s_image
-{
-	void	*img_ptr;
-	char	*img_data;
-	int		bpp;
-	int		size_line;
-	int		endian;
-}		t_image;
-
 typedef struct s_keys
 {
 	bool w;
@@ -87,15 +53,11 @@ typedef struct s_keys
 // 	int y;
 // }
 
-typedef struct s_player
+typedef struct s_coord
 {
-	int		x;
-	int		y;
-	int 	pos;
-	float	direction;
-	int		move_speed;
-	t_keys	keys;
-}		t_player;
+	double	x;
+	double	y;
+}		t_coord;
 
 typedef struct s_texture
 {
@@ -107,6 +69,62 @@ typedef struct s_texture
 	int		size_line;
 	int		endian;
 }        t_texture;
+
+
+typedef struct s_monster
+{
+	t_coord		pos;
+	float		direction;
+	double		move_speed;
+	t_keys		keys;
+	t_texture	*texture;
+	t_texture	*current_tex;
+}		t_monster;
+
+typedef struct	s_parsing
+{
+	char		*no;
+	char		*so;
+	char		*we;
+	char		*ea;
+	t_color		f;
+	t_color		c;
+	char		*t1;
+	char		*t2;
+	int 		player_x;
+	int 		player_y;
+	char 		player_orientation;
+	t_map		map;
+	t_door		*door;
+	int			door_count;
+	t_monster	*monster;
+	int			monster_count;
+}	t_parsing;
+
+# ifndef WIN_W
+#  define WIN_W 1800.0
+# endif
+# ifndef WIN_H
+#  define WIN_H 1000.0
+# endif
+
+
+typedef struct s_image
+{
+	void	*img_ptr;
+	char	*img_data;
+	int		bpp;
+	int		size_line;
+	int		endian;
+}		t_image;
+
+typedef struct s_player
+{
+	t_coord	pos;
+	float	direction;
+	double	move_speed;
+	t_keys	keys;
+}		t_player;
 
 typedef struct s_raycast
 {
@@ -144,13 +162,16 @@ typedef struct s_mlx_data
 	t_image		img;
 	t_keys		keys;
 	t_player	player;
+	t_monster	monster;
 	t_map		map;
 	t_parsing	*parsing;
 	t_raycast	*raycast;
-	t_texture	texture_south;
+	double		z_buffer[1800];
 	t_texture	texture_north;
+	t_texture	texture_south;
 	t_texture	texture_west;
 	t_texture	texture_east;
+	t_texture	texture_monster;
 }		t_mlx_data;
 
 #endif

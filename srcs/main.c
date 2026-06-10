@@ -24,7 +24,8 @@ int	main(int ac, char **av)
 		return (1);
 	*data = minilibx_process();
 	init_player(data);
-	if (init_map(data)) //fait dans 
+	init_monster(data);
+	if (init_map(data))
 		return (close_win(data), 1);
 	if (init_textures(data))
 		return (close_win(data), 1);
