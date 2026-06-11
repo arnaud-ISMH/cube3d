@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 12:57:55 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 13:09:17 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,6 @@ int is_identifier_free(t_parsing *parsing, char *line)
 	if (ft_strncmp(line, "C ", 2) == 0)
 		return (parsing->c.r == -1 && parsing->c.g == -1 && parsing->c.b == -1);
 	return (0);
-}
-
-void	strip(char *s)
-{
-	char *res;
-
-	res = ft_strchr(s, '\n');
-	if (res)
-		*res = '\0';
 }
 
 int	check_texture(t_parsing *parsing, char *line, char texture)
@@ -63,20 +54,6 @@ int	check_texture(t_parsing *parsing, char *line, char texture)
 	else if (texture == 'E')
 		parsing->ea = ft_strdup(split[1]); //ok?
 	return (freefree(split), 1);
-}
-
-int ft_isnumber(char *line)
-{
-	int i;
-
-	i = 0;
-	while (line[i] && line[i] != '\n')
-	{
-		if (line[i] < 48 || line[i] > 57)
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 int	good_color(char *line)
@@ -108,19 +85,6 @@ int	check_color(t_parsing *parsing, char *line, char color) //atoi to ft_atoi!!!
 	return (freefree(split), freefree(colors), 1);
 }
 
-int	open_fd(char *arg)
-{
-	int	fd;
-
-	fd = open(arg, O_RDONLY);
-	if (fd == -1)
-	{
-		printerr("Cannot open file\n");
-		// free_parsing(parsing); //pr linstant pas besoin mais secu
-		exit(1);		
-	}
-	return (fd);
-}
 
 int	read_file(char *arg, t_parsing *parsing)
 {
@@ -157,21 +121,4 @@ int	read_file(char *arg, t_parsing *parsing)
 	if (!check_map(parsing, fd, line))
 		return(close(fd), free_parsing(parsing), 0); //free(line) deja fait dans check map normalement
 	return (close(fd), 1);
-}
-
-t_parsing *check_args(int ac, char **av)
-{
-	int ext = 0;
-	t_parsing *parsing;
-
-	ext = ft_strlen(av[1]) - 4;
-	if (ac != 2 || ft_strncmp(av[1] + ext, ".cub", 4) != 0 || access(av[1], R_OK) == -1)
-	{
-		printerr("Bad argument\n");
-		exit(1);
-	}
-	parsing = init_parsing();
-	if (!read_file(av[1], parsing))
-		exit(1);
-	return (parsing);
 }

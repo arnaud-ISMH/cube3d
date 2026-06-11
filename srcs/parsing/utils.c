@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:05:47 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 12:59:16 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 13:03:09 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,19 @@ char	**freefree(char **split)
 	}
 	free(split);
 	return (NULL);
+}
+
+
+int	open_fd(char *arg)
+{
+	int	fd;
+
+	fd = open(arg, O_RDONLY);
+	if (fd == -1)
+	{
+		printerr("Cannot open file\n");
+		// free_parsing(parsing); //pr linstant pas besoin mais secu
+		exit(1);		
+	}
+	return (fd);
 }

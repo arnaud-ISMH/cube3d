@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:13:08 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/10 13:11:30 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 13:02:53 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,21 @@ t_parsing	*init_parsing(void)
     parsing->monster = NULL;
     parsing->monster_count = 0;
     return (parsing);
+}
+
+t_parsing *check_args(int ac, char **av)
+{
+	int ext = 0;
+	t_parsing *parsing;
+
+	ext = ft_strlen(av[1]) - 4;
+	if (ac != 2 || ft_strncmp(av[1] + ext, ".cub", 4) != 0 || access(av[1], R_OK) == -1)
+	{
+		printerr("Bad argument\n");
+		exit(1);
+	}
+	parsing = init_parsing();
+	if (!read_file(av[1], parsing))
+		exit(1);
+	return (parsing);
 }
