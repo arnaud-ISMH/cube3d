@@ -27,6 +27,8 @@ int	close_win(t_mlx_data *data)
 	mlx_destroy_display(data->mlx);
 	if (data->map.grid)
 		free(data->map.grid);
+	if (data->parsing)
+		free_parsing(data->parsing);
 	free(data->mlx);
 	free(data);
 	exit (0);
@@ -44,17 +46,17 @@ int	load_texture(t_mlx_data *data, t_texture *texture, char *path)
 
 int	init_textures(t_mlx_data *data)
 {
-	if (load_texture(data, &data->texture_north, "textures/eau.xpm"))
+	if (load_texture(data, &data->texture_north, data->parsing->no))
 		return (1);
-	if (load_texture(data, &data->texture_south, "textures/feu.xpm"))
+	if (load_texture(data, &data->texture_south, data->parsing->so))
 		return (1);
-	if (load_texture(data, &data->texture_east, "textures/plante.xpm"))
+	if (load_texture(data, &data->texture_east, data->parsing->ea))
 		return (1);
-	if (load_texture(data, &data->texture_west, "textures/electrik.xpm"))
+	if (load_texture(data, &data->texture_west, data->parsing->we))
 		return (1);
-	if (load_texture(data, &data->monster.texture[0], "textures/broly.xpm"))
+	if (load_texture(data, &data->monster.texture[0], data->parsing->t1))
 		return (1);
-	if (load_texture(data, &data->monster.texture[1], "textures/north.xpm"))
+	if (load_texture(data, &data->monster.texture[1], data->parsing->t2))
 		return (1);
 
 	/* if (load_texture(data, &data->texture_north, "textures/north.xpm")) //changer en data->parsing->no; */
@@ -93,7 +95,7 @@ int	init_textures(t_mlx_data *data)
 int	redraw(t_mlx_data *data)
 {
 	ft_bzero(data->img.img_data, WIN_H * data->img.size_line);
-	draw_floor_ceiling(data, 0x333333, 0x666666);
+	draw_floor_ceiling(data, data->parsing->f, data->parsing->c);
 	update_player_position(data);
 	update_monster_position(data);
 	draw_map(data);

@@ -14,8 +14,10 @@
 
 void	init_monster(t_mlx_data *data)
 {
-	data->monster.pos.x = 25.5;
-	data->monster.pos.y = 9.5;
+	/* data->monster.pos.x = 25.5; */
+	/* data->monster.pos.y = 9.5; */
+	data->monster.pos.x = data->parsing->monster->pos.x + 0.5;
+	data->monster.pos.y = data->parsing->monster->pos.y + 0.5;
 	data->monster.direction = 0.0f;
 	data->monster.move_speed = 0.01; // Vitesse adaptée à la grille 1x1
 	data->monster.keys.w = false;
