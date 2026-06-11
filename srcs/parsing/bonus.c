@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 16:22:40 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/10 13:42:31 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 13:15:42 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,3 +49,25 @@ int check_door(t_parsing *parsing, int x, int y)
 	return (printerr("Invalid door placement\n"), 0);
 }
 
+int	texture_monster(t_parsing *parsing, char *line, char texture)
+{
+	char	**split;
+	int		ext;
+
+	split = ft_split(line, ' ');
+	if (!split || !split[0] || !split[1] || split[2])
+		return (printerr("Invalid texture line\n"), 0);
+	strip(split[1]);
+	ext = ft_strlen(split[1]) - 4;
+	if (ext < 0 && ft_strncmp(split[1] + ext, ".xpm", 4) != 0)
+		return (freefree(split), printerr("Invalid texture line\n"), 0); 
+	if (!is_identifier_free(parsing, line))
+		return (freefree(split), printerr("Duplicate texture\n"), 0);
+	if (access(split[1], R_OK) == -1)
+		return (freefree(split), printerr("Cannot access texture\n"), 0);
+	if (texture == '1')
+		parsing->no = ft_strdup(split[1]);
+	else if (texture == '2')
+		parsing->so = ft_strdup(split[1]);
+	return (freefree(split), 1);
+}

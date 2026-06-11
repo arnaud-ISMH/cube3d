@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 13:09:17 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 13:16:08 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ int is_identifier_free(t_parsing *parsing, char *line)
 		return (parsing->we == NULL);
 	if (ft_strncmp(line, "EA ", 3) == 0)
 		return (parsing->ea == NULL);
+	if (ft_strncmp(line, "T1 ", 3) == 0)
+		return (parsing->t1 == NULL);
+	if (ft_strncmp(line, "T2 ", 3) == 0)
+		return (parsing->t2 == NULL);
 	if (ft_strncmp(line, "F ", 2) == 0)
 		return (parsing->f.r == -1 && parsing->f.g == -1 && parsing->f.b == -1);
 	if (ft_strncmp(line, "C ", 2) == 0)
@@ -86,7 +90,7 @@ int	check_color(t_parsing *parsing, char *line, char color) //atoi to ft_atoi!!!
 }
 
 
-int	read_file(char *arg, t_parsing *parsing)
+int	read_file(char *arg, t_parsing *parsing) //marche pas si "    SO    " ??
 {
 	int fd;
 	int dup = 1;
@@ -108,6 +112,8 @@ int	read_file(char *arg, t_parsing *parsing)
 			dup = check_texture(parsing, line, line[0]);
 		else if (ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0)
 			dup = check_color(parsing, line, line[0]);
+		else if (ft_strncmp(line, "T1 ", 3) == 0 || ft_strncmp(line, "T2 ", 3) == 0)
+			dup = texture_monster(parsing, line, line[1]);
 		else
 			break;
 		if (dup == 0)

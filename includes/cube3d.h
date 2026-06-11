@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 09:35:11 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/11 13:04:28 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 13:12:00 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ t_parsing   *check_args(int ac, char **av);
 /*BONUS*/
 int     check_door(t_parsing *parsing, int x, int y);
 void	count_entities(t_parsing *parsing, int *ndoors, int *nmonsters);
+int     texture_monster(t_parsing *parsing, char *line, char texture);
 
 #endif
