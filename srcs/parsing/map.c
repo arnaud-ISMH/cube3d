@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:14:05 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/10 14:18:03 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 12:58:12 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,6 @@ int	ft_forbidden(char c)
 	if (c == 'X')
 		return (4);
 	return (2);
-}
-
-void	ft_lstclear(t_list **lst, void (*del)(void *)) //a suppr libft
-{
-	t_list	*temp;
-
-	while (*lst)
-	{
-		temp = (*lst)->next;
-		del((*lst)->content);
-		free(*lst);
-		*lst = temp;
-	}
-	free(*lst);
-	*lst = NULL;
 }
 
 int	check_map(t_parsing *parsing, int fd, char *line)

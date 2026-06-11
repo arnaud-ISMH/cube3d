@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/10 14:20:52 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 12:57:55 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,17 +175,3 @@ t_parsing *check_args(int ac, char **av)
 		exit(1);
 	return (parsing);
 }
-
-/* int main(int ac, char **av) */
-/* { */
-/* 	t_parsing *parsing; */
-/**/
-/* 	if (ac != 2) */
-/* 		return (0); */
-/* 	parsing = check_args(ac, av); */
-/* 	//launch exec */
-/* 	// printf("monster nbr door nbr %i %i\n", parsing->monster_count, parsing->door_count); */
-/* 	free_parsing(parsing); //a suppr */
-/* 	return (1); */
-/* } */
-

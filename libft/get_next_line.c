@@ -3,104 +3,182 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adeflers <adeflers@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:06:23 by adeflers          #+#    #+#             */
-/*   Updated: 2025/05/19 21:20:52 by adeflers         ###   ########.fr       */
+/*   Updated: 2026/06/11 12:56:56 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*stock_buff(int fd, char *start_c, char *buff);
-char	*next_line(char *line);
-char	*ft_gen0(void);
-
-char	*get_next_line(int fd)
+static char	*nextline(char *res)
 {
-	static char	*start_c;
-	char		*line;
-	char		*buff;
-
-	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-	{
-		free(start_c);
-		free(buff);
-		start_c = NULL;
-		buff = NULL;
-		return (NULL);
-	}
-	if (!buff)
-		return (NULL);
-	line = stock_buff(fd, start_c, buff);
-	free(buff);
-	buff = NULL;
-	if (!line)
-		return (NULL);
-	start_c = next_line(line);
-	return (line);
-}
-
-char	*stock_buff(int fd, char *start_c, char *buff)
-{
-	int		diams;
-	char	*tmp;
-
-	diams = 1;
-	while (diams > 0)
-	{
-		diams = read(fd, buff, BUFFER_SIZE);
-		if (diams == -1)
-		{
-			free(start_c);
-			return (NULL);
-		}
-		else if (diams == 0)
-			break ;
-		buff[diams] = '\0';
-		if (!start_c)
-			start_c = ft_gen0();
-		tmp = start_c;
-		start_c = ft_strjoin(tmp, buff);
-		free(tmp);
-		tmp = NULL;
-		if (ft_strchr(buff, '\n'))
-			break ;
-	}
-	return (start_c);
-}
-
-char	*next_line(char *line)
-{
-	char	*start_c;
-	int		i;
+	size_t	i;
+	char	*afternl;
 
 	i = 0;
-	while (line[i] != '\n' && line[i] != '\0')
+	while (res[i] != '\n' && res[i] != '\0')
 		i++;
-	if (line[i] == '\0')
+	if (res[i] == 0 || res[1] == 0)
 		return (NULL);
-	start_c = ft_substr(line, i + 1, ft_strlen(line) - i - 1);
-	if (*start_c == '\0')
+	afternl = ft_substr(res, i + 1, ft_strlen(res) - 1);
+	if (!afternl)
+		return (NULL);
+	if (*afternl == 0)
 	{
-		free(start_c);
-		start_c = NULL;
+		free(afternl);
+		afternl = NULL;
 	}
-	line[i + 1] = '\0';
-	return (start_c);
+	res[i + 1] = 0;
+	return (afternl);
 }
 
-char	*ft_gen0(void)
+static char	*find_line(int fd, char *new, char *afternl)
 {
-	char	*new;
+	int			b_read;
+	char		*tmp;
 
-	new = malloc(1);
+	b_read = 1;
+	while (b_read > 0)
+	{
+		b_read = read(fd, new, BUFFER_SIZE);
+		if (b_read < 0)
+			return (free(afternl), NULL);
+		else if (b_read == 0)
+			break ;
+		new[b_read] = 0;
+		if (!afternl)
+			afternl = ft_strdup("");
+		tmp = afternl;
+		afternl = ft_strjoin(tmp, new);
+		if (!afternl)
+			return (free(tmp), NULL);
+		free(tmp);
+		tmp = NULL;
+		if (ft_strchr(new, '\n'))
+			break ;
+	}
+	return (afternl);
+}
+
+char	*get_next_line(int fd, int need_free)
+{
+	static char	*afternl = NULL;
+	char		*res;
+	char		*new;
+
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || need_free)
+	{
+		if (afternl)
+		{
+			free(afternl);
+			afternl = NULL;
+		}
+		return (NULL);
+	}	
+	new = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!new)
 		return (NULL);
-	*new = '\0';
-	return (new);
+	res = find_line(fd, new, afternl);
+	free(new);
+	new = NULL;
+	if (!res)
+		return (free(afternl), NULL);
+	afternl = nextline(res);
+	return (res);
 }
+
+
+// char	*stock_buff(int fd, char *start_c, char *buff);
+// char	*next_line(char *line);
+// char	*ft_gen0(void);
+
+// char	*get_next_line(int fd)
+// {
+// 	static char	*start_c;
+// 	char		*line;
+// 	char		*buff;
+
+// 	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+// 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+// 	{
+// 		free(start_c);
+// 		free(buff);
+// 		start_c = NULL;
+// 		buff = NULL;
+// 		return (NULL);
+// 	}
+// 	if (!buff)
+// 		return (NULL);
+// 	line = stock_buff(fd, start_c, buff);
+// 	free(buff);
+// 	buff = NULL;
+// 	if (!line)
+// 		return (NULL);
+// 	start_c = next_line(line);
+// 	return (line);
+// }
+
+// char	*stock_buff(int fd, char *start_c, char *buff)
+// {
+// 	int		diams;
+// 	char	*tmp;
+
+// 	diams = 1;
+// 	while (diams > 0)
+// 	{
+// 		diams = read(fd, buff, BUFFER_SIZE);
+// 		if (diams == -1)
+// 		{
+// 			free(start_c);
+// 			return (NULL);
+// 		}
+// 		else if (diams == 0)
+// 			break ;
+// 		buff[diams] = '\0';
+// 		if (!start_c)
+// 			start_c = ft_gen0();
+// 		tmp = start_c;
+// 		start_c = ft_strjoin(tmp, buff);
+// 		free(tmp);
+// 		tmp = NULL;
+// 		if (ft_strchr(buff, '\n'))
+// 			break ;
+// 	}
+// 	return (start_c);
+// }
+
+// char	*next_line(char *line)
+// {
+// 	char	*start_c;
+// 	int		i;
+
+// 	i = 0;
+// 	while (line[i] != '\n' && line[i] != '\0')
+// 		i++;
+// 	if (line[i] == '\0')
+// 		return (NULL);
+// 	start_c = ft_substr(line, i + 1, ft_strlen(line) - i - 1);
+// 	if (*start_c == '\0')
+// 	{
+// 		free(start_c);
+// 		start_c = NULL;
+// 	}
+// 	line[i + 1] = '\0';
+// 	return (start_c);
+// }
+
+// char	*ft_gen0(void)
+// {
+// 	char	*new;
+
+// 	new = malloc(1);
+// 	if (!new)
+// 		return (NULL);
+// 	*new = '\0';
+// 	return (new);
+// }
 
 /* int	main(int ac, char **av) */
 /* { */

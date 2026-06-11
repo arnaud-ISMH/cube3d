@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:12:43 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/09 15:58:18 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 12:57:04 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int				ft_print_percent(void);
 #  define BUFFER_SIZE 10
 # endif
 
+char	*get_next_line(int fd, int need_free);
 // char			*get_next_line(int fd);
 
 #endif

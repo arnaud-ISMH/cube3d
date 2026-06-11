@@ -6,7 +6,7 @@
 #    By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/30 08:13:49 by adeflers          #+#    #+#              #
-#    Updated: 2026/06/09 14:00:39 by lchapot          ###   ########.fr        #
+#    Updated: 2026/06/11 12:59:35 by lchapot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,6 @@ SRCS        = srcs/main.c \
 			  srcs/parsing/init.c \
 			  srcs/parsing/map.c \
 			  srcs/parsing/utils.c \
-			  srcs/parsing/split.c \
-			  srcs/parsing/free.c \
 			  srcs/parsing/bonus.c
 
 OBJS        = $(SRCS:%.c=$(OBJ_DIR)/%.o)

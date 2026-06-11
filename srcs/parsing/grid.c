@@ -6,45 +6,11 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:04:29 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/10 14:10:17 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 12:58:31 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cube3d.h"
- //a suppr (libft)
- 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	unsigned char	*s;
-	unsigned char	*d;
-	size_t			i;
-
-	if (!dest && !src)
-		return (NULL);
-	i = 0;
-	s = (unsigned char *)(src);
-	d = (unsigned char *)(dest);
-	while (i < n)
-	{
-		d[i] = s[i];
-		i++;
-	}
-	return (dest);
-}
-void	*ft_memset(void *s, int c, size_t n)
-{
-	unsigned char	*p;
-	size_t			i;
-
-	i = 0;
-	p = (unsigned char *)(s);
-	while (i < n)
-	{
-		p[i] = c;
-		i++;
-	}
-	return (s);
-}
 
 void fill_map(t_parsing *parsing, t_list *map_lst)
 {
