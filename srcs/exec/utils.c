@@ -40,22 +40,27 @@ int	key_press(int keysym, t_mlx_data *data)
 		data->player.keys.left = true;
 	if (keysym == XK_Right)
 		data->player.keys.right = true;
-	if ((int)data->player.pos.x % 10 < 5)
-		data->monster.keys.w = true;
-	else
-		data->monster.keys.w = false;
-	if ((int)data->player.pos.x % 10 >= 5)
-		data->monster.keys.s = true;
-	else
-		data->monster.keys.s = false;
-	if ((int)data->player.pos.y % 10 < 5)
-		data->monster.keys.a = true;
-	else
-		data->monster.keys.a = false;
-	if ((int)data->player.pos.y % 10 >= 5)
-		data->monster.keys.d = true;
-	else
-		data->monster.keys.d = false;
+	int i = 0;
+	while (i < data->parsing->monster_count)
+	{
+		if ((int)data->player.pos.x % 10 < 5)
+			data->monster[i].keys.w = true;
+		else
+			data->monster[i].keys.w = false;
+		if ((int)data->player.pos.x % 10 >= 5)
+			data->monster[i].keys.s = true;
+		else
+			data->monster[i].keys.s = false;
+		if ((int)data->player.pos.y % 10 < 5)
+			data->monster[i].keys.a = true;
+		else
+			data->monster[i].keys.a = false;
+		if ((int)data->player.pos.y % 10 >= 5)
+			data->monster[i].keys.d = true;
+		else
+			data->monster[i].keys.d = false;
+		i++;
+	}
 	return (0);
 }
 

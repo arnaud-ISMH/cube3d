@@ -27,6 +27,8 @@ int	close_win(t_mlx_data *data)
 	mlx_destroy_display(data->mlx);
 	if (data->map.grid)
 		free(data->map.grid);
+	if (data->monster)
+		free(data->monster);
 	if (data->parsing)
 		free_parsing(data->parsing);
 	free(data->mlx);
@@ -54,10 +56,15 @@ int	init_textures(t_mlx_data *data)
 		return (1);
 	if (load_texture(data, &data->texture_west, data->parsing->we))
 		return (1);
-	if (load_texture(data, &data->monster.texture[0], data->parsing->t1))
-		return (1);
-	if (load_texture(data, &data->monster.texture[1], data->parsing->t2))
-		return (1);
+	int i = 0;
+	while (i < data->parsing->monster_count)
+	{
+		if (load_texture(data, &data->monster[i].texture[0], data->parsing->t1))
+			return (1);
+		if (load_texture(data, &data->monster[i].texture[1], data->parsing->t2))
+			return (1);
+		i++;
+	}
 
 	/* if (load_texture(data, &data->texture_north, "textures/north.xpm")) //changer en data->parsing->no; */
 	/* 	return (1); */

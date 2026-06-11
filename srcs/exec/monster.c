@@ -12,45 +12,102 @@
 
 #include "../../includes/cube3d.h"
 
-void	init_monster(t_mlx_data *data)
+int	init_monster(t_mlx_data *data)
 {
 	/* data->monster.pos.x = 25.5; */
 	/* data->monster.pos.y = 9.5; */
-	data->monster.pos.x = data->parsing->monster->pos.x + 0.5;
-	data->monster.pos.y = data->parsing->monster->pos.y + 0.5;
-	data->monster.direction = 0.0f;
-	data->monster.move_speed = 0.01; // Vitesse adaptée à la grille 1x1
-	data->monster.keys.w = false;
-	data->monster.keys.a = false;
-	data->monster.keys.s = false;
-	data->monster.keys.d = false;
-	data->monster.keys.left = false;
-	data->monster.keys.right = false;
+	data->monster = malloc(sizeof(t_monster) * data->parsing->monster_count);
+	if (!data->monster)
+		return (1);
+	int i = 0;
+	while (i < data->parsing->monster_count)
+	{
+		data->monster[i].pos.x = data->parsing->monster[i].pos.x + 0.5;
+		data->monster[i].pos.y = data->parsing->monster[i].pos.y + 0.5;
+		data->monster[i].direction = 0.0f;
+		data->monster[i].move_speed = 0.01; // Vitesse adaptée à la grille 1x1
+		data->monster[i].keys.w = false;
+		data->monster[i].keys.a = false;
+		data->monster[i].keys.s = false;
+		data->monster[i].keys.d = false;
+		data->monster[i].keys.left = false;
+		data->monster[i].keys.right = false;
+		i++;
+	}
 	/* data->monster.texture = data->texture_monster; */
+	return (0);
 }
 
 void	draw_monster(t_mlx_data *data, unsigned int color)
 {
-	int	i;
-	int	j;
-
-	// Conversion coordonnées virtuelles -> pixels écran pour le dessin
-	int p_x = (int)(data->monster.pos.x * data->map.scale);
-	int p_y = (int)(data->monster.pos.y * data->map.scale);
-
-	i = -3;
-	while (i <= 3)
+	int	monster_index = 0;
+	while (monster_index < data->parsing->monster_count)
 	{
-		j = -3;
-		while (j <= 3)
+		int	i;
+		int	j;
+
+		// Conversion coordonnées virtuelles -> pixels écran pour le dessin
+		int p_x = (int)(data->monster[monster_index].pos.x * data->map.scale);
+		int p_y = (int)(data->monster[monster_index].pos.y * data->map.scale);
+
+		i = -3;
+		while (i <= 3)
 		{
-			put_pixel(&data->img, p_x + i, p_y + j, color);
-			j++;
+			j = -3;
+			while (j <= 3)
+			{
+				put_pixel(&data->img, p_x + i, p_y + j, color);
+				j++;
+			}
+			i++;
 		}
-		i++;
+		monster_index++;
 	}
 }
 
+// Calcule la distance de Pythagore au carré (pas besoin de la racine carrée sqrt, 
+// ça économise des calculs pour le processeur et ça suffit pour comparer qui est le plus loin)
+void    calculate_monsters_distance(t_mlx_data *data)
+{
+    int i;
+
+    i = 0;
+    while (i < data->parsing->monster_count)
+    {
+        data->monster[i].distance = 
+            ((data->player.pos.x - data->monster[i].pos.x) * (data->player.pos.x - data->monster[i].pos.x)) +
+            ((data->player.pos.y - data->monster[i].pos.y) * (data->player.pos.y - data->monster[i].pos.y));
+        i++;
+    }
+}
+
+// Trie le tableau de monstres du plus loin (grande distance) au plus proche (petite distance)
+void    sort_monsters(t_mlx_data *data)
+{
+    int         i;
+    int         j;
+    t_monster   tmp;
+
+    calculate_monsters_distance(data);
+    i = 0;
+    while (i < data->parsing->monster_count - 1)
+    {
+        j = 0;
+        while (j < data->parsing->monster_count - i - 1)
+        {
+            // Si le monstre actuel est PLUS PROCHE que le suivant, on les échange
+            // pour pousser les monstres les plus LOINS au début du tableau
+            if (data->monster[j].distance < data->monster[j + 1].distance)
+            {
+                tmp = data->monster[j];
+                data->monster[j] = data->monster[j + 1];
+                data->monster[j + 1] = tmp;
+            }
+            j++;
+        }
+        i++;
+    }
+}
 void    draw_monster_stripe(t_mlx_data *data, t_monster *monster, int stripe, int tex_x, double transform_y, int sprite_dim, int draw_start_y, int draw_end_y)
 {
     int y;
@@ -92,30 +149,38 @@ void	animate_and_render_monsters(t_mlx_data *data)
 {
 	long long	current_time;
 	t_texture	*current_tex;
+	int			i = 0;
 
-	// 1. On prend "l'heure" actuelle en millisecondes
-	current_time = get_time_in_ms();
+	sort_monsters(data); // Trier les monstres du plus loin au plus proche pour le rendu (painter's algorithm)
 
-	// 2. On divise le temps par 300 (la vitesse de l'anim) 
-	// et on fait "% 2" pour obtenir soit 0, soit 1.
-	if ((current_time / 300) % 2 == 0)
-		current_tex = &data->monster.texture[0];
-	else
-		current_tex = &data->monster.texture[1];
+	while (i < data->parsing->monster_count)
+	{
+		// 1. On prend "l'heure" actuelle en millisecondes
+		current_time = get_time_in_ms();
 
-	// 3. On applique cette texture à nos monstres avant de les dessiner
-	/* int			i; */
-	/* i = 0; */
-	/* while (i < data->nb_monsters) */
-	/* { */
-	/* 	data->monster[i].texture = current_tex; */
-	/* 	render_single_monster(data, &data->monster[i]); */
-	/* 	i++; */
-	/* } */
-	data->monster.current_tex = current_tex;
-	render_single_monster(data, &data->monster);
+		// 2. On divise le temps par 300 (la vitesse de l'anim) 
+		// et on fait "% 2" pour obtenir soit 0, soit 1.
+		if ((current_time / 300) % 2 == 0)
+			current_tex = &data->monster[i].texture[0];
+		else
+			current_tex = &data->monster[i].texture[1];
+
+		// 3. On applique cette texture à nos monstres avant de les dessiner
+		/* int			i; */
+		/* i = 0; */
+		/* while (i < data->nb_monsters) */
+		/* { */
+		/* 	data->monster[i].texture = current_tex; */
+		/* 	render_single_monster(data, &data->monster[i]); */
+		/* 	i++; */
+		/* } */
+		data->monster[i].current_tex = current_tex;
+		render_single_monster(data, &data->monster[i]);
+		i++;
+	}
 
 }
+
 void    render_single_monster(t_mlx_data *data, t_monster *monster)
 {
     // 1. Calcul de la position relative du monstre par rapport au joueur
@@ -177,55 +242,60 @@ void	update_monster_position(t_mlx_data *data)
 	double	next_x;
 	double	next_y;
 	double	buffer;
+	int i = 0;
 
-	next_x = data->monster.pos.x;
-	next_y = data->monster.pos.y;
-	if (data->monster.keys.w)
+	while (i < data->parsing->monster_count)
 	{
-		next_x += cos(data->monster.direction) * data->monster.move_speed;
-		next_y += sin(data->monster.direction) * data->monster.move_speed;
-	}
-	if (data->monster.keys.s)
-	{
-		next_x -= cos(data->monster.direction) * data->monster.move_speed;
-		next_y -= sin(data->monster.direction) * data->monster.move_speed;
-	}
-	if (data->monster.keys.a)
-	{
-		next_x += cos(data->monster.direction - M_PI_2) * data->monster.move_speed;
-		next_y += sin(data->monster.direction - M_PI_2) * data->monster.move_speed;
-	}
-	if (data->monster.keys.d)
-	{
-		next_x += cos(data->monster.direction + M_PI_2) * data->monster.move_speed;
-		next_y += sin(data->monster.direction + M_PI_2) * data->monster.move_speed;
-	}
+		next_x = data->monster[i].pos.x;
+		next_y = data->monster[i].pos.y;
+		if (data->monster[i].keys.w)
+		{
+			next_x += cos(data->monster[i].direction) * data->monster[i].move_speed;
+			next_y += sin(data->monster[i].direction) * data->monster[i].move_speed;
+		}
+		if (data->monster[i].keys.s)
+		{
+			next_x -= cos(data->monster[i].direction) * data->monster[i].move_speed;
+			next_y -= sin(data->monster[i].direction) * data->monster[i].move_speed;
+		}
+		if (data->monster[i].keys.a)
+		{
+			next_x += cos(data->monster[i].direction - M_PI_2) * data->monster[i].move_speed;
+			next_y += sin(data->monster[i].direction - M_PI_2) * data->monster[i].move_speed;
+		}
+		if (data->monster[i].keys.d)
+		{
+			next_x += cos(data->monster[i].direction + M_PI_2) * data->monster[i].move_speed;
+			next_y += sin(data->monster[i].direction + M_PI_2) * data->monster[i].move_speed;
+		}
 
-	// Détection avec un petit buffer de recul (0.5 case) pour ne pas traverser les coins
-	if (next_x > data->monster.pos.x)
-		buffer = 0.5;
-	else
-		buffer = - 0.5;
-	if (!is_wall(data, next_x + buffer, data->monster.pos.y))
-		data->monster.pos.x = next_x;
-	
-	if (next_y > data->monster.pos.y)
-		buffer = 0.5;
-	else
-		buffer = - 0.5;
-	if (!is_wall(data, data->monster.pos.x, next_y + buffer))
-		data->monster.pos.y = next_y;
+		// Détection avec un petit buffer de recul (0.5 case) pour ne pas traverser les coins
+		if (next_x > data->monster[i].pos.x)
+			buffer = 0.5;
+		else
+			buffer = - 0.5;
+		if (!is_wall(data, next_x + buffer, data->monster[i].pos.y))
+			data->monster[i].pos.x = next_x;
+		
+		if (next_y > data->monster[i].pos.y)
+			buffer = 0.5;
+		else
+			buffer = - 0.5;
+		if (!is_wall(data, data->monster[i].pos.x, next_y + buffer))
+			data->monster[i].pos.y = next_y;
 
-	if (data->monster.keys.left)
-	{
-		data->monster.direction -= 0.04f;
-		if (data->monster.direction < 0)
-			data->monster.direction += 2 * M_PI;
-	}
-	if (data->monster.keys.right)
-	{
-		data->monster.direction += 0.04f;
-		if (data->monster.direction >= 2 * M_PI)
-			data->monster.direction -= 2 * M_PI;
+		if (data->monster[i].keys.left)
+		{
+			data->monster[i].direction -= 0.04f;
+			if (data->monster[i].direction < 0)
+				data->monster[i].direction += 2 * M_PI;
+		}
+		if (data->monster[i].keys.right)
+		{
+			data->monster[i].direction += 0.04f;
+			if (data->monster[i].direction >= 2 * M_PI)
+				data->monster[i].direction -= 2 * M_PI;
+		}
+		i++;
 	}
 }

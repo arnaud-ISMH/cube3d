@@ -23,8 +23,16 @@ int	main(int ac, char **av)
 		return (1);
 	*data = minilibx_process();
 	data->parsing = check_args(ac, av);
+	ft_printf("nb de portes : %d\nnb de monstres : %d\n", data->parsing->door_count, data->parsing->monster_count); // Debug
 	init_player(data);
-	init_monster(data);
+	if (init_monster(data))
+		return (close_win(data), 1);
+	int i = 0;
+	while (i < data->parsing->monster_count)
+	{
+		ft_printf("monster pos : x = %f, y = %f\n", data->monster[i].pos.x, data->monster[i].pos.y); // Debug
+		i++;
+	}
 	if (init_map(data))
 		return (close_win(data), 1);
 	if (init_textures(data))

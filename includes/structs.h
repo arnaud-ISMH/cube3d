@@ -73,6 +73,7 @@ typedef struct s_monster
 	t_keys		keys;
 	t_texture	texture[2];
 	t_texture	*current_tex;
+	double		distance; // pour le tri des monstres du plus loin au plus proche du player
 }		t_monster;
 
 typedef struct	s_parsing
@@ -156,7 +157,7 @@ typedef struct s_mlx_data
 	t_image		img;
 	t_keys		keys;
 	t_player	player;
-	t_monster	monster;
+	t_monster	*monster;
 	t_map		map;
 	t_parsing	*parsing;
 	t_raycast	*raycast;
