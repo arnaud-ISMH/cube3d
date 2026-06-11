@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 13:49:12 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 13:57:31 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int is_identifier_free(t_parsing *parsing, char *line)
 	if (ft_strncmp(line, "T2 ", 3) == 0)
 		return (parsing->t2 == NULL);
 	if (ft_strncmp(line, "F ", 2) == 0)
-		return (parsing->f.r == -1 && parsing->f.g == -1 && parsing->f.b == -1);
+		return (parsing->f = -1);
 	if (ft_strncmp(line, "C ", 2) == 0)
-		return (parsing->c.r == -1 && parsing->c.g == -1 && parsing->c.b == -1);
+		return (parsing->c = -1);
 	return (0);
 }
 
@@ -67,6 +67,11 @@ int	good_color(char *line)
 	return (1);
 }
 
+int rgb_to_hex(int r, int g, int b)
+{
+    return (r << 16 | g << 8 | b);
+}
+
 int	check_color(t_parsing *parsing, char *line, char color) //atoi to ft_atoi!!!!
 {
 	char **split;
@@ -76,6 +81,7 @@ int	check_color(t_parsing *parsing, char *line, char color) //atoi to ft_atoi!!!
 	if (!split)
 		return (printerr("Color issue\n"), 0);
 	colors = ft_split(split[1], ',');
+	//strip(colors[2]);
 	if (!colors || !colors[0] || !colors[1] || !colors[2] || colors[3])
 		return (freefree(split), printerr("Color issue\n"), 0);
 	if (!is_identifier_free(parsing, line))
@@ -83,9 +89,9 @@ int	check_color(t_parsing *parsing, char *line, char color) //atoi to ft_atoi!!!
 	if (!good_color(colors[0]) || !good_color(colors[1]) || !good_color(colors[2]))
 		return (freefree(split), freefree(colors), printerr("Invalid color\n"), 0);
 	if (color == 'F')
-		parsing->f = (t_color){ft_atoi(colors[0]), ft_atoi(colors[1]), ft_atoi(colors[2])};
+		parsing->f = rgb_to_hex(ft_atoi(colors[0]), ft_atoi(colors[1]), ft_atoi(colors[2]));
 	else if (color == 'C')
-		parsing->c = (t_color){ft_atoi(colors[0]), ft_atoi(colors[1]), ft_atoi(colors[2])};
+		parsing->c = rgb_to_hex(ft_atoi(colors[0]), ft_atoi(colors[1]), ft_atoi(colors[2]));
 	return (freefree(split), freefree(colors), 1);
 }
 
@@ -121,8 +127,9 @@ int	read_file(char *arg, t_parsing *parsing) //marche pas si "    SO    " ??
 		free(line);
 		line = get_next_line(fd, 0);
 	}
-	// printf("%p, %p, %p, %p, %i, %i\n", parsing->no, parsing->so, parsing->we, parsing->ea, parsing->f.r, parsing->c.r);
-	if (parsing->no == NULL || parsing->so == NULL || parsing->we == NULL || parsing->ea == NULL || parsing->f.r == -1 || parsing->c.r == -1)
+	// printf("%p, %p, %p, %p, colors %i, %i, t1 %p t2 %p\n", parsing->no, parsing->so, parsing->we, parsing->ea, parsing->f, parsing->c, parsing->t1, parsing->t2);
+	if (parsing->no == NULL || parsing->so == NULL || parsing->we == NULL || 
+		parsing->ea == NULL || parsing->f == -1 || parsing->c == -1 || parsing->t1 == NULL || parsing->t2 == NULL)
 		return (close(fd), free(line), printerr("Missing texture or color\n"), 0);
 	if (!check_map(parsing, fd, line))
 		return(close(fd), free_parsing(parsing), 0); //free(line) deja fait dans check map normalement

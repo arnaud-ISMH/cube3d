@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:13:08 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 13:02:53 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 13:53:29 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ t_parsing	*init_parsing(void)
     parsing->so = NULL;
     parsing->we = NULL;
     parsing->ea = NULL;
-    parsing->f = (t_color){-1, -1, -1};
-    parsing->c = (t_color){-1, -1, -1};
+    parsing->f = -1;
+    parsing->c = -1;
     parsing->map.grid = NULL;
     parsing->map.width = 0;
     parsing->map.height = 0;

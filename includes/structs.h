@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 23:32:17 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/10 13:14:52 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 13:50:57 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ typedef struct	s_parsing
 	char		*so;
 	char		*we;
 	char		*ea;
-	t_color		f;
-	t_color		c;
+	int			f;
+	int			c;
 	char		*t1;
 	char		*t2;
 	int 		player_x;

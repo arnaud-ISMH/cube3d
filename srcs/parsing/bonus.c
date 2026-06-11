@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 16:22:40 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 13:15:42 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 13:56:59 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int	texture_monster(t_parsing *parsing, char *line, char texture)
 	if (access(split[1], R_OK) == -1)
 		return (freefree(split), printerr("Cannot access texture\n"), 0);
 	if (texture == '1')
-		parsing->no = ft_strdup(split[1]);
+		parsing->t1 = ft_strdup(split[1]);
 	else if (texture == '2')
-		parsing->so = ft_strdup(split[1]);
+		parsing->t2 = ft_strdup(split[1]);
 	return (freefree(split), 1);
 }
