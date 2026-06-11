@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 15:22:09 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 15:35:57 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,60 +31,6 @@ int is_identifier_free(t_parsing *parsing, char c)
 	if (c == 'C')
 		return (parsing->c = -1);
 	return (0);
-}
-
-int	check_texture(t_parsing *parsing, char *line, char texture)
-{
-	int		ext;
-
-	strip(line);
-	ext = ft_strlen(line) - 4;
-	if (ext < 0 && ft_strncmp(line + ext, ".xpm", 4) != 0)
-		return (printerr("Invalid texture line\n"), 0); 
-	if (!is_identifier_free(parsing, texture))
-		return (printerr("Duplicate texture\n"), 0);
-	if (access(line, R_OK) == -1)
-		return (printerr("Cannot access texture\n"), 0);
-	if (texture == 'N')
-		parsing->no = ft_strdup(line);
-	else if (texture == 'S')
-		parsing->so = ft_strdup(line);
-	else if (texture == 'W')
-		parsing->we = ft_strdup(line);
-	else if (texture == 'E')
-		parsing->ea = ft_strdup(line); //ok?
-	return (1);
-}
-
-int	good_color(char *line) //utils2
-{
-	if (!ft_isnumber(line) || (ft_atoi(line) < 0 || ft_atoi(line) > 255)) //ft_atoi !!!
-		return (0);
-	return (1);
-}
-
-int rgb_to_hex(int r, int g, int b) //utils2
-{
-	return (r << 16 | g << 8 | b);
-}
-
-int	check_color(t_parsing *parsing, char *line, char color) //atoi to ft_atoi!!!!
-{
-	char **colors;
-
-	colors = ft_split(line, ',');
-	//strip(colors[2]); //nn pcq atoi le fait deja
-	if (!colors || !colors[0] || !colors[1] || !colors[2] || colors[3])
-		return (printerr("Color issue\n"), 0);
-	if (!is_identifier_free(parsing, color))
-		return (freefree(colors), printerr("Duplicate color\n"), 0);
-	if (!good_color(colors[0]) || !good_color(colors[1]) || !good_color(colors[2]))
-		return (freefree(colors), printerr("Invalid color\n"), 0);
-	if (color == 'F')
-		parsing->f = rgb_to_hex(ft_atoi(colors[0]), ft_atoi(colors[1]), ft_atoi(colors[2]));
-	else if (color == 'C')
-		parsing->c = rgb_to_hex(ft_atoi(colors[0]), ft_atoi(colors[1]), ft_atoi(colors[2]));
-	return (freefree(colors), 1);
 }
 
 static int	identify_line(char *id)

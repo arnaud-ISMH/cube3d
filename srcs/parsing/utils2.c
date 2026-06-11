@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 13:08:00 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 13:48:36 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 15:33:13 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,14 @@ int ft_isnumber(char *line)
 	return (1);
 }
 
-//ft_atoi
+int	good_color(char *line)
+{
+	if (!ft_isnumber(line) || (ft_atoi(line) < 0 || ft_atoi(line) > 255))
+		return (0);
+	return (1);
+}
+
+int rgb_to_hex(int r, int g, int b)
+{
+	return (r << 16 | g << 8 | b);
+}

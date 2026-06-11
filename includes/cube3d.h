@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 09:35:11 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/11 15:21:14 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 15:39:39 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,33 +65,38 @@ void		draw_tex_on_wall(t_mlx_data *data, t_raycast *ray, int i);
 int			init_textures(t_mlx_data *data);
 int			load_texture(t_mlx_data *data, t_texture *texture, char *path);
 
+/*PARSING*/
+int			read_file(char *arg, t_parsing *parsing);
+int         is_identifier_free(t_parsing *parsing, char c);
+/*CHECKCUB*/
+int			check_color(t_parsing *parsing, char *line, char color);
+int			check_texture(t_parsing *parsing, char *line, char texture);
+int			check_map(t_parsing *parsing, int fd, char *line);
 /*GRID*/
 void		fill_map(t_parsing *parsing, t_list *map_list);
 int			flood_fill(t_map *map, int x, int y);
 /*MAP*/
-int			check_map(t_parsing *parsing, int fd, char *line);
 int			ft_forbidden(char c);
 int         parse_map(t_parsing *parsing);
-/*PARSING*/
-int			check_color(t_parsing *parsing, char *line, char color);
-int			check_texture(t_parsing *parsing, char *line, char texture);
-int			read_file(char *arg, t_parsing *parsing);
-int         is_identifier_free(t_parsing *parsing, char c);
+int	        set_player(t_parsing *parsing, int x, int y, char c);
+int         parse_chara(t_parsing *parsing, int x, int y);
 /*UTILS*/
-void		printerr(char *msg);
 int			max(int a, int b);
-int         open_fd(char *arg);
+void		printerr(char *msg);
 void	    free_parsing(t_parsing *parsing);
 char	    **freefree(char **split);
+int         open_fd(char *arg);
+/*UTILS2*/
 void	    strip(char *s);
 int         ft_isnumber(char *line);
+int         good_color(char *line);
+int         rgb_to_hex(int r, int g, int b);
 /*INIT*/
 t_parsing	*init_parsing(void);
 t_parsing   *check_args(int ac, char **av);
-
 /*BONUS*/
-int     check_door(t_parsing *parsing, int x, int y);
 void	count_entities(t_parsing *parsing, int *ndoors, int *nmonsters);
+int     check_door(t_parsing *parsing, int x, int y);
 int     texture_monster(t_parsing *parsing, char *line, char texture);
 
 #endif

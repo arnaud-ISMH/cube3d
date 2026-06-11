@@ -6,7 +6,7 @@
 #    By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/30 08:13:49 by adeflers          #+#    #+#              #
-#    Updated: 2026/06/11 13:08:11 by lchapot          ###   ########.fr        #
+#    Updated: 2026/06/11 15:36:16 by lchapot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS        = srcs/main.c \
 			  srcs/parsing/grid.c \
 			  srcs/parsing/init.c \
 			  srcs/parsing/map.c \
+			  srcs/parsing/checkcub.c \
 			  srcs/parsing/utils.c \
 			  srcs/parsing/utils2.c \
 			  srcs/parsing/bonus.c

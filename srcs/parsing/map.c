@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:14:05 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 15:30:03 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 15:35:27 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,6 @@ int	ft_forbidden(char c)
 	if (c == 'X')
 		return (4);
 	return (2);
-}
-
-int	check_map(t_parsing *parsing, int fd, char *line)
-{
-	t_list *map_lst = NULL;
-
-	while (line)
-	{
-		parsing->map.width = max(parsing->map.width, (ft_strlen(line) - 1));
-		parsing->map.height++;
-		ft_lstadd_back(&map_lst, ft_lstnew(line));
-		line = get_next_line(fd, 0);
-	}
-	fill_map(parsing, map_lst);
-	ft_lstclear(&map_lst, free);
-	if (!parse_map(parsing))
-		return (get_next_line(fd, 1), printerr("Map error\n"), 0);
-	if (!flood_fill(&parsing->map, parsing->player_x, parsing->player_y))
-		return (get_next_line(fd, 1), printerr("Map is not closed\n"), 0);
-	return (1);
 }
 
 int	set_player(t_parsing *parsing, int x, int y, char c)
