@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 09:35:11 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/11 13:12:00 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 13:46:50 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ int			max(int a, int b);
 int         open_fd(char *arg);
 void	free_parsing(t_parsing *parsing);
 char	**freefree(char **split);
-
+void	strip(char *s);
+int ft_isnumber(char *line);
 /*INIT*/
 t_parsing	*init_parsing(void);
 t_parsing   *check_args(int ac, char **av);
