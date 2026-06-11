@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 15:34:14 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 15:36:37 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 15:49:20 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int	check_map(t_parsing *parsing, int fd, char *line)
 {
-	t_list *map_lst = NULL;
+	t_list	*map_lst;
 
+	map_lst = NULL;
 	while (line)
 	{
 		parsing->map.width = max(parsing->map.width, (ft_strlen(line) - 1));
@@ -39,7 +40,7 @@ int	check_texture(t_parsing *parsing, char *line, char texture)
 	strip(line);
 	ext = ft_strlen(line) - 4;
 	if (ext < 0 && ft_strncmp(line + ext, ".xpm", 4) != 0)
-		return (printerr("Invalid texture line\n"), 0); 
+		return (printerr("Invalid texture line\n"), 0);
 	if (!is_identifier_free(parsing, texture))
 		return (printerr("Duplicate texture\n"), 0);
 	if (access(line, R_OK) == -1)
@@ -51,24 +52,24 @@ int	check_texture(t_parsing *parsing, char *line, char texture)
 	else if (texture == 'W')
 		parsing->we = ft_strdup(line);
 	else if (texture == 'E')
-		parsing->ea = ft_strdup(line); //ok?
+		parsing->ea = ft_strdup(line);
 	return (1);
 }
 
-int	check_color(t_parsing *parsing, char *line, char color) //atoi to ft_atoi!!!!
+int	check_color(t_parsing *parsing, char *line, char color)
 {
-	char **colors;
+	char	**col;
 
-	colors = ft_split(line, ',');
-	if (!colors || !colors[0] || !colors[1] || !colors[2] || colors[3])
+	col = ft_split(line, ',');
+	if (!col || !col[0] || !col[1] || !col[2] || col[3])
 		return (printerr("Color issue\n"), 0);
 	if (!is_identifier_free(parsing, color))
-		return (freefree(colors), printerr("Duplicate color\n"), 0);
-	if (!good_color(colors[0]) || !good_color(colors[1]) || !good_color(colors[2]))
-		return (freefree(colors), printerr("Invalid color\n"), 0);
+		return (freefree(col), printerr("Duplicate color\n"), 0);
+	if (!good_color(col[0]) || !good_color(col[1]) || !good_color(col[2]))
+		return (freefree(col), printerr("Invalid color\n"), 0);
 	if (color == 'F')
-		parsing->f = rgb_to_hex(ft_atoi(colors[0]), ft_atoi(colors[1]), ft_atoi(colors[2]));
+		parsing->f = rgb2hex(ft_atoi(col[0]), ft_atoi(col[1]), ft_atoi(col[2]));
 	else if (color == 'C')
-		parsing->c = rgb_to_hex(ft_atoi(colors[0]), ft_atoi(colors[1]), ft_atoi(colors[2]));
-	return (freefree(colors), 1);
+		parsing->c = rgb2hex(ft_atoi(col[0]), ft_atoi(col[1]), ft_atoi(col[2]));
+	return (freefree(col), 1);
 }

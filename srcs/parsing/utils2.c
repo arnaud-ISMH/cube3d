@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 13:08:00 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 15:33:13 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 15:55:11 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	strip(char *s)
 {
-	char *res;
+	char	*res;
 
 	res = ft_strchr(s, '\n');
 	if (res)
 		*res = '\0';
 }
 
-int ft_isnumber(char *line)
+int	ft_isnumber(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i] && line[i] != '\n')
@@ -42,7 +42,7 @@ int	good_color(char *line)
 	return (1);
 }
 
-int rgb_to_hex(int r, int g, int b)
+int	rgb2hex(int r, int g, int b)
 {
 	return (r << 16 | g << 8 | b);
 }

@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 09:35:11 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/11 15:39:39 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 15:49:02 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int         open_fd(char *arg);
 void	    strip(char *s);
 int         ft_isnumber(char *line);
 int         good_color(char *line);
-int         rgb_to_hex(int r, int g, int b);
+int         rgb2hex(int r, int g, int b);
 /*INIT*/
 t_parsing	*init_parsing(void);
 t_parsing   *check_args(int ac, char **av);

@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:13:08 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 15:17:40 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 15:51:03 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_parsing	*init_parsing(void)
 {
-	t_parsing   *parsing;
+	t_parsing	*parsing;
 
 	parsing = malloc(sizeof(t_parsing));
 	if (!parsing)
@@ -35,13 +35,14 @@ t_parsing	*init_parsing(void)
 	return (parsing);
 }
 
-t_parsing *check_args(int ac, char **av)
+t_parsing	*check_args(int ac, char **av)
 {
-	int ext = 0;
-	t_parsing *parsing;
+	int			ext;
+	t_parsing	*parsing;
 
 	ext = ft_strlen(av[1]) - 4;
-	if (ac != 2 || ft_strncmp(av[1] + ext, ".cub", 4) != 0 || access(av[1], R_OK) == -1)
+	if (ac != 2 || ft_strncmp(av[1] + ext, ".cub", 4) != 0
+		|| access(av[1], R_OK) == -1)
 	{
 		printerr("Bad argument\n");
 		exit(1);

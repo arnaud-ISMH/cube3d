@@ -6,13 +6,13 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 15:35:57 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 15:56:44 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cube3d.h"
 
-int is_identifier_free(t_parsing *parsing, char c)
+int	is_identifier_free(t_parsing *parsing, char c)
 {
 	if (c == 'N')
 		return (parsing->no == NULL);
@@ -56,7 +56,7 @@ static int	parse_line(t_parsing *parsing, char **tok)
 		return (check_color(parsing, tok[1], tok[0][0]));
 	if (type == 3)
 		return (texture_monster(parsing, tok[1], tok[0][1]));
-	return (-1); // inconnu = début de map
+	return (-1);
 }
 
 int	read_file(char *arg, t_parsing *parsing)
@@ -80,7 +80,7 @@ int	read_file(char *arg, t_parsing *parsing)
 		}
 		tok = ft_split(line, ' ');
 		if (!tok || !tok[0]) //|| tok[2] ou osef?
-			return (close(fd), freefree(tok), free(line), printerr("Parse error\n"), 0);
+			return (close(fd), freefree(tok), free(line), free_parsing(parsing), ("Parse error\n"), 0);
 		res = parse_line(parsing, tok);
 		freefree(tok);
 		if (res == -1)

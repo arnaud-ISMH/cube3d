@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 16:22:40 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 15:24:00 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 15:46:17 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	count_entities(t_parsing *parsing, int *ndoors, int *nmonsters)
 	}
 }
 
-int check_door(t_parsing *parsing, int x, int y)
+int	check_door(t_parsing *parsing, int x, int y)
 {
 	t_map	*m;
 
@@ -56,7 +56,7 @@ int	texture_monster(t_parsing *parsing, char *line, char texture)
 	strip(line);
 	ext = ft_strlen(line) - 4;
 	if (ext < 0 && ft_strncmp(line + ext, ".xpm", 4) != 0)
-		return (printerr("Invalid texture line\n"), 0); 
+		return (printerr("Invalid texture line\n"), 0);
 	if (!is_identifier_free(parsing, texture))
 		return (printerr("Duplicate texture\n"), 0);
 	if (access(line, R_OK) == -1)
