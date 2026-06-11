@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 16:22:40 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 13:56:59 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 15:24:00 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,23 +51,19 @@ int check_door(t_parsing *parsing, int x, int y)
 
 int	texture_monster(t_parsing *parsing, char *line, char texture)
 {
-	char	**split;
 	int		ext;
 
-	split = ft_split(line, ' ');
-	if (!split || !split[0] || !split[1] || split[2])
-		return (printerr("Invalid texture line\n"), 0);
-	strip(split[1]);
-	ext = ft_strlen(split[1]) - 4;
-	if (ext < 0 && ft_strncmp(split[1] + ext, ".xpm", 4) != 0)
-		return (freefree(split), printerr("Invalid texture line\n"), 0); 
-	if (!is_identifier_free(parsing, line))
-		return (freefree(split), printerr("Duplicate texture\n"), 0);
-	if (access(split[1], R_OK) == -1)
-		return (freefree(split), printerr("Cannot access texture\n"), 0);
+	strip(line);
+	ext = ft_strlen(line) - 4;
+	if (ext < 0 && ft_strncmp(line + ext, ".xpm", 4) != 0)
+		return (printerr("Invalid texture line\n"), 0); 
+	if (!is_identifier_free(parsing, texture))
+		return (printerr("Duplicate texture\n"), 0);
+	if (access(line, R_OK) == -1)
+		return (printerr("Cannot access texture\n"), 0);
 	if (texture == '1')
-		parsing->t1 = ft_strdup(split[1]);
+		parsing->t1 = ft_strdup(line);
 	else if (texture == '2')
-		parsing->t2 = ft_strdup(split[1]);
-	return (freefree(split), 1);
+		parsing->t2 = ft_strdup(line);
+	return (1);
 }

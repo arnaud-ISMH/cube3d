@@ -6,101 +6,119 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 13:57:31 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 15:22:09 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cube3d.h"
 
-int is_identifier_free(t_parsing *parsing, char *line)
+int is_identifier_free(t_parsing *parsing, char c)
 {
-	if (ft_strncmp(line, "NO ", 3) == 0)
+	if (c == 'N')
 		return (parsing->no == NULL);
-	if (ft_strncmp(line, "SO ", 3) == 0)
+	if (c == 'S')
 		return (parsing->so == NULL);
-	if (ft_strncmp(line, "WE ", 3) == 0)
+	if (c == 'W')
 		return (parsing->we == NULL);
-	if (ft_strncmp(line, "EA ", 3) == 0)
+	if (c == 'E')
 		return (parsing->ea == NULL);
-	if (ft_strncmp(line, "T1 ", 3) == 0)
+	if (c == '1')
 		return (parsing->t1 == NULL);
-	if (ft_strncmp(line, "T2 ", 3) == 0)
+	if (c == '2')
 		return (parsing->t2 == NULL);
-	if (ft_strncmp(line, "F ", 2) == 0)
+	if (c == 'F')
 		return (parsing->f = -1);
-	if (ft_strncmp(line, "C ", 2) == 0)
+	if (c == 'C')
 		return (parsing->c = -1);
 	return (0);
 }
 
 int	check_texture(t_parsing *parsing, char *line, char texture)
 {
-	char	**split;
 	int		ext;
 
-	split = ft_split(line, ' ');
-	if (!split || !split[0] || !split[1] || split[2])
-		return (printerr("Invalid texture line\n"), 0);
-	strip(split[1]);
-	ext = ft_strlen(split[1]) - 4;
-	if (ext < 0 && ft_strncmp(split[1] + ext, ".xpm", 4) != 0)
-		return (freefree(split), printerr("Invalid texture line\n"), 0); 
-	if (!is_identifier_free(parsing, line))
-		return (freefree(split), printerr("Duplicate texture\n"), 0);
-	if (access(split[1], R_OK) == -1)
-		return (freefree(split), printerr("Cannot access texture\n"), 0);
+	strip(line);
+	ext = ft_strlen(line) - 4;
+	if (ext < 0 && ft_strncmp(line + ext, ".xpm", 4) != 0)
+		return (printerr("Invalid texture line\n"), 0); 
+	if (!is_identifier_free(parsing, texture))
+		return (printerr("Duplicate texture\n"), 0);
+	if (access(line, R_OK) == -1)
+		return (printerr("Cannot access texture\n"), 0);
 	if (texture == 'N')
-		parsing->no = ft_strdup(split[1]);
+		parsing->no = ft_strdup(line);
 	else if (texture == 'S')
-		parsing->so = ft_strdup(split[1]);
+		parsing->so = ft_strdup(line);
 	else if (texture == 'W')
-		parsing->we = ft_strdup(split[1]);
+		parsing->we = ft_strdup(line);
 	else if (texture == 'E')
-		parsing->ea = ft_strdup(split[1]); //ok?
-	return (freefree(split), 1);
+		parsing->ea = ft_strdup(line); //ok?
+	return (1);
 }
 
-int	good_color(char *line)
+int	good_color(char *line) //utils2
 {
 	if (!ft_isnumber(line) || (ft_atoi(line) < 0 || ft_atoi(line) > 255)) //ft_atoi !!!
 		return (0);
 	return (1);
 }
 
-int rgb_to_hex(int r, int g, int b)
+int rgb_to_hex(int r, int g, int b) //utils2
 {
-    return (r << 16 | g << 8 | b);
+	return (r << 16 | g << 8 | b);
 }
 
 int	check_color(t_parsing *parsing, char *line, char color) //atoi to ft_atoi!!!!
 {
-	char **split;
 	char **colors;
 
-	split = ft_split(line, ' ');
-	if (!split)
-		return (printerr("Color issue\n"), 0);
-	colors = ft_split(split[1], ',');
-	//strip(colors[2]);
+	colors = ft_split(line, ',');
+	//strip(colors[2]); //nn pcq atoi le fait deja
 	if (!colors || !colors[0] || !colors[1] || !colors[2] || colors[3])
-		return (freefree(split), printerr("Color issue\n"), 0);
-	if (!is_identifier_free(parsing, line))
-		return (freefree(split), freefree(colors), printerr("Duplicate color\n"), 0);
+		return (printerr("Color issue\n"), 0);
+	if (!is_identifier_free(parsing, color))
+		return (freefree(colors), printerr("Duplicate color\n"), 0);
 	if (!good_color(colors[0]) || !good_color(colors[1]) || !good_color(colors[2]))
-		return (freefree(split), freefree(colors), printerr("Invalid color\n"), 0);
+		return (freefree(colors), printerr("Invalid color\n"), 0);
 	if (color == 'F')
 		parsing->f = rgb_to_hex(ft_atoi(colors[0]), ft_atoi(colors[1]), ft_atoi(colors[2]));
 	else if (color == 'C')
 		parsing->c = rgb_to_hex(ft_atoi(colors[0]), ft_atoi(colors[1]), ft_atoi(colors[2]));
-	return (freefree(split), freefree(colors), 1);
+	return (freefree(colors), 1);
 }
 
-
-int	read_file(char *arg, t_parsing *parsing) //marche pas si "    SO    " ??
+static int	identify_line(char *id)
 {
-	int fd;
-	int dup = 1;
-	char *line;
+	if (ft_strncmp(id, "NO", 3) == 0 || ft_strncmp(id, "SO", 3) == 0
+		|| ft_strncmp(id, "WE", 3) == 0 || ft_strncmp(id, "EA", 3) == 0)
+		return (1);
+	if (ft_strncmp(id, "F", 2) == 0 || ft_strncmp(id, "C", 2) == 0)
+		return (2);
+	if (ft_strncmp(id, "T1", 3) == 0 || ft_strncmp(id, "T2", 3) == 0)
+		return (3);
+	return (0);
+}
+
+static int	parse_line(t_parsing *parsing, char **tok)
+{
+	int	type;
+
+	type = identify_line(tok[0]);
+	if (type == 1)
+		return (check_texture(parsing, tok[1], tok[0][0]));
+	if (type == 2)
+		return (check_color(parsing, tok[1], tok[0][0]));
+	if (type == 3)
+		return (texture_monster(parsing, tok[1], tok[0][1]));
+	return (-1); // inconnu = début de map
+}
+
+int	read_file(char *arg, t_parsing *parsing)
+{
+	int		fd;
+	int		res;
+	char	*line;
+	char	**tok;
 
 	fd = open_fd(arg);
 	line = get_next_line(fd, 0);
@@ -114,24 +132,23 @@ int	read_file(char *arg, t_parsing *parsing) //marche pas si "    SO    " ??
 			line = get_next_line(fd, 0);
 			continue ;
 		}
-		else if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0 || ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0)
-			dup = check_texture(parsing, line, line[0]);
-		else if (ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0)
-			dup = check_color(parsing, line, line[0]);
-		else if (ft_strncmp(line, "T1 ", 3) == 0 || ft_strncmp(line, "T2 ", 3) == 0)
-			dup = texture_monster(parsing, line, line[1]);
-		else
-			break;
-		if (dup == 0)
-			return (close(fd), get_next_line(fd, 1), free(line), free_parsing(parsing), printerr("Error in texture or color\n"), 0);
+		tok = ft_split(line, ' ');
+		if (!tok || !tok[0]) //|| tok[2] ou osef?
+			return (close(fd), freefree(tok), free(line), printerr("Parse error\n"), 0);
+		res = parse_line(parsing, tok);
+		freefree(tok);
+		if (res == -1)
+			break ;
+		if (res == 0)
+			return (close(fd), get_next_line(fd, 1), free(line), free_parsing(parsing), printerr("Error in element\n"), 0);
 		free(line);
 		line = get_next_line(fd, 0);
 	}
-	// printf("%p, %p, %p, %p, colors %i, %i, t1 %p t2 %p\n", parsing->no, parsing->so, parsing->we, parsing->ea, parsing->f, parsing->c, parsing->t1, parsing->t2);
-	if (parsing->no == NULL || parsing->so == NULL || parsing->we == NULL || 
-		parsing->ea == NULL || parsing->f == -1 || parsing->c == -1 || parsing->t1 == NULL || parsing->t2 == NULL)
+	if (parsing->no == NULL || parsing->so == NULL || parsing->we == NULL
+		|| parsing->ea == NULL || parsing->f == -1 || parsing->c == -1
+		|| parsing->t1 == NULL || parsing->t2 == NULL)
 		return (close(fd), free(line), printerr("Missing texture or color\n"), 0);
 	if (!check_map(parsing, fd, line))
-		return(close(fd), free_parsing(parsing), 0); //free(line) deja fait dans check map normalement
+		return (close(fd), free_parsing(parsing), 0);
 	return (close(fd), 1);
 }

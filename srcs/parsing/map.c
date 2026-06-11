@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:14:05 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 13:00:23 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 15:30:03 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,12 @@ int	parse_chara(t_parsing *parsing, int x, int y)
 		return (0);
 	if (isok == 4)
 	{
-		parsing->monster->pos.x = x;
-		parsing->monster->pos.y = y;
+		parsing->monster[parsing->monster_count].pos.x = x;
+		parsing->monster[parsing->monster_count].pos.y = y;
+		// printf("monster %i, posx %f posy %f\n", parsing->monster_count, parsing->monster[parsing->monster_count].pos.x, parsing->monster[parsing->monster_count].pos.y);
+		parsing->monster_count++;
 	}
-	return (1);	
+	return (1);
 }
 
 int	parse_map(t_parsing *parsing)
