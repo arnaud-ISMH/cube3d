@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 13:16:08 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 13:49:12 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	check_texture(t_parsing *parsing, char *line, char texture)
 
 int	good_color(char *line)
 {
-	if (!ft_isnumber(line) || (atoi(line) < 0 || atoi(line) > 255)) //ft_atoi !!!
+	if (!ft_isnumber(line) || (ft_atoi(line) < 0 || ft_atoi(line) > 255)) //ft_atoi !!!
 		return (0);
 	return (1);
 }
@@ -83,9 +83,9 @@ int	check_color(t_parsing *parsing, char *line, char color) //atoi to ft_atoi!!!
 	if (!good_color(colors[0]) || !good_color(colors[1]) || !good_color(colors[2]))
 		return (freefree(split), freefree(colors), printerr("Invalid color\n"), 0);
 	if (color == 'F')
-		parsing->f = (t_color){atoi(colors[0]), atoi(colors[1]), atoi(colors[2])};
+		parsing->f = (t_color){ft_atoi(colors[0]), ft_atoi(colors[1]), ft_atoi(colors[2])};
 	else if (color == 'C')
-		parsing->c = (t_color){atoi(colors[0]), atoi(colors[1]), atoi(colors[2])};
+		parsing->c = (t_color){ft_atoi(colors[0]), ft_atoi(colors[1]), ft_atoi(colors[2])};
 	return (freefree(split), freefree(colors), 1);
 }
 
