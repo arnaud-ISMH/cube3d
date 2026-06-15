@@ -12,44 +12,10 @@
 
 #include "../../includes/cube3d.h"
 
-int	close_win(t_mlx_data *data)
-{
-	mlx_destroy_image(data->mlx, data->img.img_ptr);
-	if (data->texture_north.img_ptr)
-		mlx_destroy_image(data->mlx, data->texture_north.img_ptr);
-	if (data->texture_south.img_ptr)
-		mlx_destroy_image(data->mlx, data->texture_south.img_ptr);
-	if (data->texture_east.img_ptr)
-		mlx_destroy_image(data->mlx, data->texture_east.img_ptr);
-	if (data->texture_west.img_ptr)
-		mlx_destroy_image(data->mlx, data->texture_west.img_ptr);
-	if (data->texture_door.img_ptr)
-		mlx_destroy_image(data->mlx, data->texture_door.img_ptr);
-	int i = 0;
-	while (i < data->parsing->monster_count)
-	{
-		if (data->monster[i].texture[0].img_ptr)
-			mlx_destroy_image(data->mlx, data->monster[i].texture[0].img_ptr);
-		if (data->monster[i].texture[1].img_ptr)
-			mlx_destroy_image(data->mlx, data->monster[i].texture[1].img_ptr);
-		i++;
-	}
-	mlx_destroy_window(data->mlx, data->win);
-	mlx_destroy_display(data->mlx);
-	/* if (data->map.grid) */
-	/* 	free(data->map.grid); */
-	if (data->monster)
-		free(data->monster);
-	if (data->parsing)
-		free_parsing(data->parsing);
-	free(data->mlx);
-	free(data);
-	exit (0);
-}
-
 int	load_texture(t_mlx_data *data, t_texture *texture, char *path)
 {
-	texture->img_ptr = mlx_xpm_file_to_image(data->mlx, path, &texture->width, &texture->height);
+	texture->img_ptr = mlx_xpm_file_to_image(data->mlx, path, &texture->width,
+			&texture->height);
 	if (!texture->img_ptr || texture->width <= 0 || texture->height <= 0)
 		return (1);
 	texture->img_data = mlx_get_data_addr(texture->img_ptr, &texture->bpp,
@@ -59,6 +25,8 @@ int	load_texture(t_mlx_data *data, t_texture *texture, char *path)
 
 int	init_textures(t_mlx_data *data)
 {
+	int	i;
+
 	if (load_texture(data, &data->texture_north, data->parsing->no))
 		return (1);
 	if (load_texture(data, &data->texture_south, data->parsing->so))
@@ -67,7 +35,7 @@ int	init_textures(t_mlx_data *data)
 		return (1);
 	if (load_texture(data, &data->texture_west, data->parsing->we))
 		return (1);
-	int i = 0;
+	i = 0;
 	while (i < data->parsing->monster_count)
 	{
 		if (load_texture(data, &data->monster[i].texture[0], data->parsing->t1))
@@ -78,7 +46,7 @@ int	init_textures(t_mlx_data *data)
 	}
 	if (load_texture(data, &data->texture_door, "textures/door.xpm"))
 		return (1);
-    return (0);
+	return (0);
 }
 
 int	redraw(t_mlx_data *data)

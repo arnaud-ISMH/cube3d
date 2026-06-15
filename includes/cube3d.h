@@ -40,13 +40,18 @@ int			mouse_move(int x, int y, t_mlx_data *data);
 
 int			init_monster(t_mlx_data *data);
 void		draw_monster(t_mlx_data *data, unsigned int color);
-void		draw_monster_stripe(t_mlx_data *data, t_monster *monster, int stripe, int tex_x, double transform_y, int sprite_dim, int draw_start_y, int draw_end_y);
+void		draw_monster_stripe(t_mlx_data *data, t_monster *monster, t_render_monster m);
 void		render_single_monster(t_mlx_data *data, t_monster *monster);
+void		rsm2(t_mlx_data *data, t_monster *monster, t_render_monster m);
 int			init_monster_tex(t_mlx_data *data);
 void		update_monster_position(t_mlx_data *data);
 void		animate_and_render_monsters(t_mlx_data *data);
+void		sort_monsters(t_mlx_data *data);
 
 void		draw_map(t_mlx_data *data);
+void		minimap_door(t_mlx_data *data, int x, int y);
+void		minimap_wall(t_mlx_data *data, int x, int y);
+void		minimap_floor(t_mlx_data *data, int x, int y);
 int			init_map(t_mlx_data *data);
 int			is_wall(t_mlx_data *data, double x, double y);
 void		draw_floor_ceiling(t_mlx_data *data, unsigned int f_color, unsigned int c_color);
@@ -57,7 +62,7 @@ void		get_ray_vect(t_mlx_data *data, t_raycast *ray, int i);
 void		init_dda(t_mlx_data *data, t_raycast *ray);
 void		dda_loop(t_mlx_data *data, t_raycast *ray);
 void		fish_eye_correction(t_raycast *ray);
-void		render_3D(t_mlx_data * data, t_raycast *ray, int i);
+void		render_3d(t_mlx_data * data, t_raycast *ray, int i);
 void		draw_rays_minimap(t_mlx_data *data, t_raycast ray);
 void		choose_tex(t_mlx_data *data, t_raycast *ray);
 void		draw_tex_on_wall(t_mlx_data *data, t_raycast *ray, int i);
@@ -68,6 +73,8 @@ int			load_texture(t_mlx_data *data, t_texture *texture, char *path);
 
 void		trigger_eat_effect(t_mlx_data *data);
 void		eat_animation(t_mlx_data *data);
+void		draw_mm_range_atk(t_mlx_data *data);
+int			eat_monster(t_mlx_data *data);
 
 /*PARSING*/
 int			read_file(char *arg, t_parsing *parsing);

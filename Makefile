@@ -22,10 +22,15 @@ INC_DIR     = includes
 SRCS        = srcs/main.c \
 			  srcs/exec/init.c \
 			  srcs/exec/utils.c \
+			  srcs/exec/utils2.c \
+			  srcs/exec/utils3.c \
 			  srcs/exec/draw_map.c \
+			  srcs/exec/minimap.c \
 			  srcs/exec/raycasting.c \
+			  srcs/exec/raycasting2.c \
 			  srcs/exec/player.c \
 			  srcs/exec/monster.c \
+			  srcs/exec/monster2.c \
 			  srcs/parsing/parse.c\
 			  srcs/parsing/grid.c \
 			  srcs/parsing/init.c \
