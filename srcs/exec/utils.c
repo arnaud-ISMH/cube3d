@@ -69,13 +69,13 @@ int eat_monster(t_mlx_data *data)
 			if (distance < 1.0) // Si le monstre est à moins d'une case du joueur
 			{
 				data->monster[i].is_alive = false; // Le monstre est "mangé"
-				ft_printf("Monster at (%.2f, %.2f) has been eaten!\n", data->monster[i].pos.x, data->monster[i].pos.y);
 				trigger_eat_effect(data); // Déclencher l'effet de flash si le monstre est mangé
 				return (1); // On arrête après avoir mangé un monstre
 			}
 		}
 		i++;
 	}
+	// un cercle de la range d'attaque du joueur sur la minimap pour indiquer la zone d'effet de l'attaque
     int radius = 10;
     int center_x = (int)(data->player.pos.x * data->map.scale);
     int center_y = (int)(data->player.pos.y * data->map.scale);

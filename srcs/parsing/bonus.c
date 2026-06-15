@@ -55,7 +55,7 @@ int	texture_monster(t_parsing *parsing, char *line, char texture)
 
 	strip(line);
 	ext = ft_strlen(line) - 4;
-	if (ext < 0 && ft_strncmp(line + ext, ".xpm", 4) != 0)
+	if (ext < 0 || ft_strncmp(line + ext, ".xpm", 4) != 0)
 		return (printerr("Invalid texture line\n"), 0);
 	if (!is_identifier_free(parsing, texture))
 		return (printerr("Duplicate texture\n"), 0);

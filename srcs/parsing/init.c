@@ -32,6 +32,8 @@ t_parsing	*init_parsing(void)
 	parsing->door_count = 0;
 	parsing->monster = NULL;
 	parsing->monster_count = 0;
+	parsing->t1 = NULL;
+	parsing->t2 = NULL;
 	return (parsing);
 }
 

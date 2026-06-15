@@ -65,6 +65,21 @@ void	draw_map(t_mlx_data *data)
 					i++;
 				}
 			}
+			else if (data->map.grid[y][x] == 'D')
+			{
+				printf("Door at (%d, %d)\n", x, y); // Debug
+				int i = 0;
+				while (i < data->map.scale)
+				{
+					int j = 0;
+					while (j < data->map.scale)
+					{
+						put_pixel(&data->img, (x * data->map.scale) + j, (y * data->map.scale) + i, 0xFF00FF);
+						j++;
+					}
+					i++;
+				}
+			}
 			else
 			{
 				int i = 0;

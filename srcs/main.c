@@ -31,6 +31,12 @@ int	main(int ac, char **av)
 		return (close_win(data), 1);
 	if (init_textures(data))
 		return (close_win(data), 1);
+	int i = 0;
+	while (i < data->map.height)
+	{
+		printf("Map line %d: %s\n", i, data->map.grid[i]); // Debug
+		i++;
+	}
 	mlx_hook(data->win, 17, 0, (int (*)())(void *)close_win, data);
 	mlx_hook(data->win, 2, 1L<<0, (int (*)())(void *)key_press, data);
 	mlx_hook(data->win, 3, 1L<<1, (int (*)())(void *)key_release, data);

@@ -23,10 +23,21 @@ int	close_win(t_mlx_data *data)
 		mlx_destroy_image(data->mlx, data->texture_east.img_ptr);
 	if (data->texture_west.img_ptr)
 		mlx_destroy_image(data->mlx, data->texture_west.img_ptr);
+	if (data->texture_door.img_ptr)
+		mlx_destroy_image(data->mlx, data->texture_door.img_ptr);
+	int i = 0;
+	while (i < data->parsing->monster_count)
+	{
+		if (data->monster[i].texture[0].img_ptr)
+			mlx_destroy_image(data->mlx, data->monster[i].texture[0].img_ptr);
+		if (data->monster[i].texture[1].img_ptr)
+			mlx_destroy_image(data->mlx, data->monster[i].texture[1].img_ptr);
+		i++;
+	}
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_display(data->mlx);
-	if (data->map.grid)
-		free(data->map.grid);
+	/* if (data->map.grid) */
+	/* 	free(data->map.grid); */
 	if (data->monster)
 		free(data->monster);
 	if (data->parsing)
@@ -65,37 +76,8 @@ int	init_textures(t_mlx_data *data)
 			return (1);
 		i++;
 	}
-
-	/* if (load_texture(data, &data->texture_north, "textures/north.xpm")) //changer en data->parsing->no; */
-	/* 	return (1); */
-	/* if (load_texture(data, &data->texture_south, "textures/south.xpm"))//changer en data->parsing->so; */
-	/* 	return (1); */
-	/* if (load_texture(data, &data->texture_east, "textures/east.xpm"))//changer en data->parsing->ea; */
-	/* 	return (1); */
-	/* if (load_texture(data, &data->texture_west, "textures/west.xpm"))//changer en data->parsing->we; */
-	/* 	return (1); */
-
-	// 1. Chargement des murs avec les chemins récupérés par le parsing
-	/* if (load_texture(data, &data->texture_north, data->parsing->no)) */
-	/* 	return (1); */
-	/* if (load_texture(data, &data->texture_south, data->parsing->so)) */
-	/* 	return (1); */
-	/* if (load_texture(data, &data->texture_west, data->parsing->we)) */
-	/* 	return (1); */
-	/* if (load_texture(data, &data->texture_east, data->parsing->ea)) */
-	/* 	return (1); */
-
-	// 2. Chargement de la texture du monstre (chemin en dur pour le moment ou data->parsing->t1)
-	/* if (data->parsing->t1) */
-	/* { */
-	/* 	if (load_texture(data, &data->texture_monster, data->parsing->t1)) */
-	/* 		return (1); */
-	/* } */
-    
-    // ON UTILISE LES TEXTURES GLOBALEMENT DÉCLARÉES DANS DATA
-    /* if (load_texture(data, &data->texture_monster, "textures/broly.xpm")) */
-    /*     return (1); */
-
+	if (load_texture(data, &data->texture_door, "textures/door.xpm"))
+		return (1);
     return (0);
 }
 

@@ -30,13 +30,6 @@ typedef struct	s_color
 	int b;
 }	t_color;
 
-typedef struct s_door
-{
-    int     x;
-    int     y;
-    int     open;  // 0 fermée, 1 ouverte
-}   t_door;
-
 typedef struct s_keys
 {
 	bool w;
@@ -64,6 +57,12 @@ typedef struct s_texture
 	int		endian;
 }        t_texture;
 
+typedef struct s_door
+{
+    int     x;
+    int     y;
+    int     open;  // 0 fermée, 1 ouverte
+}   t_door;
 
 typedef struct s_monster
 {
@@ -162,12 +161,13 @@ typedef struct s_mlx_data
 	t_map		map;
 	t_parsing	*parsing;
 	t_raycast	*raycast;
-	double		z_buffer[1800];
+	double		z_buffer[(int)WIN_W];
 	t_texture	texture_north;
 	t_texture	texture_south;
 	t_texture	texture_west;
 	t_texture	texture_east;
-	t_texture	texture_monster;
+	// t_texture	texture_monster;
+	t_texture	texture_door;
 	long long	flash_start_time;
 	bool		is_flashing;
 }		t_mlx_data;
