@@ -28,6 +28,7 @@ void	init_player(t_mlx_data *data)
 	ft_bzero(&data->player.keys, sizeof(t_keys));
 	data->flash_start_time = 0;
 	data->is_flashing = false;
+	data->score = 0;
 }
 
 void	draw_player(t_mlx_data *data, unsigned int color)

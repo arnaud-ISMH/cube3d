@@ -51,6 +51,15 @@ int	init_textures(t_mlx_data *data)
 
 int	redraw(t_mlx_data *data)
 {
+	char	*score_str;
+	char	*monster_count_str;
+
+	score_str = ft_itoa(data->score);
+	if (!score_str)
+		return (1);
+	monster_count_str = ft_itoa(data->parsing->monster_count);
+	if (!monster_count_str)
+		return (free(score_str), 1);
 	ft_bzero(data->img.img_data, WIN_H * data->img.size_line);
 	draw_floor_ceiling(data, data->parsing->f, data->parsing->c);
 	update_player_position(data);
@@ -62,6 +71,18 @@ int	redraw(t_mlx_data *data)
 	draw_monster(data, 0xFF0000);
 	eat_animation(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
+	mlx_string_put(data->mlx, data->win, WIN_W - 150, 50, 0xFFFFFF, "Score: ");
+	mlx_string_put(data->mlx, data->win, WIN_W - 80, 50, 0xFFFFFF,
+		score_str);
+	free(score_str);
+	mlx_string_put(data->mlx, data->win, WIN_W - 60, 50, 0xFFFFFF, "/");
+	mlx_string_put(data->mlx, data->win, WIN_W - 40, 50, 0xFFFFFF,
+		monster_count_str);
+	free(monster_count_str);
+	if (data->parsing->monster_count > 0
+		&& data->score == data->parsing->monster_count)
+		mlx_string_put(data->mlx, data->win, WIN_W / 2 - 100, WIN_H / 2,
+			0x00FF00, "YOU WIN!");
 	return (0);
 }
 

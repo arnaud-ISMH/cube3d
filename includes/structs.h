@@ -191,6 +191,7 @@ typedef struct s_mlx_data
 	t_texture	texture_door;
 	long long	flash_start_time;
 	bool		is_flashing;
+	int			score;
 }		t_mlx_data;
 
 #endif

@@ -27,6 +27,7 @@ void	trigger_eat_effect(t_mlx_data *data)
 {
 	data->flash_start_time = get_time_in_ms();
 	data->is_flashing = true;
+	data->score += 1;
 }
 
 void	eat_animation(t_mlx_data *data)
