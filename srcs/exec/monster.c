@@ -32,6 +32,7 @@ int	init_monster(t_mlx_data *data)
 		data->monster[i].keys.d = false;
 		data->monster[i].keys.left = false;
 		data->monster[i].keys.right = false;
+		data->monster[i].is_alive = true;
 		i++;
 	}
 	/* data->monster.texture = data->texture_monster; */
@@ -43,6 +44,11 @@ void	draw_monster(t_mlx_data *data, unsigned int color)
 	int	monster_index = 0;
 	while (monster_index < data->parsing->monster_count)
 	{
+		if (!data->monster[monster_index].is_alive)
+		{
+			monster_index++;
+			continue ;
+		}
 		int	i;
 		int	j;
 
@@ -135,9 +141,8 @@ void    draw_monster_stripe(t_mlx_data *data, t_monster *monster, int stripe, in
         tex_offset = (tex_y * monster->current_tex->size_line) + (tex_x * (monster->current_tex->bpp / 8));
         color = *(unsigned int *)(monster->current_tex->img_data + tex_offset);
 
-        // TRÈS IMPORTANT : On ne dessine pas si la couleur est invisible (ex: noir 0x000000 ou une couleur transparente)
-        // Et on vérifie le Z-BUFFER pour voir si le monstre n'est pas caché derrière un mur !
-        if (color != 0x000000 && transform_y < data->z_buffer[stripe])
+		// ne pas dessiner si fond fert + check if behind wall
+        if (color != 0x00FF00 && transform_y < data->z_buffer[stripe])
         {
             put_pixel(&data->img, stripe, y, color);
         }
@@ -155,6 +160,11 @@ void	animate_and_render_monsters(t_mlx_data *data)
 
 	while (i < data->parsing->monster_count)
 	{
+		if (!data->monster[i].is_alive)
+		{
+			i++;
+			continue ;
+		}
 		// 1. On prend "l'heure" actuelle en millisecondes
 		current_time = get_time_in_ms();
 

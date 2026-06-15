@@ -65,6 +65,10 @@ void		draw_tex_on_wall(t_mlx_data *data, t_raycast *ray, int i);
 int			init_textures(t_mlx_data *data);
 int			load_texture(t_mlx_data *data, t_texture *texture, char *path);
 
+
+void		trigger_eat_effect(t_mlx_data *data);
+void		eat_animation(t_mlx_data *data);
+
 /*PARSING*/
 int			read_file(char *arg, t_parsing *parsing);
 int         is_identifier_free(t_parsing *parsing, char c);

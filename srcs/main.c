@@ -27,12 +27,6 @@ int	main(int ac, char **av)
 	init_player(data);
 	if (init_monster(data))
 		return (close_win(data), 1);
-	int i = 0;
-	while (i < data->parsing->monster_count)
-	{
-		ft_printf("monster pos : x = %f, y = %f\n", data->monster[i].pos.x, data->monster[i].pos.y); // Debug
-		i++;
-	}
 	if (init_map(data))
 		return (close_win(data), 1);
 	if (init_textures(data))

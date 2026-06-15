@@ -41,6 +41,8 @@ void	init_player(t_mlx_data *data)
 		data->player.direction = M_PI;             // 180°
 	
 	ft_bzero(&data->player.keys, sizeof(t_keys));
+	data->flash_start_time = 0;
+	data->is_flashing = false;
 }
 
 void	draw_player(t_mlx_data *data, unsigned int color)

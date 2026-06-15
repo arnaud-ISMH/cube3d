@@ -110,6 +110,7 @@ int	redraw(t_mlx_data *data)
 	draw_minimap_borders(data);
 	raycasting(data);
 	draw_monster(data, 0xFF0000);
+	eat_animation(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img_ptr, 0, 0);
 	return (0);
 }

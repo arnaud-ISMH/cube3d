@@ -74,6 +74,7 @@ typedef struct s_monster
 	t_texture	texture[2];
 	t_texture	*current_tex;
 	double		distance; // pour le tri des monstres du plus loin au plus proche du player
+	bool		is_alive;
 }		t_monster;
 
 typedef struct	s_parsing
@@ -167,6 +168,8 @@ typedef struct s_mlx_data
 	t_texture	texture_west;
 	t_texture	texture_east;
 	t_texture	texture_monster;
+	long long	flash_start_time;
+	bool		is_flashing;
 }		t_mlx_data;
 
 #endif

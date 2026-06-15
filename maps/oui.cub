@@ -1,14 +1,14 @@
-F 255,0,0
-C 0,255,0
+F 150,200,50
+C 0,100,250
 
 
-NO ./textures/feu.xpm
-SO ./textures/eau.xpm
-WE ./textures/plante.xpm
-EA ./textures/electrik.xpm
+NO ./textures/briquewall.xpm
+SO ./textures/whitewall.xpm
+WE ./textures/forestspirit.xpm
+EA ./textures/eau.xpm
 
-T1 ./textures/broly.xpm
-T2 ./textures/south.xpm
+T1 ./textures/ghost1vert.xpm
+T2 ./textures/ghost2vert.xpm
 
         1111111111111111111111111
         1000000000110000000000001
