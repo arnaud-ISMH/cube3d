@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 15:56:44 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/11 16:48:57 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	is_identifier_free(t_parsing *parsing, char c)
 	if (c == '2')
 		return (parsing->t2 == NULL);
 	if (c == 'F')
-		return (parsing->f = -1);
+		return (parsing->f == -1);
 	if (c == 'C')
-		return (parsing->c = -1);
+		return (parsing->c == -1);
 	return (0);
 }
 
