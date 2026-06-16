@@ -85,12 +85,30 @@ int	open_door(t_mlx_data *data)
 					- (data->parsing->door[i].x + 0.5), 2)
 				+ pow(data->player.pos.y
 					- (data->parsing->door[i].y + 0.5), 2));
-		if (distance < 1.0)
+		if (distance < 1.0 && distance > 0.5)
 		{
 			data->parsing->door[i].open = !data->parsing->door[i].open;
 			return (1);
 		}
 		i++;
+	}
+	return (0);
+}
+
+int	detect_closed_door(t_mlx_data *data, t_raycast *ray)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->parsing->door_count)
+	{
+		if (ray->map_x == data->parsing->door[i].x
+			&& ray->map_y == data->parsing->door[i].y
+			&& !data->parsing->door[i].open)
+		{
+			ray->hit_door = 1;
+			return (1);
+		}
 	}
 	return (0);
 }

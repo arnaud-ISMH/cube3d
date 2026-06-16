@@ -70,15 +70,6 @@ void	display_score(t_mlx_data *data)
 
 int	redraw(t_mlx_data *data)
 {
-	char	*score_str;
-	char	*count_str;
-
-	score_str = ft_itoa(data->score);
-	if (!score_str)
-		return (1);
-	count_str = ft_itoa(data->parsing->monster_count);
-	if (!count_str)
-		return (free(score_str), 1);
 	ft_bzero(data->img.img_data, WIN_H * data->img.size_line);
 	draw_floor_ceiling(data, data->parsing->f, data->parsing->c);
 	update_player_position(data);

@@ -92,9 +92,6 @@ void	init_dda(t_mlx_data *data, t_raycast *ray)
 
 void	dda_loop(t_mlx_data *data, t_raycast *ray)
 {
-	int	i;
-	int	hit;
-
 	ray->side = 0;
 	ray->hit_door = 0;
 	while (1)
@@ -116,20 +113,7 @@ void	dda_loop(t_mlx_data *data, t_raycast *ray)
 			break ;
 		if (data->map.grid[ray->map_y][ray->map_x] == '1')
 			break ;
-		i = -1;
-		hit = 0;
-		while (++i < data->parsing->door_count)
-		{
-			if (ray->map_x == data->parsing->door[i].x
-				&& ray->map_y == data->parsing->door[i].y
-				&& !data->parsing->door[i].open)
-			{
-				ray->hit_door = 1;
-				hit = 1;
-				break ;
-			}
-		}
-		if (hit)
+		if (detect_closed_door(data, ray))
 			break ;
 	}
 }

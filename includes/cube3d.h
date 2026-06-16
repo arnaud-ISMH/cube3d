@@ -78,6 +78,7 @@ void		draw_mm_range_atk(t_mlx_data *data);
 int			eat_monster(t_mlx_data *data);
 
 int			open_door(t_mlx_data *data);
+int			detect_closed_door(t_mlx_data *data, t_raycast *ray);
 
 /*PARSING*/
 int			read_file(char *arg, t_parsing *parsing);
