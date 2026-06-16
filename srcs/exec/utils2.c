@@ -27,19 +27,6 @@ void	free_monster_tex(t_mlx_data *data)
 	}
 }
 
-int	close_win_early(t_mlx_data *data)
-{
-	mlx_destroy_image(data->mlx, data->img.img_ptr);
-	mlx_destroy_window(data->mlx, data->win);
-	mlx_destroy_display(data->mlx);
-	if (data->parsing)
-		free_parsing(data->parsing);
-	free(data->mlx);
-	free(data);
-	exit (0);
-}
-
-
 int	close_win(t_mlx_data *data)
 {
 	mlx_mouse_show_clean(data);

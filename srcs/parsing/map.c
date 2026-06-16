@@ -60,8 +60,7 @@ int	parse_map(t_parsing *parsing)
 	int	ndoors;
 	int	nmonsters;
 
-	ndoors = 0;
-	nmonsters = 0;
+	(1 && (ndoors = 0, nmonsters = 0));
 	parsing->player_x = -1;
 	count_entities(parsing, &ndoors, &nmonsters);
 	if (nmonsters && (!parsing->t1 || !parsing->t2))

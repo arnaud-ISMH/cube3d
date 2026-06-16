@@ -101,6 +101,7 @@ void		moove_monster(t_mlx_data *data);
 int			key_press(int keysym, t_mlx_data *data);
 int			key_release(int keysym, t_mlx_data *data);
 long long	get_time_in_ms(void);
+int			close_win_early(t_mlx_data *data);
 
 // UTILS4
 void		mlx_mouse_hide_clean(t_mlx_data *data);
@@ -137,7 +138,6 @@ void		strip(char *s);
 int			ft_isnumber(char *line);
 int			good_color(char *line);
 int			rgb2hex(int r, int g, int b);
-int	close_win_early(t_mlx_data *data); //exec
 
 /*INIT*/
 t_parsing	*init_parsing(void);

@@ -89,3 +89,15 @@ long long	get_time_in_ms(void)
 	gettimeofday(&tv, NULL);
 	return (((long long)tv.tv_sec * 1000) + ((long long)tv.tv_usec / 1000));
 }
+
+int	close_win_early(t_mlx_data *data)
+{
+	mlx_destroy_image(data->mlx, data->img.img_ptr);
+	mlx_destroy_window(data->mlx, data->win);
+	mlx_destroy_display(data->mlx);
+	if (data->parsing)
+		free_parsing(data->parsing);
+	free(data->mlx);
+	free(data);
+	exit (0);
+}
