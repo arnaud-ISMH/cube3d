@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 15:34:14 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/16 16:56:35 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 19:08:48 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	check_texture(t_parsing *parsing, char *line, char texture)
 {
 	int		ext;
 
+	if (line[0] == '\n' || !line)
+		return (printerr("No texture line\n"), 0);
 	strip(line);
 	ext = ft_strlen(line) - 4;
 	if (ext < 0 && ft_strncmp(line + ext, ".xpm", 4) != 0)
@@ -60,6 +62,8 @@ int	check_color(t_parsing *parsing, char *line, char color)
 {
 	char	**col;
 
+	if (line[0] == '\n' || !line)
+		return (printerr("No color line\n"), 0);
 	col = ft_split(line, ',');
 	if (!col || !col[0] || !col[1] || !col[2] || col[3])
 		return (freefree(col), ("Color issue\n"), 0);
