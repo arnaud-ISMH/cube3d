@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 15:34:14 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/16 19:08:48 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 19:58:54 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ int	check_map(t_parsing *parsing, int fd, char *line)
 		parsing->map.width = max(parsing->map.width, (ft_strlen(line)));
 		parsing->map.height++;
 		ft_lstadd_back(&map_lst, ft_lstnew(line));
-		line = get_next_line(fd, 0);
+		line = g_n_l(fd, 0);
 	}
 	fill_map(parsing, map_lst);
 	ft_lstclear(&map_lst, free);
 	if (!parse_map(parsing))
-		return (get_next_line(fd, 1), 0);
+		return (g_n_l(fd, 1), 0);
 	if (!flood_fill(&parsing->map, parsing->player_x, parsing->player_y))
-		return (get_next_line(fd, 1), printerr("Map is not closed\n"), 0);
+		return (g_n_l(fd, 1), printerr("Map is not closed\n"), 0);
 	return (1);
 }
 

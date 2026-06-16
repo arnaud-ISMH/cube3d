@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:05:47 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/16 14:55:35 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 19:58:54 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	printerr(char *msg)
 	write(2, msg, ft_strlen(msg));
 }
 
-void	free_parsing(t_parsing *parsing)
+void	fp(t_parsing *parsing)
 {
 	if (!parsing)
 		return ;

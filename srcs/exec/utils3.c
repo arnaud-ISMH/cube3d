@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adeflers <adeflers@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 17:53:49 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/15 17:53:49 by adeflers         ###   ########.fr       */
+/*   Updated: 2026/06/16 19:56:14 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	close_win_early(t_mlx_data *data)
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_display(data->mlx);
 	if (data->parsing)
-		free_parsing(data->parsing);
+		fp(data->parsing);
 	free(data->mlx);
 	free(data);
 	exit (0);

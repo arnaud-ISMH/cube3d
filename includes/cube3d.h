@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 09:35:11 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/16 14:46:32 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 19:58:54 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int			parse_chara(t_parsing *parsing, int x, int y);
 /*UTILS*/
 int			max(int a, int b);
 void		printerr(char *msg);
-void		free_parsing(t_parsing *parsing);
+void		fp(t_parsing *parsing);
 char		**freefree(char **split);
 int			open_fd(char *arg);
 

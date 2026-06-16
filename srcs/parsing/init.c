@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:13:08 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/16 14:55:18 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 19:10:18 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_parsing	*init_parsing(void)
 	parsing->monster_count = 0;
 	parsing->t1 = NULL;
 	parsing->t2 = NULL;
+	parsing->player_x = -1;
 	return (parsing);
 }
 

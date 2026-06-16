@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:17:24 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/16 14:55:02 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 19:56:14 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	close_win(t_mlx_data *data)
 	if (data->monster)
 		free(data->monster);
 	if (data->parsing)
-		free_parsing(data->parsing);
+		fp(data->parsing);
 	free(data->mlx);
 	free(data);
 	exit (0);

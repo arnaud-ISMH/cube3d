@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   g_n_l.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -62,7 +62,7 @@ static char	*find_line(int fd, char *new, char *afternl)
 	return (afternl);
 }
 
-char	*get_next_line(int fd, int need_free)
+char	*g_n_l(int fd, int need_free)
 {
 	static char	*afternl = NULL;
 	char		*res;
@@ -94,7 +94,7 @@ char	*get_next_line(int fd, int need_free)
 // char	*next_line(char *line);
 // char	*ft_gen0(void);
 
-// char	*get_next_line(int fd)
+// char	*g_n_l(int fd)
 // {
 // 	static char	*start_c;
 // 	char		*line;
@@ -183,18 +183,18 @@ char	*get_next_line(int fd, int need_free)
 /* int	main(int ac, char **av) */
 /* { */
 /* 	int	fd = open(av[1], O_RDONLY); */
-/* 	char	*output1 = get_next_line(fd); */
-/* 	char	*output2 = get_next_line(fd); */
-/* 	char	*output3 = get_next_line(fd); */
-/* 	char	*output4 = get_next_line(fd); */
-/* 	char	*output5 = get_next_line(fd); */
-/* 	char	*output6 = get_next_line(fd); */
-/* 	char	*output7 = get_next_line(fd); */
-/* 	char	*output8 = get_next_line(fd); */
-/* 	char	*output9 = get_next_line(fd); */
-/* 	char	*output10 = get_next_line(fd); */
-/* 	char	*output11 = get_next_line(fd); */
-/* 	char	*output12 = get_next_line(fd); */
+/* 	char	*output1 = g_n_l(fd); */
+/* 	char	*output2 = g_n_l(fd); */
+/* 	char	*output3 = g_n_l(fd); */
+/* 	char	*output4 = g_n_l(fd); */
+/* 	char	*output5 = g_n_l(fd); */
+/* 	char	*output6 = g_n_l(fd); */
+/* 	char	*output7 = g_n_l(fd); */
+/* 	char	*output8 = g_n_l(fd); */
+/* 	char	*output9 = g_n_l(fd); */
+/* 	char	*output10 = g_n_l(fd); */
+/* 	char	*output11 = g_n_l(fd); */
+/* 	char	*output12 = g_n_l(fd); */
 /**/
 /* 	printf("1er appel : %s", output1); */
 /* 	free(output1); */

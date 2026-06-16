@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 00:12:43 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/11 12:57:04 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 19:13:57 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,12 @@ int				ft_print_unsigned(unsigned int nbr);
 int				ft_print_hexa(unsigned int n, const char format);
 int				ft_print_percent(void);
 
-// get_next_line
+// g_n_l
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
 # endif
 
-char	*get_next_line(int fd, int need_free);
-// char			*get_next_line(int fd);
+char	*g_n_l(int fd, int need_free);
+// char			*g_n_l(int fd);
 
 #endif
