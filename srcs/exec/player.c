@@ -17,13 +17,13 @@ void	init_player(t_mlx_data *data)
 	data->player.pos.x = data->parsing->player_x + 0.5;
 	data->player.pos.y = data->parsing->player_y + 0.5;
 	data->player.move_speed = 0.05;
-	if (data->parsing->player_orientation == 'N')
+	if (data->parsing->player_orientation == 'W')
 		data->player.dir = 3.0 * M_PI / 2.0;
-	else if (data->parsing->player_orientation == 'S')
-		data->player.dir = M_PI / 2.0;
 	else if (data->parsing->player_orientation == 'E')
+		data->player.dir = M_PI / 2.0;
+	else if (data->parsing->player_orientation == 'N')
 		data->player.dir = 0.0;
-	else if (data->parsing->player_orientation == 'W')
+	else if (data->parsing->player_orientation == 'S')
 		data->player.dir = M_PI;
 	ft_bzero(&data->player.keys, sizeof(t_keys));
 	data->flash_start_time = 0;

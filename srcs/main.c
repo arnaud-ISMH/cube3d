@@ -12,12 +12,24 @@
 
 #include "../includes/cube3d.h"
 
+int	init_all(t_mlx_data *data)
+{
+	init_player(data);
+	if (init_monster(data))
+		return (1);
+	if (init_map(data))
+		return (1);
+	if (init_textures(data))
+		return (1);
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_mlx_data	*data;
 
 	if (ac != 2)
-		return (1);
+		return (printerr("Error\nInvalid number of arguments\n"), 1);
 	data = malloc(sizeof(t_mlx_data));
 	if (!data)
 		return (1);
@@ -25,12 +37,7 @@ int	main(int ac, char **av)
 	data->parsing = check_args(ac, av);
 	if (!data->parsing)
 		return (close_win_early(data), 1);
-	init_player(data);
-	if (init_monster(data))
-		return (close_win(data), 1);
-	if (init_map(data))
-		return (close_win(data), 1);
-	if (init_textures(data))
+	if (init_all(data))
 		return (close_win(data), 1);
 	mlx_hook(data->win, 17, 0, (int (*)())(void *)close_win, data);
 	mlx_hook(data->win, 2, 1L << 0, (int (*)())(void *)key_press, data);
