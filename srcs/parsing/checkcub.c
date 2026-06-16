@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 15:34:14 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 16:48:49 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 15:19:37 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	check_color(t_parsing *parsing, char *line, char color)
 
 	col = ft_split(line, ',');
 	if (!col || !col[0] || !col[1] || !col[2] || col[3])
-		return (printerr("Color issue\n"), 0);
+		return (freefree(col), ("Color issue\n"), 0);
 	if (!is_identifier_free(parsing, color))
 		return (freefree(col), printerr("Duplicate color\n"), 0);
 	if (!good_color(col[0]) || !good_color(col[1]) || !good_color(col[2]))
