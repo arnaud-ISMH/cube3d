@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/16 15:14:05 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 17:19:20 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ int	read_file(char *arg, t_parsing *parsing)
 		line = get_next_line(fd, 0);
 	}
 	if (parsing->no == NULL || parsing->so == NULL || parsing->we == NULL
-		|| parsing->ea == NULL || parsing->f == -1 || parsing->c == -1
-		|| parsing->t1 == NULL || parsing->t2 == NULL)
+		|| parsing->ea == NULL || parsing->f == -1 || parsing->c == -1)
 		return (get_next_line(fd, 1), close(fd), free(line), free_parsing(parsing), printerr("Missing texture or color\n"), 0);
 	if (!check_map(parsing, fd, line))
 		return (get_next_line(fd, 1), close(fd), free_parsing(parsing), 0);
 	return (get_next_line(fd, 1), close(fd), 1);
 }
+//parsing->f == -1 || parsing->c == -1

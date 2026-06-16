@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:04:29 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 15:55:34 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 16:21:08 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	fill_map(t_parsing *parsing, t_list *map_lst)
 		len = ft_strlen((char *)tmp->content);
 		if (len > 0 && ((char *)tmp->content)[len - 1] == '\n')
 			len--;
+		if (len > parsing->map.width)
+			len = parsing->map.width;
 		ft_memcpy(parsing->map.grid[i], tmp->content, len);
 		ft_memset(parsing->map.grid[i] + len, ' ', parsing->map.width - len);
 		parsing->map.grid[i][parsing->map.width] = '\0';

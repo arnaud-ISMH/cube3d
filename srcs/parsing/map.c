@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 16:14:05 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 15:53:11 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 17:12:27 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	parse_map(t_parsing *parsing)
 	nmonsters = 0;
 	parsing->player_x = -1;
 	count_entities(parsing, &ndoors, &nmonsters);
+	if (nmonsters && (!parsing->t1 || !parsing->t2))
+		return (printerr("Monster texture issue\n"), 0);
 	if (ndoors)
 		parsing->door = malloc(sizeof(t_door) * ndoors);
 	if (nmonsters)

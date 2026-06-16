@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 00:14:54 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/08 16:45:32 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 17:56:01 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	load_texture(t_mlx_data *data, t_texture *texture, char *path)
 {
+	//parse acces et path .xpm
 	texture->img_ptr = mlx_xpm_file_to_image(data->mlx, path, &texture->width,
 			&texture->height);
 	if (!texture->img_ptr || texture->width <= 0 || texture->height <= 0)
@@ -38,9 +39,9 @@ int	init_textures(t_mlx_data *data)
 	i = 0;
 	while (i < data->parsing->monster_count)
 	{
-		if (load_texture(data, &data->monster[i].texture[0], data->parsing->t1))
+		if (load_texture(data, &data->monster[i].texture[0], data->parsing->t1)) //path
 			return (1);
-		if (load_texture(data, &data->monster[i].texture[1], data->parsing->t2))
+		if (load_texture(data, &data->monster[i].texture[1], data->parsing->t2)) //path
 			return (1);
 		i++;
 	}

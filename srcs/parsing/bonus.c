@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 16:22:40 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 16:36:15 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 17:11:03 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ int	texture_monster(t_parsing *parsing, char *line, char texture)
 	strip(line);
 	ext = ft_strlen(line) - 4;
 	if (ext < 0 || ft_strncmp(line + ext, ".xpm", 4) != 0)
-		return (printerr("Invalid texture line\n"), 0);
+		return (1);
 	if (!is_identifier_free(parsing, texture))
-		return (printerr("Duplicate texture\n"), 0);
+		return (1);
 	if (access(line, R_OK) == -1)
-		return (printerr("Cannot access texture\n"), 0);
+		return (1);
 	if (texture == '1')
 		parsing->t1 = ft_strdup(line);
 	else if (texture == '2')
