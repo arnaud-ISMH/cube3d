@@ -16,7 +16,9 @@ void	choose_tex(t_mlx_data *data, t_raycast *ray)
 {
 	if (ray->side == 0)
 	{
-		if (ray->ray_dir_x > 0)
+		if (ray->hit_door)
+			ray->tex = &data->texture_door;
+		else if (ray->ray_dir_x > 0)
 			ray->tex = &data->texture_west;
 		else
 			ray->tex = &data->texture_east;
@@ -25,13 +27,16 @@ void	choose_tex(t_mlx_data *data, t_raycast *ray)
 	}
 	else
 	{
-		if (ray->ray_dir_y > 0)
+		if (ray->hit_door)
+			ray->tex = &data->texture_door;
+		else if (ray->ray_dir_y > 0)
 			ray->tex = &data->texture_north;
 		else
 			ray->tex = &data->texture_south;
 		ray->wall_x = data->player.pos.x + ray->perp_wall_dist
 			* ray->ray_dir_x;
 	}
+	ray->wall_x -= floor(ray->wall_x);
 }
 
 void	draw_tex_on_wall(t_mlx_data *data, t_raycast *ray, int i)

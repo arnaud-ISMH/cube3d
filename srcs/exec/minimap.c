@@ -31,11 +31,16 @@ void	minimap_wall(t_mlx_data *data, int x, int y)
 	}
 }
 
-void	minimap_door(t_mlx_data *data, int x, int y)
+void	minimap_door(t_mlx_data *data, int x, int y, int open)
 {
-	int	i;
-	int	j;
+	int				i;
+	int				j;
+	unsigned int	color;
 
+	if (open)
+		color = 0x00FFFF;
+	else
+		color = 0xFF00FF;
 	i = 0;
 	while (i < data->map.scale)
 	{
@@ -43,7 +48,7 @@ void	minimap_door(t_mlx_data *data, int x, int y)
 		while (j < data->map.scale)
 		{
 			put_pixel(&data->img, (x * data->map.scale) + j,
-				(y * data->map.scale) + i, 0xFF00FF);
+				(y * data->map.scale) + i, color);
 			j++;
 		}
 		i++;

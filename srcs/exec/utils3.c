@@ -59,6 +59,8 @@ int	key_press(int keysym, t_mlx_data *data)
 	moove_monster(data);
 	if (keysym == XK_space)
 		eat_monster(data);
+	if (keysym == XK_e)
+		open_door(data);
 	return (0);
 }
 

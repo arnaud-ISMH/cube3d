@@ -73,17 +73,24 @@ int	mouse_move(int x, int y, t_mlx_data *data)
 	return (0);
 }
 
-int	is_wall(t_mlx_data *data, double x, double y)
+int	open_door(t_mlx_data *data)
 {
-	int	map_x;
-	int	map_y;
+	int		i;
+	double	distance;
 
-	map_x = (int)x;
-	map_y = (int)y;
-	if (map_y < 0 || map_y >= data->map.height || map_x < 0
-		|| map_x >= data->map.width)
-		return (1);
-	if (data->map.grid[map_y][map_x] == '1')
-		return (1);
+	i = 0;
+	while (i < data->parsing->door_count)
+	{
+		distance = sqrt(pow(data->player.pos.x
+					- (data->parsing->door[i].x + 0.5), 2)
+				+ pow(data->player.pos.y
+					- (data->parsing->door[i].y + 0.5), 2));
+		if (distance < 1.0)
+		{
+			data->parsing->door[i].open = !data->parsing->door[i].open;
+			return (1);
+		}
+		i++;
+	}
 	return (0);
 }

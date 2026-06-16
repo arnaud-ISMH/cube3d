@@ -15,6 +15,13 @@
 
 # include <stdbool.h>
 
+# ifndef WIN_W
+#  define WIN_W 1800.0
+# endif
+# ifndef WIN_H
+#  define WIN_H 1000.0
+# endif
+
 typedef struct s_map
 {
 	int		width;
@@ -96,14 +103,6 @@ typedef struct	s_parsing
 	int			monster_count;
 }	t_parsing;
 
-# ifndef WIN_W
-#  define WIN_W 1800.0
-# endif
-# ifndef WIN_H
-#  define WIN_H 1000.0
-# endif
-
-
 typedef struct s_image
 {
 	void	*img_ptr;
@@ -148,6 +147,7 @@ typedef struct s_raycast
 	int			 	screen_x; // Coordonnée X à l'écran pour dessiner la colonne verticale
 	int				y_pixel; // Coordonnée Y actuelle à l'écran pour dessiner la colonne verticale
 	unsigned int    color; // Couleur du pixel à dessiner (après avoir pioché dans la texture)
+	int				hit_door;
 }        t_raycast;
 
 typedef struct s_render_monster

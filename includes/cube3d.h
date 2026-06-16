@@ -28,6 +28,7 @@ int			close_win(t_mlx_data *data);
 int			redraw(t_mlx_data *data);
 t_mlx_data	minilibx_process(void);
 long long	get_time_in_ms(void);
+void		display_score(t_mlx_data *data);
 
 int			put_pixel(t_image *img, int x, int y, unsigned int color);
 int			key_press(int keysym, t_mlx_data *data);
@@ -49,7 +50,7 @@ void		animate_and_render_monsters(t_mlx_data *data);
 void		sort_monsters(t_mlx_data *data);
 
 void		draw_map(t_mlx_data *data);
-void		minimap_door(t_mlx_data *data, int x, int y);
+void		minimap_door(t_mlx_data *data, int x, int y, int open);
 void		minimap_wall(t_mlx_data *data, int x, int y);
 void		minimap_floor(t_mlx_data *data, int x, int y);
 int			init_map(t_mlx_data *data);
@@ -75,6 +76,8 @@ void		trigger_eat_effect(t_mlx_data *data);
 void		eat_animation(t_mlx_data *data);
 void		draw_mm_range_atk(t_mlx_data *data);
 int			eat_monster(t_mlx_data *data);
+
+int			open_door(t_mlx_data *data);
 
 /*PARSING*/
 int			read_file(char *arg, t_parsing *parsing);
