@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/04 13:13:08 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 15:51:03 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 14:55:18 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ t_parsing	*check_args(int ac, char **av)
 		|| access(av[1], R_OK) == -1)
 	{
 		printerr("Bad argument\n");
-		exit(1);
+		return (NULL);
 	}
 	parsing = init_parsing();
 	if (!read_file(av[1], parsing))
-		exit(1);
+		return (NULL);
 	return (parsing);
 }

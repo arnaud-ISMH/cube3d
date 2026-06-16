@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:54:57 by lchapot           #+#    #+#             */
-/*   Updated: 2026/06/11 16:48:57 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 15:14:05 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	read_file(char *arg, t_parsing *parsing)
 	char	**tok;
 
 	fd = open_fd(arg);
+	if (!fd)
+		return (0);
 	line = get_next_line(fd, 0);
 	if (!line)
 		return (close(fd), printerr("Empty file\n"), 0);
@@ -86,15 +88,15 @@ int	read_file(char *arg, t_parsing *parsing)
 		if (res == -1)
 			break ;
 		if (res == 0)
-			return (close(fd), get_next_line(fd, 1), free(line), free_parsing(parsing), printerr("Error in element\n"), 0);
+			return (get_next_line(fd, 1), close(fd), free(line), free_parsing(parsing), printerr("Error in element\n"), 0);
 		free(line);
 		line = get_next_line(fd, 0);
 	}
 	if (parsing->no == NULL || parsing->so == NULL || parsing->we == NULL
 		|| parsing->ea == NULL || parsing->f == -1 || parsing->c == -1
 		|| parsing->t1 == NULL || parsing->t2 == NULL)
-		return (close(fd), free(line), printerr("Missing texture or color\n"), 0);
+		return (get_next_line(fd, 1), close(fd), free(line), free_parsing(parsing), printerr("Missing texture or color\n"), 0);
 	if (!check_map(parsing, fd, line))
-		return (close(fd), free_parsing(parsing), 0);
-	return (close(fd), 1);
+		return (get_next_line(fd, 1), close(fd), free_parsing(parsing), 0);
+	return (get_next_line(fd, 1), close(fd), 1);
 }

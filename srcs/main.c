@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 09:34:10 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/09 14:14:36 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 14:46:38 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	main(int ac, char **av)
 		return (1);
 	*data = minilibx_process();
 	data->parsing = check_args(ac, av);
+	if (!data->parsing)
+		return (close_win_early(data), 1);
 	ft_printf("nb de portes : %d\nnb de monstres : %d\n", data->parsing->door_count, data->parsing->monster_count); // Debug
 	init_player(data);
 	if (init_monster(data))

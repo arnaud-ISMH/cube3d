@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adeflers <adeflers@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:17:24 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/15 16:17:24 by adeflers         ###   ########.fr       */
+/*   Updated: 2026/06/16 14:55:02 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,19 @@ void	free_monster_tex(t_mlx_data *data)
 		i++;
 	}
 }
+
+int	close_win_early(t_mlx_data *data)
+{
+	mlx_destroy_image(data->mlx, data->img.img_ptr);
+	mlx_destroy_window(data->mlx, data->win);
+	mlx_destroy_display(data->mlx);
+	if (data->parsing)
+		free_parsing(data->parsing);
+	free(data->mlx);
+	free(data);
+	exit (0);
+}
+
 
 int	close_win(t_mlx_data *data)
 {

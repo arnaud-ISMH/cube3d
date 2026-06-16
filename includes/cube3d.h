@@ -6,7 +6,7 @@
 /*   By: lchapot <lchapot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 09:35:11 by adeflers          #+#    #+#             */
-/*   Updated: 2026/06/11 15:49:02 by lchapot          ###   ########.fr       */
+/*   Updated: 2026/06/16 14:46:32 by lchapot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void		strip(char *s);
 int			ft_isnumber(char *line);
 int			good_color(char *line);
 int			rgb2hex(int r, int g, int b);
+int	close_win_early(t_mlx_data *data); //exec
 
 /*INIT*/
 t_parsing	*init_parsing(void);
