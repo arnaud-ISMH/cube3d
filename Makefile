@@ -24,6 +24,7 @@ SRCS        = srcs/main.c \
 			  srcs/exec/utils.c \
 			  srcs/exec/utils2.c \
 			  srcs/exec/utils3.c \
+			  srcs/exec/utils4.c \
 			  srcs/exec/draw_map.c \
 			  srcs/exec/minimap.c \
 			  srcs/exec/raycasting.c \
@@ -53,7 +54,7 @@ MLX         = $(MLX_PATH)/libmlx_Linux.a
 INCLUDES    = -I$(INC_DIR) -I$(LIBFT_PATH) -I$(MLX_PATH)
 
 # Flags de liaison (linker)
-LDFLAGS     = -L$(LIBFT_PATH) -lft -L$(MLX_PATH) -lmlx_Linux -lXext -lX11 -lm
+LDFLAGS     = -L$(LIBFT_PATH) -lft -L$(MLX_PATH) -lmlx_Linux -lXext -lX11 -lm -lXfixes
 
 GREEN := \033[0-;32m
 CYAN := \033[0;36m

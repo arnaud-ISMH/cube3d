@@ -18,6 +18,8 @@
 # include "structs.h"
 # include <X11/keysym.h>
 # include <X11/X.h>
+# include <X11/Xlib.h>
+# include <X11/extensions/Xfixes.h>
 # include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -99,6 +101,10 @@ void		moove_monster(t_mlx_data *data);
 int			key_press(int keysym, t_mlx_data *data);
 int			key_release(int keysym, t_mlx_data *data);
 long long	get_time_in_ms(void);
+
+// UTILS4
+void		mlx_mouse_hide_clean(t_mlx_data *data);
+void		mlx_mouse_show_clean(t_mlx_data *data);
 
 /*PARSING*/
 int			read_file(char *arg, t_parsing *parsing);

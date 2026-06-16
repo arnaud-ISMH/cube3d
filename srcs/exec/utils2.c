@@ -42,6 +42,7 @@ int	close_win_early(t_mlx_data *data)
 
 int	close_win(t_mlx_data *data)
 {
+	mlx_mouse_show_clean(data);
 	mlx_destroy_image(data->mlx, data->img.img_ptr);
 	if (data->texture_north.img_ptr)
 		mlx_destroy_image(data->mlx, data->texture_north.img_ptr);

@@ -14,11 +14,18 @@
 
 int	init_map(t_mlx_data *data)
 {
+	int	scale_x;
+	int	scale_y;
+
 	data->map = data->parsing->map;
-	if (data->map.width >= data->map.height)
-		data->map.scale = (WIN_W / 4 / data->map.width);
+	scale_x = (WIN_W / 4) / data->map.width;
+	scale_y = (WIN_H / 4) / data->map.height;
+	if (scale_x < scale_y)
+		data->map.scale = scale_x;
 	else
-		data->map.scale = (WIN_H / 4 / data->map.height);
+		data->map.scale = scale_y;
+	if (data->map.scale <= 0)
+		data->map.scale = 1;
 	return (0);
 }
 
